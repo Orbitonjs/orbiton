@@ -25,6 +25,9 @@ export function compareState(oldComponent: Component, newComponent: Component) {
 
 
 export function PatchTrees(currentTree:  OrbitonElement | Component | Fragment, newTree: OrbitonElement | Component | Fragment):  OrbitonElement | Component | Fragment {
+  if (newTree === undefined) {
+    return newTree
+  }
   // Diffing Instances
   // - Element and Element
   // - Component and Element
@@ -33,20 +36,26 @@ export function PatchTrees(currentTree:  OrbitonElement | Component | Fragment, 
   // - Fragment and Element
   // - Fragment and Fragment
   // - attached Components
-  if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+  if (currentTree.type !==  newTree.type) {
+    return newTree
+  } else
+  if (currentTree.type === "element" && newTree.type === "element") {
     return CompareAndPatchElement(currentTree, newTree)
-  } else if (currentTree.type === COMPONENT_TYPE && newTree.type === ELEMENT_TYPE) {
-    return newTree
-  } else if (currentTree.type === ELEMENT_TYPE && newTree.type === COMPONENT_TYPE) {
-    return newTree
-  } else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
-    return compareState(currentTree, newTree)
-  } else  {
+  } else if (currentTree.type === "Component" && newTree.type === "Component") {
+    const newComp = compareState(currentTree, newTree)
+    newComp.currentTree = PatchTrees(currentTree.currentTree, newComp.render())
+    return newComp
+  } else if (currentTree.type === "Fragment" && newTree.type === "Fragment")  {
+    const children = CompareAndPatchChildren(currentTree.children, newTree.children)
+    newTree.children = children
     return newTree
   }
 }
 
 export function PatchChildrenTrees(currentTree: string | OrbitonElement | Component | Fragment, newTree: string | OrbitonElement | Component | Fragment): string | OrbitonElement | Component | Fragment {
+  if (newTree === undefined || currentTree === undefined) {
+    return newTree
+  }
   // Diffing Instances
   // - Element and Element
   // - Component and Element
@@ -57,13 +66,12 @@ export function PatchChildrenTrees(currentTree: string | OrbitonElement | Compon
   // - attached Components
   if (typeof currentTree === "string" || typeof newTree === "string") {
     return newTree
-  } else if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+  } else if (currentTree.type !==  newTree.type) {
+    return newTree
+  }
+  else if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
     return CompareAndPatchElement(currentTree, newTree)
-  } else if (currentTree.type === COMPONENT_TYPE && newTree.type === ELEMENT_TYPE) {
-    return newTree
-  } else if (currentTree.type === ELEMENT_TYPE && newTree.type === COMPONENT_TYPE) {
-    return newTree
-  } else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+  }  else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
     return compareState(currentTree, newTree)
   } else  {
     return newTree

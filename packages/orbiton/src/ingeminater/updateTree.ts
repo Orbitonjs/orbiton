@@ -35,14 +35,13 @@ export function ComponentRoot(id: symbol): OrbitonDOMElement | null {
 export function updateUITree(
   currentTree: OrbitonElement | Component | Fragment,
   workingProgressTree: OrbitonElement | Component | Fragment,
-  ComponentRoot: OrbitonDOMElement,
+  ComponentRoot: OrbitonDOMElement[],
 ) : OrbitonElement | Component | Fragment {
   const newTree = PatchTrees(currentTree, workingProgressTree)
 
 
   const patch = diffAndPatch(currentTree, newTree, ComponentRoot)
 
-  ComponentRoot = patch
 
   return newTree;
 }
@@ -58,6 +57,7 @@ export function getComponentRoots(
   } else if (childTree.type === "Component") {
     return getComponentRoots(childTree.pearlId, childTree.currentTree)
   } else if (childTree.type === "Fragment") {
+    console.log(childTree.type)
     return getFragmentRoots(childTree.FragmentID)
   }
 }

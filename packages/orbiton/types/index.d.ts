@@ -93,13 +93,14 @@ class Fragment {
   FragmentID: symbol
   children: OrbitonChildren
   constructor( children: OrbitonChildren )
+  getPearlId(): symbol
 }
 
 export type OrbitonConfig =  {
   extendEvents?: Record<string, VoidFunction>,
   ref?: symbol,
   isComponentRoot?: boolean,
-  componentHosted?: Array<Component | LogicalComponent>,
+  componentHosted?: Array<Component | LogicalComponent| Fragment>,
   compomentRootId?: symbol | null | string | number,
   renderedByFrag?: boolean
   HostFragID?: symbol
@@ -126,6 +127,7 @@ export type OrbitonElement = {
   events?: Record<string, VoidFunction>,
   children?: OrbitonChildren,
   ref?: symbol,
+  domRef: OrbitonDOMElement | OrbitonSVGElement
   type: 'element',
   attachedComponent?: LogicalComponent,
   props?: Props

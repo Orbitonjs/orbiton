@@ -12,58 +12,64 @@ import Component from "../renderer/createComponent";
 import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
 import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
 import { render } from "../renderer/render";
-import { OrbitonDOMElement, OrbitonElement, Attr, OrbitonChildren } from "../../types/index";
+import { OrbitonDOMElement, OrbitonElement, Attr, OrbitonChildren, OrbitonSVGElement } from "../../types/index";
 import { ingeninateChildren } from "./Children";
 
 export function diffAndPatch(
   oldTree: string | OrbitonElement | Component | Fragment,
   newTree: string | OrbitonElement | Component | Fragment,
-  node$: OrbitonDOMElement | Array<OrbitonDOMElement>
-): OrbitonDOMElement {
-  const {node} = replacingNode(node$)
-  // Diffing Instances
-  // - Element and Element
-  // - Component and Element
-  // - Component and Component
-  // - Fragment and Component
-  // - Fragment and Element
-  // - Fragment and Fragment
-  // - attached Components
-  if (newTree === undefined) {
-    node.remove()
-    return node
-  }
-  if (typeof oldTree === "string" || typeof newTree === "string") {
+  node: OrbitonDOMElement | Array<OrbitonDOMElement>
+): OrbitonDOMElement | OrbitonSVGElement {
+  //console.log(oldTree, newTree)
+  if (Array.isArray(node)) {
+    //
+  } else {
 
-    // incase one of the trees is a string
-    // we check if the nodeValue od the DOM node is equal to the newTree
-    // if its not equal then we replace it with the new string
-    // If they are equal we just return the same node
-    if (node.nodeValue !== newTree) {
 
+    // Diffing Instances
+    // - Element and Element
+    // - Component and Element
+    // - Component and Component
+    // - Fragment and Component
+    // - Fragment and Element
+    // - Fragment and Fragment
+    // - attached Components
+    if (newTree === undefined) {
+      node.remove()
+      return node
+    }
+    if (typeof oldTree === "string" || typeof newTree === "string") {
+
+      // incase one of the trees is a string
+      // we check if the nodeValue od the DOM node is equal to the newTree
+      // if its not equal then we replace it with the new string
+      // If they are equal we just return the same node
+      if (node.nodeValue !== newTree) {
+
+
+        const newNode = render(newTree)
+        node.replaceWith(newNode)
+        triggerMountedLifeCycle(newNode)
+        return newNode
+      } else {
+        return node
+      }
+    } else if (oldTree.type !== newTree.type) {
+
+      // If the types are not the same we should just render a new Dom Tree.
 
       const newNode = render(newTree)
       node.replaceWith(newNode)
-      // triggerMountedLifeCycle(newNode)
+      triggerMountedLifeCycle(newNode)
       return newNode
-    } else {
+    }else if (oldTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+      return diffAndPatchElement(oldTree, newTree, node)
+    } else if (oldTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+      return DiffAndPatchComponent(oldTree, newTree, node)
+    }else if (oldTree.type === FRAGMENT_TYPE && newTree.type === FRAGMENT_TYPE) {
+      ingeninateChildren(oldTree.children, newTree.children, node)
       return node
     }
-  } else if (oldTree.type !== newTree.type) {
-
-    // If the types are not the same we should just render a new Dom Tree.
-
-    const newNode = render(newTree)
-    node.replaceWith(newNode)
-    triggerMountedLifeCycle(newNode)
-    return newNode
-  }else if (oldTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
-    return diffAndPatchElement(oldTree, newTree, node)
-  } else if (oldTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
-    return DiffAndPatchComponent(oldTree, newTree, node)
-  }else if (oldTree.type === FRAGMENT_TYPE && newTree.type === FRAGMENT_TYPE) {
-    ingeninateChildren(oldTree.children, newTree.children, node)
-    return node
   }
 }
 
@@ -91,10 +97,11 @@ export function diffAndPatchElement(
   oldTree: OrbitonElement ,
   newTree: OrbitonElement ,
   node: OrbitonDOMElement
-): OrbitonDOMElement {
+): OrbitonDOMElement | OrbitonSVGElement {
   //console.log(oldTree)
   //console.log(newTree)
   //console.log(node)
+  //const node = oldTree.domRef
 
 
   // If the tags of the trees are different then the whole tree is replaced
@@ -131,7 +138,7 @@ export function DiffAndPatchComponent(
 export function PatchElementAttributes(
   OldAttr: Record<string, unknown>,
   NewAttrs: Record<string, string> | Attr ,
-  node: OrbitonDOMElement
+  node: OrbitonDOMElement | OrbitonSVGElement
 ): void {
   // Note: We first append all the new attributes
   // so that we can latter just remove the attributes that dont exits in the new attrs

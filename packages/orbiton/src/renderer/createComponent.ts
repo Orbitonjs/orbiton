@@ -13,7 +13,7 @@ import { BaseComponent } from "../core/component";
 import { createId } from '../core/Selectors';
 import {  Props } from "../../types/index";
 import {  OrbitonElement } from "../../types/index";
-import { ComponentRoot, updateUITree } from "../ingeminater/updateTree";
+import { getComponentRoots, updateUITree } from "../ingeminater/updateTree";
 import { Fragment } from "../core/Fragment";
 
 
@@ -61,11 +61,12 @@ class Component extends BaseComponent {
     callback: VoidFunction | null = null
   ): void {
 
-    const root = ComponentRoot(this.getPearlId())
+    const root = getComponentRoots(this.getPearlId(), this.currentTree)
 
     this.changeState(newState, callback)
 
-    this.currentTree = updateUITree(this.currentTree, this.render(), root)
+    updateUITree(this.currentTree, this.render(), root)
+    this.currentTree = this.render()
   }
   makeChild(): any {
     this.currentTree = this.render()

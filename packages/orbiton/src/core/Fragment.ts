@@ -20,5 +20,9 @@ export class Fragment {
     this.FragmentID = createId(`Fragment_Type`,`by_fragment_${key}`)
     this.children = children
     this.type = "Fragment"
+    this.getPearlId = this.getPearlId.bind(this)
+  }
+  getPearlId(): symbol {
+    return this.FragmentID
   }
 }

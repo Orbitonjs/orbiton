@@ -17,10 +17,10 @@ import { Fragment } from "../core/Fragment";
 function renderElement(
   element: OrbitonElement,
   ns = "http://www.w3.org/1999/xhtml",
-  isComponentRoot = false,
-  componentId = null,
-  comp: Component| null = null
+  hostComponent: Array<Component> = []
 ) {
+  const componentId = hostComponent.length > 0 ? hostComponent[hostComponent.length - 1].getPearlId() : null
+  const comp = hostComponent[0]
   let node : OrbitonDOMElement | OrbitonSVGElement
   let childns : "http://www.w3.org/2000/svg" | "http://www.w3.org/1999/xhtml"
   if (element.tag === 'svg') {
@@ -35,11 +35,12 @@ function renderElement(
   }
   node._orbiton$config = {}
   node._orbiton$config.componentHosted = []
-  if (isComponentRoot) {
-    node._orbiton$config.isComponentRoot = true
-    node._orbiton$config.compomentRootId = componentId
+  node._orbiton$config.isComponentRoot = hostComponent.length > 0 ? true : false
+  node._orbiton$config.compomentRootId = componentId
+  if (comp) {
     node._orbiton$config.componentHosted.push(comp)
   }
+
   if (element.attachedComponent) {
     node._orbiton$config.componentHosted.push(element.attachedComponent)
   }
@@ -82,19 +83,22 @@ function renderElement(
     }
   }
 
+  element.domRef = node
+
   return node;
 }
 
 export const render = (
   o_element: Component|OrbitonElement|Fragment|string,
-  ns = "http://www.w3.org/1999/xhtml"
+  ns = "http://www.w3.org/1999/xhtml",
+  hostComponent: Array<Component> = []
 ) : any | OrbitonDOMElement | Array<OrbitonDOMElement> => {
   //console.log(o_element)
   if (typeof o_element === 'string' || typeof o_element === "boolean" || typeof o_element === "number") {
     return document.createTextNode(`${o_element}`);
   }
   if (o_element.type === 'element') {
-    return renderElement(o_element, ns);
+    return renderElement(o_element, ns, hostComponent);
   }
 
   if (o_element.type === 'Component') {
@@ -109,7 +113,9 @@ export const render = (
     // Call the will mount lifecyle method
     // Note: this method is depriciated since it was unstable
     o_element.WillMount();
-    return renderElement(el, ns, true, o_element.getPearlId(), o_element);
+    hostComponent.push(o_element)
+
+    return render(el, ns, hostComponent);
   }
   if (o_element.type === "Fragment") {
     return  renderFragment(o_element)
@@ -156,4 +162,5 @@ export function appendChild(
     node.appendChild(child)
   }
 }
+
 

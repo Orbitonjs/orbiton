@@ -633,8 +633,9 @@
             // we also get the DOM child at that index then diff them
             oldChild.forEach((item, ind) => {
               const nodechild = childNodes[index];
-              const newItem = NewChild[ind];
-              diffAndPatch(item, newItem, nodechild);
+              const newItem = NewChild[ind]; //diffAndPatch(item, newItem, nodechild)
+
+              CheckChildrenAndDiff(item, newItem, parentNode, nodechild);
               index++;
             });
             const additionalChidren = []; // if the new child has additional children longer than  the old child then have to append them to the dom too.
@@ -675,16 +676,21 @@
         }
       } else {
         const nodechild = childNodes[index];
-        console.log(NewChild, "\n", oldChild, "\n", nodechild);
-
-        if (oldChild.type === "Fragment") {
-          diffAndPatch(oldChild, NewChild, parentNode);
-        } else {
-          diffAndPatch(oldChild, NewChild, nodechild);
-        }
-
+        CheckChildrenAndDiff(oldChild, NewChild, parentNode, nodechild);
         index++;
       }
+    }
+  }
+
+  function CheckChildrenAndDiff(oldChild, NewChild, parentNode, nodechild) {
+    if (typeof oldChild !== "string") {
+      if (oldChild.type === "Fragment") {
+        diffAndPatch(oldChild, NewChild, parentNode);
+      } else {
+        diffAndPatch(oldChild, NewChild, nodechild);
+      }
+    } else {
+      diffAndPatch(oldChild, NewChild, nodechild);
     }
   }
 
