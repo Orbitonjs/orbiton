@@ -10,6 +10,7 @@ node_modules
 .vs
 .vscode
 comand.txt
+.idea
 
 *.log
 
@@ -19,9 +20,13 @@ packages/orbiton/umd/
 packages/orbiton/cjs/
 packages/babel-plugin-orbiton-jsx/test.js
 packages/babel-plugin-orbiton-jsx/lib
+demo/webpack
 
-# jest tests
+# jest test coverage
 coverage
 
+# log files
+*.log
 
-demo/webpack
+# ignoreFolder
+ignoreFolder

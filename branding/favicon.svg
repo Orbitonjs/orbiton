@@ -5,42 +5,13 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="200mm"
-   height="200mm"
-   viewBox="0 0 200.00001 200"
+   width="42.262421mm"
+   height="44.815506mm"
+   viewBox="0 0 42.262422 44.815506"
    version="1.1"
-   id="svg8"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   sodipodi:docname="favicon.svg"
-   inkscape:export-filename="E:\projects\npmpackages\vdom\branding\favicon.png"
-   inkscape:export-xdpi="25.4"
-   inkscape:export-ydpi="25.4">
+   id="svg8">
   <defs
-     id="defs2">
-    <inkscape:perspective
-       sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : 51.499994 : 1"
-       inkscape:vp_y="0 : 999.99997 : 0"
-       inkscape:vp_z="210.00002 : 51.499994 : 1"
-       inkscape:persp3d-origin="105 : 1.9999947 : 1"
-       id="perspective73" />
-  </defs>
-  <sodipodi:namedview
-     id="base"
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1.0"
-     inkscape:pageopacity="0.0"
-     inkscape:pageshadow="2"
-     inkscape:zoom="0.6779608"
-     inkscape:cx="468.3629"
-     inkscape:cy="440.11102"
-     inkscape:document-units="mm"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0"
-     showgrid="false" />
+     id="defs2" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -49,13 +20,11 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
   <g
-     inkscape:label="Layer 1"
-     inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-73.458599,-71.696905)">
     <path

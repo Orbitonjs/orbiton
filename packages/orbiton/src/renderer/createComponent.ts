@@ -1,34 +1,28 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable class-methods-use-this */
 import { BaseComponent } from "../core/component";
-import { compareTree } from "../core/UpdateTree";
 import { createId } from '../core/Selectors';
-import { OrbitonDOMElement, OrbitonElement, Props } from "../types/OrbitonTypes";
-import { diffAndPatch } from "../diffing/BuildTree";
-
-export function getComponentRoot(id: symbol): OrbitonDOMElement | null {
-  let nodes: OrbitonDOMElement | null = null
-  const allNodes = document.querySelectorAll('*') as NodeListOf<OrbitonDOMElement>
-  allNodes.forEach((e) => {
-    if (e._orbiton$config) {
-      if (e._orbiton$config.compomentRootId === id) {
-        nodes = e
-      }
-    }
-
-  })
-
-  return nodes
-}
+import {  Props } from "../../types/index";
+import {  OrbitonElement } from "../../types/index";
+import { getComponentRoots, updateUITree } from "../ingeminater/updateTree";
+import { Fragment } from "../core/Fragment";
 
 
 
 class Component extends BaseComponent {
   key: any;
-  readonly type: 'IS_X_COMPONENT';
+  readonly type: 'Component';
   pearlId: symbol;
-  currentTree: any;
+  currentTree: OrbitonElement | Component | Fragment;
   static isClassComponent = true
   constructor(props: Props = {}, context = {}) {
 
@@ -36,7 +30,7 @@ class Component extends BaseComponent {
     if (props !== {}) {
       this.key = props? props.key ? props.key : null : null
     }
-    this.type = 'IS_X_COMPONENT'
+    this.type = 'Component'
     this.pearlId = createId(this.constructor.name, this.key)
     this.makeChild = this.makeChild.bind(this)
     this.Mounted = this.Mounted.bind(this)
@@ -62,24 +56,17 @@ class Component extends BaseComponent {
   * @param {?Function} callback this callback function that is called after state updates
   *
   * */
-  updateState(newState: Record<string, unknown>, callback: VoidFunction | null = null): void {
+  updateState(
+    newState: Record<string, unknown>,
+    callback: VoidFunction | null = null
+  ): void {
 
-    const currentTree = this.currentTree
+    const root = getComponentRoots(this.getPearlId(), this.currentTree)
 
-
-    let root = getComponentRoot(this.getPearlId())
-
-    if (root === undefined) {
-      root = getComponentRoot(this.currentTree.pearlId)
-    }
     this.changeState(newState, callback)
-    const newItem = this.render()
-    const newTree = compareTree(currentTree, newItem)
-    const patch = diffAndPatch(this.currentTree, newTree, root)
 
-    root = patch
-
-    this.currentTree = newTree
+    updateUITree(this.currentTree, this.render(), root)
+    this.currentTree = this.render()
   }
   makeChild(): any {
     this.currentTree = this.render()

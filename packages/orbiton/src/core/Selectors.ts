@@ -1,4 +1,12 @@
-import { OrbitonDOMElement } from "../types/OrbitonTypes";
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import { OrbitonDOMElement } from "../../types/index";
 
 type Ref = symbol
 /**
@@ -19,9 +27,10 @@ export function getRef(ref: Ref): OrbitonDOMElement | null {
 
 export function createId(name: string, key: null | unknown = null): symbol {
   if (key === null || key === undefined) {
-    key = Math.floor(Math.random() * 100000)
+    key = Math.floor(Math.random() * 100000000)
+    return Symbol(`${name}_random_generated_key_${key}`)
   }
-  return Symbol(`${name}_${key}`)
+  return Symbol(`${name}_provided_key_${key}`)
 }
 
 

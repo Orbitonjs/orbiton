@@ -1,13 +1,23 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
 import { LogicalComponent } from "../core/component"
+import { Fragment } from "../core/Fragment"
 import Component from "../renderer/createComponent"
 
 export type OrbitonConfig =  {
   extendEvents?: Record<string, VoidFunction>,
   ref?: symbol,
   isComponentRoot?: boolean,
-  componentHosted?: Array<Component>
-  compomentRootId?: symbol | null | string | number
+  componentHosted?: Array<Component | LogicalComponent>,
+  compomentRootId?: symbol | null | string | number,
+  renderedByFrag?: boolean
+  HostFragID?: symbol
 }
 
 export type Attributes = {
@@ -18,6 +28,7 @@ export type Options = {
   attributes?: Record<string, string | Record<string, string | number>>,
   events?: Record<string, VoidFunction>,
   children?: []
+  props?: Props
 }
 
 export interface OrbitCallBack extends CallableFunction {
@@ -28,9 +39,9 @@ export type OrbitonElement = {
   tag: string,
   attributes: Record<string, string | Record<string, string | number>>,
   events?: Record<string, VoidFunction>,
-  children?: Array<string|OrbitonElement|Component>,
+  children?: OrbitonChildren,
   ref?: symbol,
-  type: 'element' | 'IS_X_COMPONENT' | 'Fragment',
+  type: 'element',
   attachedComponent?: LogicalComponent,
   props?: Props
 }
@@ -43,9 +54,13 @@ export interface OrbitonDOMElement extends HTMLElement {
 export interface OrbitonSVGElement extends SVGSVGElement {
   _orbiton$config: OrbitonConfig
 }
-export type Tree = OrbitonElement | Component
+export type Tree = OrbitonElement|Component|Fragment
 
 export type Props = {
   key?: unknown,
   children?: Array<OrbitonElement>
 }
+
+
+export type OrbitonChildren = Array<string|OrbitonElement|Component|Fragment>
+

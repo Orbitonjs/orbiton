@@ -21,10 +21,15 @@ class Tasks extends Orbiton.Component {
       })
   }
   render() {
-    return <div className="taskss">
-      {this.state.tasks.length === 0 ? <div className="fetchtasks">Loading...</div> : <div className="tasks">
-        {this.state.tasks.map((task) => <Task title={task.title} description={task.description} time={task.time} />)}</div>}
-    </div>
+    return (
+      <div className="taskss">
+        <Orbiton.Fragment>
+          {
+            this.state.tasks.length === 0 ? <div className="fetchtasks">Loading...</div> : <div className="tasks"><Orbiton.Fragment>
+              {this.state.tasks.map((task) => <Task title={task.title} description={task.description} time={task.time} />)}</Orbiton.Fragment></div>}
+        </Orbiton.Fragment>
+      </div>
+    )
   }
 }
 

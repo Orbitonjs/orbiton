@@ -1,3 +1,11 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 const rollup = require('rollup');
 const chalk = require('chalk');
 const readline = require('readline')
@@ -6,7 +14,6 @@ const fs = require("fs")
 const { argv } = require('process')
 const INPUTS = require('./inputs');
 const terser = require('rollup-plugin-terser')
-let aqua = chalk.rgb(0, 255, 255)
 const log = console.log
 const http = require("http")
 const pkg = require('../packages/orbiton/package.json')
@@ -16,6 +23,7 @@ const path = require('path')
 const AddCustomExtension = require('./plugins/RollupAddExtesion');
 const { config } = require('../.config/webpack.config');
 const { open } = require('./utils/openURL')
+let aqua = chalk.rgb(0, 255, 255)
 
 log(`${aqua(`Orbiton JS v${pkg.version}`)} \n${chalk.gray('run script')} ${chalk.underline.yellow('dev')}`)
 
@@ -59,7 +67,7 @@ async function buildWebpack() {
       // ...
     });
   });
-  log(`${chalk.magenta('Releasing outputs in:')} ${chalk.underline.green("demo/build/app.bundle.js")}`)
+  log(`${chalk.magenta('Releasing outputs in:')} ${chalk.underline.green("demeo/webpack")}`)
 }
 
 
@@ -101,7 +109,7 @@ server.listen(port)
 
 
 async function Build() {
-  await buildOrbitonBundle()
+  //await buildOrbitonBundle()
   await buildWebpack()
   open(devURL)
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout })

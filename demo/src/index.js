@@ -3,7 +3,6 @@
 import Orbiton from "orbiton"
 import "../static/index.css"
 import Logo from '../static/logo.png'
-import Markdown from './index.mdx'
 import Tasks from './Tasks'
 
 class Header extends Orbiton.Component {
@@ -20,10 +19,9 @@ class Header extends Orbiton.Component {
     </nav>
   }
 }
-console.log(Markdown)
+
 const Containor = <div className="containor">
   <Tasks />
-  <Markdown />
 </div>
 
 const App = <div >
@@ -31,9 +29,7 @@ const App = <div >
   <Containor />
 </div>
 
-console.log(App)
-
-Orbiton.append(App, document.getElementById('root'), () => console.log('App has mounted'))
+Orbiton.append(<div><App /></div>, document.getElementById('root'), () => console.log('App has mounted'))
 
 export function Button(props) {
   return <button>HELLO</button>;

@@ -1,13 +1,26 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { BaseComponent } from "../core/component";
 import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
-import { trigerMountedLifeCycle } from "../renderer/lifeCycles";
+import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
 import { render } from "../renderer/render";
-import { OrbitonDOMElement, OrbitonElement } from "../types/OrbitonTypes";
+import { OrbitonDOMElement, OrbitonElement, Attr } from "../../types/index";
 
 
-export function diffAndPatch(oldTree: OrbitonElement | any, newTree: OrbitonElement | any, node: OrbitonDOMElement ): OrbitonDOMElement {
+export function diffAndPatch(
+  oldTree: OrbitonElement | any,
+  newTree: OrbitonElement | any,
+  node: OrbitonDOMElement
+): OrbitonDOMElement {
 
+  // Incase the new Tree is undefined we just remove the whole DOM element.
   if (newTree === undefined) {
     node.remove()
     return node
@@ -15,19 +28,24 @@ export function diffAndPatch(oldTree: OrbitonElement | any, newTree: OrbitonElem
 
   if (typeof oldTree === "string" || typeof newTree === "string") {
 
+    // incase one of the trees is a string
+    // we check if the nodeValue od the DOM node is equal to the newTree
+    // if its not equal then we replace it with the new string
+    // If they are equal we just return the same node
     if (node.nodeValue !== newTree) {
       const newNode = render(newTree)
       node.replaceWith(newNode)
-      trigerMountedLifeCycle(newNode)
+      triggerMountedLifeCycle(newNode)
       return newNode
     } else {
       return node
     }
   }
+  // If the tags of the trees are different then the whole tree is replaced
   if (oldTree.tag !== newTree.tag) {
     const newNode = render(newTree)
     node.replaceWith(newNode)
-    trigerMountedLifeCycle(newNode)
+    triggerMountedLifeCycle(newNode)
     return node
   }
   DiffAttr(oldTree.attributes, newTree.attributes, node)
@@ -37,9 +55,16 @@ export function diffAndPatch(oldTree: OrbitonElement | any, newTree: OrbitonElem
 
 
 
-
-export function DiffAttr(OldAttr: Record<string, unknown>, NewAttrs: { [s: string]: string; } | ArrayLike<string>, node: OrbitonDOMElement ): void {
+export function DiffAttr(
+  OldAttr: Record<string, unknown>,
+  NewAttrs: Record<string, string> | Attr ,
+  node: OrbitonDOMElement
+): void {
+  // Note: We first append all the new attributes
+  // so that we can latter just remove the attributes that dont exits in the new attrs
   for (const [attr, value] of Object.entries(NewAttrs)) {
+    // In this for loop we add atrributes and
+    // also eveluate style objects and classnames.
     if (attr === "style") {
       if (OldAttr[attr] !== value) {
         node.setAttribute(attr, evaluateStyleTag(value))
@@ -54,6 +79,10 @@ export function DiffAttr(OldAttr: Record<string, unknown>, NewAttrs: { [s: strin
       }
     }
   }
+
+  // We loop through the old attributes
+  // if one of the old attributes is not in the neww attributes,
+  // we ten remove it from the node
   for (const k in OldAttr) {
     if (!(k in NewAttrs)) {
       if (k.toLowerCase() === "className") {
@@ -66,7 +95,11 @@ export function DiffAttr(OldAttr: Record<string, unknown>, NewAttrs: { [s: strin
   }
 }
 
-export function DiffChildren(OldChildren: any[], NewChildren: { [x: string]: any; }, node: OrbitonDOMElement): void {
+export function DiffChildren(
+  OldChildren: any[],
+  NewChildren: { [x: string]: any; },
+  node: OrbitonDOMElement
+): void {
   const nodes = node.childNodes
   let index = 0
 
@@ -78,6 +111,9 @@ export function DiffChildren(OldChildren: any[], NewChildren: { [x: string]: any
       if (Array.isArray(newVChild)) {
 
         if (Array.isArray(child)) {
+          // if both the new child and the old child are Arrays
+          // we loop through the old child and get the index of each element and its corresponding element if the neww child
+          // we also get the DOM child at that index then diff them
 
           child.forEach((item, ind)=> {
             const nodechild = nodes[index] as OrbitonDOMElement
@@ -99,10 +135,10 @@ export function DiffChildren(OldChildren: any[], NewChildren: { [x: string]: any
               index++
               nextNode = nodes[nextIndex]
             }
-            trigerMountedLifeCycle(node)
+            triggerMountedLifeCycle(node)
           } else {
             node.append(...additionalChidren)
-            trigerMountedLifeCycle(node)
+            triggerMountedLifeCycle(node)
           }
 
         } else {
@@ -115,7 +151,7 @@ export function DiffChildren(OldChildren: any[], NewChildren: { [x: string]: any
             }
           })
           nodechild.replaceWith(...nodeArr)
-          trigerMountedLifeCycle(nodechild)
+          triggerMountedLifeCycle(nodechild)
         }
       }
     } else{
@@ -126,7 +162,11 @@ export function DiffChildren(OldChildren: any[], NewChildren: { [x: string]: any
   })
 }
 
-function checkChildrenAndDiff(child: OrbitonElement | BaseComponent, newVChild: OrbitonElement | BaseComponent, nodeChild: OrbitonDOMElement) {
+function checkChildrenAndDiff(
+  child: OrbitonElement | BaseComponent,
+  newVChild: OrbitonElement | BaseComponent,
+  nodeChild: OrbitonDOMElement
+) {
 
   if (newVChild !== undefined && child !== undefined) {
     const [oldChild, newChild] = CheckType(child, newVChild)
@@ -146,7 +186,7 @@ function checkChildrenAndDiff(child: OrbitonElement | BaseComponent, newVChild: 
 
 function CheckType(old: any, newC: any) {
   const elementType = 'element'
-  const componentType = 'IS_X_COMPONENT'
+  const componentType = 'Component'
   let oldChild: string;
   let newChild: string;
   if (old.type === elementType) {

@@ -5,8 +5,16 @@
 }(this, (function () { 'use strict';
 
   /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+  /**
   * Creates a new Element
   */
+
   function createElement(tag, options) {
     const {
       attributes = {},
@@ -22,7 +30,31 @@
     };
   }
 
-  /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+  const withComponent = (tag, component, options) => {
+    const {
+      attributes = {},
+      events = {},
+      children = [],
+      props = {}
+    } = options;
+    return {
+      tag,
+      attributes,
+      events,
+      children,
+      type: 'element',
+      attachedComponent: createComponent(component, props),
+      props: props
+    };
+  };
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
   /**
   * Creates a new Component
   */
@@ -34,35 +66,78 @@
         return c;
       }
 
+      if (Component.isFragment) {
+        const c = new Component(props.children);
+        return c;
+      } // Returns if the component was a Fuctional Component
+
+
       return Component(props);
     }
 
     if (typeof Component === 'string') {
-      return createElement(Component, props);
-    }
+      const opts = props;
+      return createElement(Component, opts);
+    } // If the component was a Variable
+    // This stops the error encountered when initalising Mdx
+
 
     return Component;
   };
 
-  /* eslint-disable @typescript-eslint/no-unused-vars */
-  function createJSXElement(tag, props, key = '', __source = '', __self = '') {
-    if (typeof tag === "string") {
-      return createElement(tag, props);
-    } else {
-      return createComponent(tag, props);
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+  function createId(name, key = null) {
+    if (key === null || key === undefined) {
+      key = Math.floor(Math.random() * 100000000);
+      return Symbol(`${name}_random_generated_key_${key}`);
     }
+
+    return Symbol(`${name}_provided_key_${key}`);
   }
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+  class Fragment {
+    static isFragment = true;
+
+    constructor(children) {
+      const key = Math.floor(Math.random() * 100000000);
+      this.FragmentID = createId(`Fragment_Type`, `by_fragment_${key}`);
+      this.children = children;
+      this.type = "Fragment";
+    }
+
+  }
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
 
   /* eslint-disable @typescript-eslint/no-unused-vars */
 
   /**
    * Trigers the `Mounted` lifecycle method of any component within the node
    */
-  function trigerMountedLifeCycle(node) {
+  function triggerMountedLifeCycle(node) {
     if ("_orbiton$config" in node) {
-      if (node._orbiton$config.isComponentRoot) {
+      if (node._orbiton$config.isComponentRoot || node._orbiton$config.componentHosted.length !== 0) {
         node._orbiton$config.componentHosted.forEach((comp, ind) => {
-          if (comp.type === "IS_X_COMPONENT") {
+          if (comp.type === "Component") {
             comp.Mounted();
           }
         });
@@ -70,9 +145,17 @@
     }
 
     node.childNodes.forEach((child, i) => {
-      trigerMountedLifeCycle(child);
+      triggerMountedLifeCycle(child);
     });
   }
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
 
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
@@ -176,44 +259,67 @@
     return tag;
   }
 
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
 
   /**
   * Appends events to a node that is passed in
-  * @param {Node} node - The node to append the events
-  * @param {object} events - an object containing the key as the event and the value as the function
+  * @param {OrbitonDOMElement|OrbitonSVGElement} node - The node to append the events
+  * @param {Record<string, VoidFunction>} events - an object containing the key as the event and the value as the function
   */
   function appendEvents(node, events) {
-    console.log(events);
+    //console.log(events)
     node._orbiton$config.extendEvents = events;
 
     for (const [k, v] of Object.entries(events)) {
       node.addEventListener(k, v);
     }
   }
+
   /**
-   * The `_pearl$config` attributes on the node are used to identify HTML Elements that are created by pearl js
-  */
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
 
-  /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-
-  function renderElement(element, isComponentRoot = false, componentId = null, comp = null) {
+  function renderElement(element, ns = "http://www.w3.org/1999/xhtml", isComponentRoot = false, componentId = null, comp = null) {
     let node;
+    let childns;
 
     if (element.tag === 'svg') {
-      node = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      node = document.createElementNS("http://www.w3.org/2000/svg", "svg"); // Set the namespace to "http://www.w3.org/2000/svg"
+      // since the child elements like path should also
+      // have the same namespace
+
+      childns = "http://www.w3.org/2000/svg";
     } else {
-      node = document.createElement(element.tag);
+      node = document.createElementNS(ns, element.tag);
+      childns = "http://www.w3.org/1999/xhtml";
     }
 
     node._orbiton$config = {};
+    node._orbiton$config.componentHosted = [];
 
     if (isComponentRoot) {
       node._orbiton$config.isComponentRoot = true;
       node._orbiton$config.compomentRootId = componentId;
-      node._orbiton$config.componentHosted = [comp];
+
+      node._orbiton$config.componentHosted.push(comp);
+    }
+
+    if (element.attachedComponent) {
+      node._orbiton$config.componentHosted.push(element.attachedComponent);
     }
 
     evaluateAttributes(node, element.attributes);
@@ -224,18 +330,24 @@
         // eslint-disable-next-line no-use-before-define
         if (typeof child === 'string') {
           const Textnode = document.createTextNode(child);
-          node.appendChild(Textnode);
+          appendChild(node, Textnode);
         } else {
+          // This is usually possible when one maps through an array forexample:
+          //     render() {
+          //         return  <div>
+          //                    {this.state.array.map(...)}
+          //                 </div>
+          //         }
           if (Array.isArray(child)) {
             for (const elm of child) {
-              const element = render(elm);
-              node.appendChild(element);
+              const element = render(elm, childns);
+              appendChild(node, element);
             }
           } else {
-            const element = render(child);
+            const element = render(child, childns);
 
             if (element !== null && element !== undefined) {
-              node.appendChild(element);
+              appendChild(node, element);
             }
           }
         }
@@ -245,29 +357,36 @@
     return node;
   }
 
-  const render = xElement => {
-    if (typeof xElement === 'string' || typeof xElement === "boolean" || typeof xElement === "number") {
-      return document.createTextNode(`${xElement}`);
+  const render = (o_element, ns = "http://www.w3.org/1999/xhtml") => {
+    //console.log(o_element)
+    if (typeof o_element === 'string' || typeof o_element === "boolean" || typeof o_element === "number") {
+      return document.createTextNode(`${o_element}`);
     }
 
-    if (xElement.type === 'element') {
-      return renderElement(xElement);
+    if (o_element.type === 'element') {
+      return renderElement(o_element, ns);
     }
 
-    if (xElement.type === 'IS_X_COMPONENT') {
-      const $el = xElement.makeChild();
+    if (o_element.type === 'Component') {
+      const el = o_element.makeChild();
 
-      if (returnsNothing($el)) {
+      if (returnsNothing(el)) {
         return null;
       } // when the first element is a component
 
 
-      if ($el.tag === undefined) {
-        return render($el);
-      }
+      if (el.tag === undefined) {
+        return render(el);
+      } // Call the will mount lifecyle method
+      // Note: this method is depriciated since it was unstable
 
-      xElement.WillMount();
-      return renderElement($el, true, xElement.getPearlId(), xElement);
+
+      o_element.WillMount();
+      return renderElement(el, ns, true, o_element.getPearlId(), o_element);
+    }
+
+    if (o_element.type === "Fragment") {
+      return renderFragment(o_element);
     }
   }; // eslint-disable-next-line @typescript-eslint/no-explicit-any
 
@@ -279,7 +398,42 @@
     return false;
   }
 
-  /* eslint-disable no-unused-vars */
+  function renderFragment(fragment) {
+    const childNodes = [];
+
+    for (const child of fragment.children) {
+      if (typeof child !== "string") {
+        if (child.type === "Fragment") {
+          throw new Error("A Fragment cannot be a direct child to another Fragment. Consider changing your source code.");
+        }
+      }
+
+      const DOMChild = render(child);
+      DOMChild._orbiton$config.renderedByFrag = true;
+      DOMChild._orbiton$config.HostFragID = fragment.FragmentID;
+      childNodes.push(DOMChild);
+    }
+
+    return childNodes;
+  }
+
+  function appendChild(node, child) {
+    if (Array.isArray(child)) {
+      for (const childEl of child) {
+        node.appendChild(childEl);
+      }
+    } else {
+      node.appendChild(child);
+    }
+  }
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
   /**
   * The first time an element is rendered
   */
@@ -288,29 +442,49 @@
   function initialRender(root, tree) {
     const replacedElement = render(tree);
     root.appendChild(replacedElement);
-    trigerMountedLifeCycle(root);
+    triggerMountedLifeCycle(root);
   }
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
 
   /**
   * appends a Tree to the DOM
   */
-
   function append(Tree, root, callback) {
-    initialRender(root, Tree);
+    try {
+      initialRender(root, Tree);
 
-    if (callback) {
-      callback();
+      if (callback) {
+        callback();
+      }
+
+      return true;
+    } catch (error) {
+      return {
+        result: false,
+        error
+      };
     }
   }
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-
-  /* eslint-disable @typescript-eslint/ban-types */
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
 
   /**
-  * Base Pearl component
+  * Base component
   */
-  class Component$1 {
+  class BaseComponent {
     constructor(props = {}, context = {}) {
       this.state = {};
       this.props = props;
@@ -346,30 +520,87 @@
 
   }
 
-  /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+  const FRAGMENT_TYPE = "Fragment";
+  const COMPONENT_TYPE = "Component";
+  const ELEMENT_TYPE = "element";
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
   function compareState(oldComponent, newComponent) {
     const finalComponent = newComponent;
     finalComponent.state = oldComponent.state;
     return finalComponent;
   }
-  function EvaluateChildren(oldChildren, newChildren) {
+  function PatchTrees(currentTree, newTree) {
+    // Diffing Instances
+    // - Element and Element
+    // - Component and Element
+    // - Component and Component
+    // - Fragment and Component
+    // - Fragment and Element
+    // - Fragment and Fragment
+    // - attached Components
+    if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+      return CompareAndPatchElement(currentTree, newTree);
+    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === ELEMENT_TYPE) {
+      return newTree;
+    } else if (currentTree.type === ELEMENT_TYPE && newTree.type === COMPONENT_TYPE) {
+      return newTree;
+    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+      return compareState(currentTree, newTree);
+    } else {
+      return newTree;
+    }
+  }
+  function PatchChildrenTrees(currentTree, newTree) {
+    // Diffing Instances
+    // - Element and Element
+    // - Component and Element
+    // - Component and Component
+    // - Fragment and Component
+    // - Fragment and Element
+    // - Fragment and Fragment
+    // - attached Components
+    if (typeof currentTree === "string" || typeof newTree === "string") {
+      return newTree;
+    } else if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+      return CompareAndPatchElement(currentTree, newTree);
+    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === ELEMENT_TYPE) {
+      return newTree;
+    } else if (currentTree.type === ELEMENT_TYPE && newTree.type === COMPONENT_TYPE) {
+      return newTree;
+    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+      return compareState(currentTree, newTree);
+    } else {
+      return newTree;
+    }
+  }
+
+  function CompareAndPatchElement(oldElement, newElement) {
+    const resultElement = newElement;
+
+    if (oldElement.attachedComponent !== newElement.attachedComponent) {
+      return newElement;
+    }
+
+    if (oldElement.tag !== newElement.tag) {
+      return newElement;
+    }
+
+    resultElement.children = CompareAndPatchChildren(oldElement.children, newElement.children);
+    return resultElement;
+  }
+
+  function CompareAndPatchChildren(oldChildren, newChildren) {
     const children = [];
-    const elementType = 'element';
-    const componentType = 'IS_X_COMPONENT';
     oldChildren.forEach((oldChild, i) => {
       const newChild = newChildren[i];
-
-      if (oldChild.type === newChild.type) {
-        if (oldChild.type === elementType && newChild.type === elementType) {
-          children.push(newChild);
-        } else if (oldChild.type === componentType && newChild.type === componentType) {
-          children.push(compareState(oldChild, newChild));
-        } else if (typeof newChild === "string") {
-          children.push(newChild);
-        }
-      }
+      children.push(PatchChildrenTrees(oldChild, newChild));
     });
 
     for (const additionalChild of newChildren.slice(oldChildren.length)) {
@@ -377,76 +608,195 @@
     }
 
     return children;
-  } // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-
-  function compareTree(oldDomTree, newDomTree) {
-    const result = newDomTree;
-
-    if (newDomTree === undefined) {
-      return;
-    }
-
-    if (typeof oldDomTree === 'string' || typeof newDomTree === 'string') {
-      if (oldDomTree !== newDomTree) {
-        return newDomTree;
-      } else {
-        return newDomTree;
-      }
-    }
-
-    if (oldDomTree.tag !== newDomTree.tag) {
-      // we assume that they are totally different and
-      // will not attempt to find the differences.
-      return newDomTree;
-    }
-
-    const newChildren = EvaluateChildren(oldDomTree.children, newDomTree.children);
-    result.children = newChildren;
-    return result;
   }
 
   /**
-  * Returns an `HTMLElement` represented by a given `ref`
-  */
-  function createId(name, key = null) {
-    if (key === null || key === undefined) {
-      key = Math.floor(Math.random() * 100000);
-    }
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+  function ingeninateChildren(OldChildren, NewChildren, parentNode) {
+    const childNodes = parentNode.childNodes;
+    let index = 0;
 
-    return Symbol(`${name}_${key}`);
+    for (let i = 0; i < OldChildren.length; i++) {
+      const oldChild = OldChildren[i];
+      const NewChild = NewChildren[i];
+
+      if (Array.isArray(oldChild) || Array.isArray(NewChild)) {
+        if (Array.isArray(NewChild)) {
+          if (Array.isArray(oldChild)) {
+            // if both the new child and the old child are Arrays
+            // we loop through the old child and get the index of each element and its corresponding element if the neww child
+            // we also get the DOM child at that index then diff them
+            oldChild.forEach((item, ind) => {
+              const nodechild = childNodes[index];
+              const newItem = NewChild[ind]; //diffAndPatch(item, newItem, nodechild)
+
+              CheckChildrenAndDiff(item, newItem, parentNode, nodechild);
+              index++;
+            });
+            const additionalChidren = []; // if the new child has additional children longer than  the old child then have to append them to the dom too.
+
+            for (const additionalChild of NewChild.slice(oldChild.length)) {
+              const DomChild = render(additionalChild);
+              additionalChidren.push(DomChild);
+            }
+
+            const nextIndex = index;
+            let nextNode = childNodes[nextIndex];
+
+            if (nextNode !== undefined) {
+              for (const iterator of additionalChidren) {
+                parentNode.insertBefore(iterator, nextNode);
+                index++;
+                nextNode = childNodes[nextIndex];
+              }
+
+              triggerMountedLifeCycle(parentNode);
+            } else {
+              parentNode.append(...additionalChidren);
+              triggerMountedLifeCycle(parentNode);
+            }
+          } else {
+            const nodechild = childNodes[index];
+            const nodeArr = [];
+            NewChild.forEach((item, ind) => {
+              nodeArr.push(render(item));
+
+              if (ind !== 0) {
+                index++;
+              }
+            });
+            nodechild.replaceWith(...nodeArr);
+            triggerMountedLifeCycle(nodechild);
+          }
+        }
+      } else {
+        const nodechild = childNodes[index];
+        CheckChildrenAndDiff(oldChild, NewChild, parentNode, nodechild);
+        index++;
+      }
+    }
   }
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  function diffAndPatch(oldTree, newTree, node) {
+  function CheckChildrenAndDiff(oldChild, NewChild, parentNode, nodechild) {
+    if (typeof oldChild !== "string") {
+      if (oldChild.type === "Fragment") {
+        diffAndPatch(oldChild, NewChild, parentNode);
+      } else {
+        diffAndPatch(oldChild, NewChild, nodechild);
+      }
+    } else {
+      diffAndPatch(oldChild, NewChild, nodechild);
+    }
+  }
+
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+  function diffAndPatch(oldTree, newTree, node$) {
+    const {
+      node
+    } = replacingNode(node$); // Diffing Instances
+    // - Element and Element
+    // - Component and Element
+    // - Component and Component
+    // - Fragment and Component
+    // - Fragment and Element
+    // - Fragment and Fragment
+    // - attached Components
+
     if (newTree === undefined) {
       node.remove();
       return node;
     }
 
     if (typeof oldTree === "string" || typeof newTree === "string") {
+      // incase one of the trees is a string
+      // we check if the nodeValue od the DOM node is equal to the newTree
+      // if its not equal then we replace it with the new string
+      // If they are equal we just return the same node
       if (node.nodeValue !== newTree) {
         const newNode = render(newTree);
-        node.replaceWith(newNode);
-        trigerMountedLifeCycle(newNode);
+        node.replaceWith(newNode); // triggerMountedLifeCycle(newNode)
+
         return newNode;
       } else {
         return node;
       }
+    } else if (oldTree.type !== newTree.type) {
+      // If the types are not the same we should just render a new Dom Tree.
+      const newNode = render(newTree);
+      node.replaceWith(newNode);
+      triggerMountedLifeCycle(newNode);
+      return newNode;
+    } else if (oldTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+      return diffAndPatchElement(oldTree, newTree, node);
+    } else if (oldTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+      return DiffAndPatchComponent(oldTree, newTree, node);
+    } else if (oldTree.type === FRAGMENT_TYPE && newTree.type === FRAGMENT_TYPE) {
+      ingeninateChildren(oldTree.children, newTree.children, node);
+      return node;
+    }
+  }
+
+  function replacingNode(node) {
+    if (Array.isArray(node)) {
+      return {
+        isFragmentParent: true,
+        node: node[0].parentNode
+      };
     }
 
+    return {
+      isFragmentParent: false,
+      node
+    };
+  }
+
+  function diffAndPatchElement(oldTree, newTree, node) {
+    //console.log(oldTree)
+    //console.log(newTree)
+    //console.log(node)
+    // If the tags of the trees are different then the whole tree is replaced
     if (oldTree.tag !== newTree.tag) {
       const newNode = render(newTree);
       node.replaceWith(newNode);
-      trigerMountedLifeCycle(newNode);
-      return node;
+      triggerMountedLifeCycle(newNode);
+      return newNode;
     }
 
-    DiffAttr(oldTree.attributes, newTree.attributes, node);
-    DiffChildren(oldTree.children, newTree.children, node);
+    PatchElementAttributes(oldTree.attributes, newTree.attributes, node);
+    ingeninateChildren(oldTree.children, newTree.children, node);
     return node;
   }
-  function DiffAttr(OldAttr, NewAttrs, node) {
+  function DiffAndPatchComponent(oldComp, newComp, node$) {
+    const {
+      node
+    } = replacingNode(node$);
+
+    if (oldComp.pearlId !== newComp.pearlId) {
+      const newNode = render(newComp);
+      node.replaceWith(newNode);
+      triggerMountedLifeCycle(newNode);
+      return newNode;
+    } else {
+      diffAndPatch(oldComp.makeChild(), newComp.makeChild(), node);
+    }
+  }
+  function PatchElementAttributes(OldAttr, NewAttrs, node) {
+    // Note: We first append all the new attributes
+    // so that we can latter just remove the attributes that dont exits in the new attrs
     for (const [attr, value] of Object.entries(NewAttrs)) {
+      // In this for loop we add atrributes and
+      // also eveluate style objects and classnames.
       if (attr === "style") {
         if (OldAttr[attr] !== value) {
           node.setAttribute(attr, evaluateStyleTag(value));
@@ -460,7 +810,10 @@
           node.setAttribute(getPropety(attr), value);
         }
       }
-    }
+    } // We loop through the old attributes
+    // if one of the old attributes is not in the neww attributes,
+    // we ten remove it from the node
+
 
     for (const k in OldAttr) {
       if (!(k in NewAttrs)) {
@@ -472,115 +825,15 @@
       }
     }
   }
-  function DiffChildren(OldChildren, NewChildren, node) {
-    const nodes = node.childNodes;
-    let index = 0;
-    OldChildren.forEach((child, i) => {
-      const newVChild = NewChildren[i];
 
-      if (Array.isArray(newVChild) || Array.isArray(child)) {
-        if (Array.isArray(newVChild)) {
-          if (Array.isArray(child)) {
-            child.forEach((item, ind) => {
-              const nodechild = nodes[index];
-              const newItem = newVChild[ind];
-              checkChildrenAndDiff(item, newItem, nodechild);
-              index++;
-            });
-            const additionalChidren = [];
-
-            for (const additionalChild of newVChild.slice(child.length)) {
-              const DomChild = render(additionalChild);
-              additionalChidren.push(DomChild);
-            }
-
-            const nextIndex = index;
-            let nextNode = nodes[nextIndex];
-
-            if (nextNode !== undefined) {
-              for (const iterator of additionalChidren) {
-                node.insertBefore(iterator, nextNode);
-                index++;
-                nextNode = nodes[nextIndex];
-              }
-
-              trigerMountedLifeCycle(node);
-            } else {
-              node.append(...additionalChidren);
-              trigerMountedLifeCycle(node);
-            }
-          } else {
-            const nodechild = nodes[index];
-            const nodeArr = [];
-            newVChild.forEach((item, ind) => {
-              nodeArr.push(render(item));
-
-              if (ind !== 0) {
-                index++;
-              }
-            });
-            nodechild.replaceWith(...nodeArr);
-            trigerMountedLifeCycle(nodechild);
-          }
-        }
-      } else {
-        const nodechild = nodes[index];
-        checkChildrenAndDiff(child, newVChild, nodechild);
-        index++;
-      }
-    });
-  }
-
-  function checkChildrenAndDiff(child, newVChild, nodeChild) {
-    if (newVChild !== undefined && child !== undefined) {
-      const [oldChild, newChild] = CheckType(child, newVChild);
-      diffAndPatch(oldChild, newChild, nodeChild);
-    } else {
-      if (newVChild !== undefined) {
-        const [, newChild] = CheckType(" ", newVChild);
-        diffAndPatch(child, newChild, nodeChild);
-      } else {
-        const [oldChild] = CheckType(child, "");
-        diffAndPatch(oldChild, newVChild, nodeChild);
-      }
-    }
-  }
-
-  function CheckType(old, newC) {
-    const elementType = 'element';
-    const componentType = 'IS_X_COMPONENT';
-    let oldChild;
-    let newChild;
-
-    if (old.type === elementType) {
-      oldChild = old;
-    }
-
-    if (old.type === componentType) {
-      oldChild = old.makeChild();
-    }
-
-    if (newC.type === elementType) {
-      newChild = newC;
-    }
-
-    if (newC.type === componentType) {
-      newChild = newC.makeChild();
-    }
-
-    if (typeof old === 'string') {
-      oldChild = old;
-    }
-
-    if (typeof newC === 'string') {
-      newChild = newC;
-    }
-
-    return [oldChild, newChild];
-  }
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-  function getComponentRoot(id) {
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+  function ComponentRoot(id) {
     let nodes = null;
     const allNodes = document.querySelectorAll('*');
     allNodes.forEach(e => {
@@ -592,8 +845,22 @@
     });
     return nodes;
   }
+  function updateUITree(currentTree, workingProgressTree, ComponentRoot) {
+    const newTree = PatchTrees(currentTree, workingProgressTree);
+    const patch = diffAndPatch(currentTree, newTree, ComponentRoot);
+    ComponentRoot = patch;
+    return newTree;
+  }
 
-  class Component extends Component$1 {
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
+
+  class Component extends BaseComponent {
     static isClassComponent = true;
 
     constructor(props = {}, context = {}) {
@@ -603,7 +870,7 @@
         this.key = props ? props.key ? props.key : null : null;
       }
 
-      this.type = 'IS_X_COMPONENT';
+      this.type = 'Component';
       this.pearlId = createId(this.constructor.name, this.key);
       this.makeChild = this.makeChild.bind(this);
       this.Mounted = this.Mounted.bind(this);
@@ -629,19 +896,9 @@
 
 
     updateState(newState, callback = null) {
-      const currentTree = this.currentTree;
-      let root = getComponentRoot(this.getPearlId());
-
-      if (root === undefined) {
-        root = getComponentRoot(this.currentTree.pearlId);
-      }
-
+      const root = ComponentRoot(this.getPearlId());
       this.changeState(newState, callback);
-      const newItem = this.render();
-      const newTree = compareTree(currentTree, newItem);
-      const patch = diffAndPatch(this.currentTree, newTree, root);
-      root = patch;
-      this.currentTree = newTree;
+      this.currentTree = updateUITree(this.currentTree, this.render(), root);
     }
 
     makeChild() {
@@ -657,23 +914,31 @@
 
   }
 
+  /**
+   * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+   *
+   * This source code is licensed under the MIT license found in the
+   * LICENSE file in the root directory of this source tree.
+   *
+   */
   const version = '1.0.0';
   /**
   * A Javascript library for building Browser User Interfaces
   * @author Beigana Jim Junior <jimjunior854@outlook.com>
-  * @copyright Beigana Jim Junior © 2021
+  * @copyright Beigana Jim Junior © 2021 - present
   * @license MIT
   *
   * Learn more at the official Documentation: {@link https://orbiton.js.org}
   */
 
   const Orbiton = {
+    withComponent,
     render,
     createElement,
     append,
     Component,
     createComponent,
-    createJSXElement,
+    Fragment,
     version
   };
 

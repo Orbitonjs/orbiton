@@ -1,10 +1,18 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 
 
 import { createId } from './Selectors';
-import { Props } from "../types/OrbitonTypes"
+import { Props } from "../../types/index"
 
 /**
 * Base component
@@ -25,7 +33,10 @@ export class BaseComponent {
  * @param {?Function} callBack this callback function that is called after state updates
  */
 
-  changeState(newState: Record<string, unknown>, callBack: VoidFunction | null = null): void {
+  changeState(
+    newState: Record<string, unknown>,
+    callBack: VoidFunction | null = null
+  ): void {
 
     if (newState.constructor.name !== 'Object') {
       throw Error('updateState(...) method takes in an object')
@@ -53,7 +64,7 @@ export class BaseComponent {
 
 export class LogicalComponent extends BaseComponent {
   key: unknown;
-  readonly type: 'IS_X_COMPONENT';
+  readonly type: 'Component';
   pearlId: symbol;
   static isClassComponent = true
   constructor(props: Props = {}, context = {}) {
@@ -62,7 +73,7 @@ export class LogicalComponent extends BaseComponent {
     if (props !== {}) {
       this.key = props? props.key ? props.key : null : null
     }
-    this.type = 'IS_X_COMPONENT'
+    this.type = 'Component'
     this.pearlId = createId(this.constructor.name, this.key)
     this.Mounted = this.Mounted.bind(this)
     this.WillMount = this.WillMount.bind(this)
@@ -87,7 +98,10 @@ export class LogicalComponent extends BaseComponent {
   * @param {?Function} callback this callback function that is called after state updates
   *
   * */
-  updateState(newState: Record<string, unknown>, callback: VoidFunction | null = null): void {
+  updateState(
+    newState: Record<string, unknown>,
+    callback: VoidFunction | null = null
+  ): void {
     this.changeState(newState, callback)
   }
 

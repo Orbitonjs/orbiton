@@ -5,37 +5,11 @@
    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
    xmlns:svg="http://www.w3.org/2000/svg"
    xmlns="http://www.w3.org/2000/svg"
-   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
-   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    width="198.26324mm"
    height="45.407078mm"
    viewBox="0 0 198.26325 45.407077"
    version="1.1"
-   id="svg8"
-   sodipodi:docname="logo.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
-   inkscape:export-filename="E:\projects\npmpackages\vdom\branding\logo.png"
-   inkscape:export-xdpi="25.4"
-   inkscape:export-ydpi="25.4">
-  <sodipodi:namedview
-     pagecolor="#ffffff"
-     bordercolor="#666666"
-     borderopacity="1"
-     objecttolerance="10"
-     gridtolerance="10"
-     guidetolerance="10"
-     inkscape:pageopacity="0"
-     inkscape:pageshadow="2"
-     inkscape:window-width="640"
-     inkscape:window-height="480"
-     id="namedview45"
-     showgrid="false"
-     showguides="false"
-     inkscape:zoom="0.71647255"
-     inkscape:cx="96.79245"
-     inkscape:cy="125.17519"
-     inkscape:current-layer="layer1"
-     inkscape:document-rotation="0" />
+   id="svg8">
   <defs
      id="defs2" />
   <metadata
@@ -46,7 +20,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
