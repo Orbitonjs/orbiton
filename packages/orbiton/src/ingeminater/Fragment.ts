@@ -6,8 +6,8 @@
  *
  */
 
-import { TransformSyntax } from "./createPlugin"
+import { OrbitonChildren } from "../../types/index";
+import { Fragment } from "../core/Fragment";
 
 
-export default TransformSyntax
-
+export function ReconFragment(oldTree: Fragment, newTree: OrbitonChildren, )

@@ -1,16 +1,37 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { evaluateAttributes } from "./ElementAttributes";
 import { appendEvents } from "./Events";
-import { OrbitonElement, OrbitonDOMElement, OrbitonSVGElement } from "../types/OrbitonTypes";
-import Component from "./createComponent";
+import { OrbitonElement, Component, OrbitonDOMElement, OrbitonSVGElement } from "../../types/index";
+//import Component from "./createComponent";
+import { Fragment } from "../core/Fragment";
 
-function renderElement(element: OrbitonElement, isComponentRoot = false, componentId = null, comp: Component| null = null) {
+function renderElement(
+  element: OrbitonElement,
+  ns = "http://www.w3.org/1999/xhtml",
+  isComponentRoot = false,
+  componentId = null,
+  comp: Component| null = null
+) {
   let node : OrbitonDOMElement | OrbitonSVGElement
+  let childns : "http://www.w3.org/2000/svg" | "http://www.w3.org/1999/xhtml"
   if (element.tag === 'svg') {
     node = document.createElementNS("http://www.w3.org/2000/svg", "svg")  as OrbitonSVGElement
+    // Set the namespace to "http://www.w3.org/2000/svg"
+    // since the child elements like path should also
+    // have the same namespace
+    childns = "http://www.w3.org/2000/svg"
   } else {
-    node = document.createElement(element.tag) as OrbitonDOMElement
+    node = document.createElementNS(ns,element.tag) as OrbitonDOMElement
+    childns = "http://www.w3.org/1999/xhtml"
   }
   node._orbiton$config = {}
   node._orbiton$config.componentHosted = []
@@ -35,19 +56,25 @@ function renderElement(element: OrbitonElement, isComponentRoot = false, compone
       // eslint-disable-next-line no-use-before-define
       if (typeof child === 'string') {
         const Textnode = document.createTextNode(child)
-        node.appendChild(Textnode)
+        appendChild(node,Textnode)
       } else {
+        // This is usually possible when one maps through an array forexample:
+        //     render() {
+        //         return  <div>
+        //                    {this.state.array.map(...)}
+        //                 </div>
+        //         }
         if (Array.isArray(child)) {
           for (const elm of child) {
-            const element = render(elm)
-            node.appendChild(element);
+            const element = render(elm, childns)
+            appendChild(node,element);
 
           }
         } else {
-          const element = render(child)
+          const element = render(child, childns)
           if (element !== null && element !== undefined) {
 
-            node.appendChild(element);
+            appendChild(node,element);
           }
         }
 
@@ -58,25 +85,34 @@ function renderElement(element: OrbitonElement, isComponentRoot = false, compone
   return node;
 }
 
-export const render = (xElement: any) : any | OrbitonDOMElement => {
-  if (typeof xElement === 'string' || typeof xElement === "boolean" || typeof xElement === "number") {
-    return document.createTextNode(`${xElement}`);
+export const render = (
+  o_element: Component|OrbitonElement|Fragment|string,
+  ns = "http://www.w3.org/1999/xhtml"
+) : any | OrbitonDOMElement | Array<OrbitonDOMElement> => {
+  //console.log(o_element)
+  if (typeof o_element === 'string' || typeof o_element === "boolean" || typeof o_element === "number") {
+    return document.createTextNode(`${o_element}`);
   }
-  if (xElement.type === 'element') {
-    return renderElement(xElement);
+  if (o_element.type === 'element') {
+    return renderElement(o_element, ns);
   }
 
-  if (xElement.type === 'IS_X_COMPONENT') {
-    const $el = xElement.makeChild()
-    if (returnsNothing($el)) {
-      return null
+  if (o_element.type === 'Component') {
+    const el = o_element.makeChild();
+    if (returnsNothing(el)) {
+      return null;
     }
     // when the first element is a component
-    if ($el.tag === undefined) {
-      return render($el)
+    if (el.tag === undefined) {
+      return render(el);
     }
-    xElement.WillMount()
-    return renderElement($el, true, xElement.getPearlId(), xElement)
+    // Call the will mount lifecyle method
+    // Note: this method is depriciated since it was unstable
+    o_element.WillMount();
+    return renderElement(el, ns, true, o_element.getPearlId(), o_element);
+  }
+  if (o_element.type === "Fragment") {
+    return  renderFragment(o_element)
   }
 
 };
@@ -88,3 +124,36 @@ function returnsNothing(component: any) : boolean {
   }
   return false
 }
+
+
+function renderFragment(fragment: Fragment) : Array<OrbitonDOMElement> {
+  const childNodes = []
+  for (const child of fragment.children) {
+    if (typeof child !== "string") {
+      if (child.type === "Fragment") {
+        throw new Error("A Fragment cannot be a direct child to another Fragment. Consider changing your source code.");
+      }
+    }
+    const DOMChild = render(child) as OrbitonDOMElement
+    DOMChild._orbiton$config.renderedByFrag = true
+    DOMChild._orbiton$config.HostFragID = fragment.FragmentID
+    childNodes.push(DOMChild)
+  }
+  return childNodes
+}
+
+export function appendChild(
+  node: OrbitonDOMElement|OrbitonSVGElement,
+  child: OrbitonDOMElement|OrbitonSVGElement| Text | Array<OrbitonDOMElement|Text|OrbitonSVGElement>
+): void {
+
+
+  if (Array.isArray(child)) {
+    for (const childEl of child) {
+      node.appendChild(childEl)
+    }
+  } else {
+    node.appendChild(child)
+  }
+}
+

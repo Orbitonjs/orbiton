@@ -6,8 +6,11 @@
  *
  */
 
-import { TransformSyntax } from "./createPlugin"
+import { OrbitonChildren, OrbitonElement } from "../../types/index";
 
 
-export default TransformSyntax
-
+export function ingeninateChildren(
+  OldChildren: OrbitonChildren,
+  NewChildren: OrbitonChildren,
+  parentNode: OrbitonElement,
+)

@@ -1,8 +1,22 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
 
-import { evaluateAttribute, getEventName } from './transformToFunction'
+import { getEventName } from './transformToFunction'
+import { evaluateAttribute } from './evaluateJSXAttributes'
 import * as t from '@babel/types'
+import { getAttrChildrenAndProps } from './utils/get-attrs-props-children'
+
+
+/**
+* Transforms Namespaced JSX usually to result into the `withComponent` function.
+* @param {t.StringLiteral} tag - This is the tagName of the JSX element
+*/
 export function transformNamespacedJSX(tag, component, attributes, events, children) {
-  let attrs = []
   let props = t.objectProperty(
     t.identifier("props"),
     t.objectExpression(
@@ -12,73 +26,31 @@ export function transformNamespacedJSX(tag, component, attributes, events, child
     false
   )
   for (let attribute of attributes) {
-    if (attribute.type === 'JSXSpreadAttribute') {
-      let attr = t.spreadElement(attribute.argument)
-
-      attrs.push(attr)
-    } else {
-      if (attribute.name.name === "props") {
-        let prop = t.objectProperty(
-          t.identifier(attribute.name.name),
-          evaluateAttribute(attribute),
-          false,
-          false
-        )
-        props = prop
-      } else {
-        let attr = t.objectProperty(
-          t.identifier(attribute.name.name),
-          evaluateAttribute(attribute),
-          false,
-          false
-        )
-        attrs.push(attr)
-      }
-
+    if (attribute.name.name === "props") {
+      props = t.objectProperty(
+        t.identifier(attribute.name.name),
+        evaluateAttribute(attribute),
+        false,
+        false
+      )
+      let propsIndex = attributes.indexOf(attribute)
+      attributes.splice(propsIndex, 1)
     }
-
 
   }
-  for (let child of children) {
-    if (child.type === 'JSXText') {
-      let hasLettersRegex = /[a-z0-9]/ig;
-      if (child.value.includes('\n') && hasLettersRegex.test(child.value) === false) {
-        let childIndex = children.indexOf(child)
-        children.splice(childIndex, 1)
-      }
-    }
-  }
-  for (let child of children) {
-    if (child.type === 'JSXText') {
-      let Stringchild = t.stringLiteral(child.value)
-      children[children.indexOf(child)] = Stringchild
-    }
-    if (child.type === 'JSXExpressionContainer') {
-      let type = child.expression.type
-      if (type === 'JSXEmptyExpression') {
-        children[children.indexOf(child)] = t.stringLiteral('')
-      } else if (child.type === 'JSXSpreadChild') {
-        let spreadChild = t.spreadElement(child.expression)
-        children[children.indexOf(child)] = spreadChild
-      } else {
-        let Expression = t.toExpression(child.expression)
-        children[children.indexOf(child)] = Expression
-      }
-    }
-    if (child.type === 'JSXSpreadChild') {
-      let spreadChild = t.spreadElement(child.expression)
-      children[children.indexOf(child)] = spreadChild
-    }
-  }
-  let eves = []
+  const { RESULT_ATTRS, RESULT_CHILDREN } = getAttrChildrenAndProps(attributes, children)
+
+
+  /** @type Array<t.ObjectProperty> */
+  let EventsArray = new Array()
+  // Append Events
   for (let event of events) {
-    let eve = t.objectProperty(
+    EventsArray.push(t.objectProperty(
       t.identifier(getEventName(event.name.name)),
       t.toExpression(event.value.expression),
       false,
       false
-    )
-    eves.push(eve)
+    ))
   }
   return t.callExpression(
     t.memberExpression(
@@ -93,7 +65,7 @@ export function transformNamespacedJSX(tag, component, attributes, events, child
         t.objectProperty(
           t.identifier("attributes"),
           t.objectExpression(
-            [...attrs]
+            [...RESULT_ATTRS]
           ),
           false,
           false
@@ -102,7 +74,7 @@ export function transformNamespacedJSX(tag, component, attributes, events, child
         t.objectProperty(
           t.identifier("events"),
           t.objectExpression(
-            [...eves]
+            [...EventsArray]
           ),
           false,
           false
@@ -110,7 +82,7 @@ export function transformNamespacedJSX(tag, component, attributes, events, child
         t.objectProperty(
           t.identifier("children"),
           t.arrayExpression(
-            children
+            RESULT_CHILDREN
           ),
           false,
           false

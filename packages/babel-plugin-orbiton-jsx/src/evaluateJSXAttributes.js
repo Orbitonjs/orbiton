@@ -1,3 +1,13 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
+import * as t from '@babel/types'
+
 
 function evaluateNode(node) {
   let attribute = {
@@ -26,6 +36,7 @@ function evaluateNode(node) {
 * @param {Array} JSXNodes -
 */
 export default function evaluateJSXAttributes(JSXNodes) {
+
   let result = {
     events: [],
     attributes: []
@@ -42,3 +53,17 @@ export default function evaluateJSXAttributes(JSXNodes) {
   return result
 }
 
+export function evaluateAttribute(attribute) {
+  if (attribute.type === 'JSXSpreadAttribute') {
+    return t.spreadElement(attribute.argument)
+  } else {
+
+    if (attribute.value.type === 'StringLiteral') {
+      return t.toExpression(attribute.value)
+    }
+    if (attribute.value.type === 'JSXExpressionContainer') {
+      return t.toExpression(attribute.value.expression)
+    }
+  }
+
+}

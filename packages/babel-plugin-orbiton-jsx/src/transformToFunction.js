@@ -1,24 +1,18 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
 import * as t from '@babel/types'
+import { getAttrChildrenAndProps } from './utils/get-attrs-props-children'
 
 
 
-
-export function evaluateAttribute(attribute) {
-  if (attribute.type === 'JSXSpreadAttribute') {
-    return t.spreadElement(attribute.argument)
-  } else {
-
-    if (attribute.value.type === 'StringLiteral') {
-      return t.toExpression(attribute.value)
-    }
-    if (attribute.value.type === 'JSXExpressionContainer') {
-      return t.toExpression(attribute.value.expression)
-    }
-  }
-
-}
 /**
 * @param {string} event -
 */
@@ -26,51 +20,32 @@ export function getEventName(event) {
   let eventName = event.slice(2)
   return eventName.toLowerCase()
 }
-
-export function TransformToCreateComponent(tag, attributes, children) {
-  let props = []
-  for (let child of children) {
-    if (child.type === 'JSXText') {
-      let hasLettersRegex = /[a-z0-9]/ig;
-      if (child.value.includes('\n') && hasLettersRegex.test(child.value) === false) {
-        let childIndex = children.indexOf(child)
-        children.splice(childIndex, 1)
-      }
-    }
+/**
+* @param {string} tag -
+* @param {Array<t.JSXNamespacedName|t.JSXAttribute|t.JSXSpreadAttribute>} attributes -
+* @param {Array<t.JSXElement|t.JSXText|t.JSXSpreadChild>} children -
+* @param {t.JSXOpeningElement} openingElement -
+* @return {t.CallExpression}
+*/
+export function TransformToCreateComponent(tag, attributes, children, openingElement) {
+  let ExpressionTag;
+  if (openingElement.name.type === "JSXMemberExpression") {
+    ExpressionTag = t.memberExpression(
+      t.identifier(openingElement.name.object.name),
+      t.identifier(openingElement.name.property.name),
+      false
+    )
+  } else {
+    ExpressionTag = t.identifier(tag)
   }
-  for (let child of children) {
-    if (child.type === 'JSXText') {
-      let Stringchild = t.stringLiteral(child.value)
-      children[children.indexOf(child)] = Stringchild
-    }
-    if (child.type === 'JSXSpreadChild') {
-      let spreadChild = t.spreadElement(child.expression)
-      children[children.indexOf(child)] = spreadChild
-    }
-  }
-  for (let attribute of attributes) {
-    if (attribute.type === 'JSXSpreadAttribute') {
-      let attr = t.spreadElement(attribute.argument)
+  const { RESULT_ATTRS, RESULT_CHILDREN } = getAttrChildrenAndProps(attributes, children)
 
-      props.push(attr)
-    } else {
-      let attr = t.objectProperty(
-        t.identifier(attribute.name.name),
-        evaluateAttribute(attribute),
-        false,
-        false
-      )
-      props.push(attr)
-    }
-
-
-  }
-
-  let childs = t.objectProperty(
-    t.identifier('children'),
-    t.arrayExpression(children)
+  RESULT_ATTRS.push(
+    t.objectProperty(
+      t.identifier('children'),
+      t.arrayExpression(RESULT_CHILDREN)
+    )
   )
-  props.push(childs)
   return t.callExpression(
     t.memberExpression(
       t.identifier("Orbiton"),
@@ -78,80 +53,34 @@ export function TransformToCreateComponent(tag, attributes, children) {
       false
     ),
     [
-      t.identifier(tag),
+      ExpressionTag,
       t.objectExpression(
-        [...props]
+        [...RESULT_ATTRS]
       ),
     ]
   )
 }
 
 
-/* function getJSXSpreadAttr(attr) {
-
-} */
 /**
-* @param {Array} children -
+* @param {string} tag -
+* @param {Array<t.JSXNamespacedName|t.JSXAttribute|t.JSXSpreadAttribute>} attributes -
+* @param {Array<t.JSXAttribute>} events -
+* @param {Array<t.JSXElement|t.JSXText|t.JSXSpreadChild>} children -
+* @return {t.CallExpression}
 */
 export function TransformToCreateElement(tag, attributes, events, children) {
-  let attrs = []
-  for (let attribute of attributes) {
-    if (attribute.type === 'JSXSpreadAttribute') {
-      let attr = t.spreadElement(attribute.argument)
-
-      attrs.push(attr)
-    } else {
-      let attr = t.objectProperty(
-        t.identifier(attribute.name.name),
-        evaluateAttribute(attribute),
-        false,
-        false
-      )
-      attrs.push(attr)
-    }
-
-
-  }
-  for (let child of children) {
-    if (child.type === 'JSXText') {
-      let hasLettersRegex = /[a-z0-9]/ig;
-      if (child.value.includes('\n') && hasLettersRegex.test(child.value) === false) {
-        let childIndex = children.indexOf(child)
-        children.splice(childIndex, 1)
-      }
-    }
-  }
-  for (let child of children) {
-    if (child.type === 'JSXText') {
-      let Stringchild = t.stringLiteral(child.value)
-      children[children.indexOf(child)] = Stringchild
-    }
-    if (child.type === 'JSXExpressionContainer') {
-      let type = child.expression.type
-      if (type === 'JSXEmptyExpression') {
-        children[children.indexOf(child)] = t.stringLiteral('')
-      } else if (child.type === 'JSXSpreadChild') {
-        let spreadChild = t.spreadElement(child.expression)
-        children[children.indexOf(child)] = spreadChild
-      } else {
-        let Expression = t.toExpression(child.expression)
-        children[children.indexOf(child)] = Expression
-      }
-    }
-    if (child.type === 'JSXSpreadChild') {
-      let spreadChild = t.spreadElement(child.expression)
-      children[children.indexOf(child)] = spreadChild
-    }
-  }
-  let eves = []
+  const { RESULT_ATTRS, RESULT_CHILDREN } = getAttrChildrenAndProps(attributes, children)
+  /** @type Array<t.ObjectProperty> */
+  let EventsArray = new Array()
+  // Append Events
   for (let event of events) {
-    let eve = t.objectProperty(
+    EventsArray.push(t.objectProperty(
       t.identifier(getEventName(event.name.name)),
       t.toExpression(event.value.expression),
       false,
       false
-    )
-    eves.push(eve)
+    ))
   }
   return t.callExpression(
     t.memberExpression(
@@ -166,7 +95,7 @@ export function TransformToCreateElement(tag, attributes, events, children) {
           t.objectProperty(
             t.identifier("attributes"),
             t.objectExpression(
-              [...attrs]
+              [...RESULT_ATTRS]
             ),
             false,
             false
@@ -174,7 +103,7 @@ export function TransformToCreateElement(tag, attributes, events, children) {
           t.objectProperty(
             t.identifier("events"),
             t.objectExpression(
-              [...eves]
+              [...EventsArray]
             ),
             false,
             false
@@ -182,7 +111,7 @@ export function TransformToCreateElement(tag, attributes, events, children) {
           t.objectProperty(
             t.identifier("children"),
             t.arrayExpression(
-              children
+              RESULT_CHILDREN
             ),
             false,
             false

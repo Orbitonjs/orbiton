@@ -1,13 +1,24 @@
+/**
+ * Copyright (c) 2021 - present Beignana Jim Junior and other contributors.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ *
+ */
+
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { OrbitonDOMElement, OrbitonSVGElement } from "../types/OrbitonTypes"
+import { OrbitonDOMElement, OrbitonSVGElement } from "../../types/index"
 
 /**
 * Appends events to a node that is passed in
-* @param {Node} node - The node to append the events
-* @param {object} events - an object containing the key as the event and the value as the function
+* @param {OrbitonDOMElement|OrbitonSVGElement} node - The node to append the events
+* @param {Record<string, VoidFunction>} events - an object containing the key as the event and the value as the function
 */
-export function appendEvents(node: OrbitonDOMElement | OrbitonSVGElement, events: Record<string, VoidFunction> ): void {
+export function appendEvents(
+  node: OrbitonDOMElement | OrbitonSVGElement,
+  events: Record<string, VoidFunction>
+): void {
   //console.log(events)
   node._orbiton$config.extendEvents = events
   for (const [k, v] of Object.entries(events)) {
@@ -33,7 +44,3 @@ export function removeFromeNode(node: OrbitonDOMElement) {
     node.removeEventListener(k, v)
   }
 }
-
-/**
- * The `_pearl$config` attributes on the node are used to identify HTML Elements that are created by pearl js
-*/

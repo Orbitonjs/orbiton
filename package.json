@@ -7,12 +7,11 @@
   ],
   "scripts": {
     "build": "node scripts/build.js",
+    "lint:plugin": "eslint --ext .js,.ts packages/babel-plugin-orbiton-jsx/**",
     "lint": "eslint --ext .js,.ts packages/orbiton/**",
     "watch:plugin": "rollup -w -c .config/rollup.config.js",
-    "jest:init": "jest --init",
     "dev": "node scripts/dev.js",
     "dev:watch": "node scripts/dev.js -w",
-    "test:mdx": "mdx/example.js",
     "tsc": "tsc",
     "test": "jest"
   },
@@ -38,7 +37,6 @@
     "@typescript-eslint/parser": "^4.21.0",
     "babel-jest": "^27.3.1",
     "babel-loader": "^8.2.3",
-    "babel-plugin-add-jsdoc-properties": "^0.1.4",
     "chalk": "^4.1.0",
     "coffeescript": "^2.6.1",
     "css-loader": "^6.5.1",
@@ -62,8 +60,7 @@
   "dependencies": {
     "@babel/register": "^7.16.0",
     "@babel/runtime": "^7.15.3",
-    "@types/node": "^16.10.2",
-    "babel-plugin-jsx-to-pearl": "^1.0.0"
+    "@types/node": "^16.10.2"
   },
   "keywords": []
 }
