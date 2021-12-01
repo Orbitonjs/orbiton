@@ -1,4 +1,4 @@
-# <div align="center"> <img src="../../branding/logo.png" style="align-items:center;" ></div>
+# <div align="center"> <img src="https://raw.githubusercontent.com/Orbitonjs/orbiton/main/branding/logo.png" style="align-items:center;" ></div>
 
 A Javascript library for building Browser User Interfaces.
 Orbiton JS is a component base javascript rendering library for creating User Interfaces in the browser.
