@@ -1,0 +1,16 @@
+{
+  "name": "babel-plugin-orbiton-jsx",
+  "version": "1.0.0",
+  "description": "Babel plugin to transform `jsx` to Orbiton JS functions.",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib"
+  },
+  "keywords": [
+    "babel",
+    "jsx",
+    "orbiton"
+  ],
+  "author": "Beingana Jim Junior",
+  "license": "MIT"
+}

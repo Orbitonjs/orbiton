@@ -1,0 +1,25 @@
+{
+  "name": "orbiton",
+  "version": "1.0.0",
+  "description": "A Javascript library for building Browser User Interfaces.",
+  "main": "index.js",
+  "browser": "umd/orbitonjs.production.js",
+  "typings": "types/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbitonjs/orbiton.git"
+  },
+  "keywords": [
+    "DOM",
+    "User-interface",
+    "UX",
+    "UI",
+    "DOM-Manipulation"
+  ],
+  "author": "Beingana Jim Junior",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/orbitonjs/orbiton/issues"
+  },
+  "homepage": "https://orbiton.js.org"
+}

@@ -1,0 +1,102 @@
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-size: 1rem;
+  margin: 0px;
+  background: rgb(214, 214, 214);
+}
+
+button {
+  background-color: blue;
+  padding: 1rem;
+  color: white;
+  font-weight: bold;
+  border: none;
+  cursor: pointer;
+  border-radius: 3px;
+}
+
+.container {
+  max-width: 800px;
+  margin: auto;
+}
+
+nav {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  background-color: rgb(221, 218, 253);
+  right: 0px;
+  display: flex;
+  box-shadow: rgba(0, 0, 0, 0.719) 1px 1px 5px;
+}
+
+nav > div {
+  flex: 1;
+}
+.logo {
+  height: 35px;
+  padding: 5px;
+}
+.logo > img {
+  height: 30px;
+}
+
+.heading {
+  text-align: center;
+  text-transform: uppercase;
+  font-weight: bold;
+  padding-top: 6px;
+  color: blue;
+}
+
+.addtodo {
+  text-align: right;
+  padding: 8px 15px;
+}
+
+.add {
+  color: white;
+  margin: 0px;
+  background: blue;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 50%;
+  padding: 5px 8px 6px 8px;
+  transition: all .3s;
+}
+.add:hover {
+  background-color: rgb(0, 89, 255);
+}
+.taskss {
+
+  margin: 60px auto 3px auto;
+  max-width: 800px;
+}
+
+.tasks {
+  display: grid;
+  grid-gap: 3px;
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.task {
+  background: whitesmoke;
+  border-radius: 3px;
+  max-width: 300px;
+  padding: .4rem;
+  box-shadow: grey 1px 1px 5px;
+}
+
+.tasktitle {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.time {
+  font-size: .7rem;
+  color: gray;
+}
+.fetchtasks {
+  text-align: center;
+  color: rgba(31, 31, 31, 0.76);
+}

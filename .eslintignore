@@ -1,0 +1,22 @@
+demo/
+.config/
+tests/
+
+# build output
+lib/
+dist/
+packages/orbiton/umd/
+packages/orbiton/cjs/
+packages/**/*.jsx
+
+scripts/
+
+# node modules
+node_modules/
+
+# jsx and js
+**/*.jsx
+**/*.js
+
+*.md
+__tests__

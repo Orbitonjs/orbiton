@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ESNEXT",
+    "module": "ESNext",
+    "jsx": "preserve",
+    "declaration": true,
+    "rootDirs": ["packages/orbiton"],
+    "outFile": "packages/orbiton/types/orbiton.d.ts",
+    "emitDeclarationOnly": true,
+    "strict": false,
+    "isolatedModules": false,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true
+  }
+}

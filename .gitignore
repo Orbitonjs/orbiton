@@ -1,0 +1,24 @@
+
+
+
+# node_modules
+node_modules
+/.pnp
+.pnp.js
+
+# text editor folders
+.vs
+.vscode
+comand.txt
+
+*.log
+
+# builds
+
+packages/orbiton/umd/
+packages/orbiton/cjs/
+packages/babel-plugin-orbiton-jsx/test.js
+packages/babel-plugin-orbiton-jsx/lib
+
+# jest tests
+coverage
