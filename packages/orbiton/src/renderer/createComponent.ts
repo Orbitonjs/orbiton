@@ -30,10 +30,13 @@ class Component extends C {
   pearlId: symbol;
   currentTree: any;
   static isClassComponent = true
-  constructor(props: Props<number> , context = {}) {
+  constructor(props: Props<number> = {}, context = {}) {
+
     super(props, context)
+    if (props !== {}) {
+      this.key = props? props.key ? props.key : null : null
+    }
     this.type = 'IS_X_COMPONENT'
-    this.key = props.key || null
     this.pearlId = createId(this.constructor.name, this.key)
     this.makeChild = this.makeChild.bind(this)
     this.Mounted = this.Mounted.bind(this)
