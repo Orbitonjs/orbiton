@@ -7,7 +7,8 @@ import { OrbitonDOMElement } from "../types/OrbitonTypes"
 * @param {Node} node - The node to append the events
 * @param {object} events - an object containing the key as the event and the value as the function
 */
-export function appendEvents(node: OrbitonDOMElement, events: HTMLElementEventMap ): void {
+export function appendEvents(node: OrbitonDOMElement, events: Record<string, VoidFunction> ): void {
+  console.log(events)
   node._orbiton$config.extendEvents = events
   for (const [k, v] of Object.entries(events)) {
     node.addEventListener(k, v)
@@ -16,7 +17,7 @@ export function appendEvents(node: OrbitonDOMElement, events: HTMLElementEventMa
 
 
 
-export function compareEventListeners(oldEvents: any, newEvents: HTMLElementEventMap) {
+export function compareEventListeners(oldEvents: any, newEvents: Record<string, VoidFunction>) {
 
   return (node: OrbitonDOMElement) => {
     // eslint-disable-next-line no-use-before-define

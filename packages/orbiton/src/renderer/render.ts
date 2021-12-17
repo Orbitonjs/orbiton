@@ -2,16 +2,24 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { evaluateAttributes } from "./ElementAttributes";
 import { appendEvents } from "./Events";
-import { OrbitonElement, OrbitonDOMElement } from "../types/OrbitonTypes";
+import { OrbitonElement, OrbitonDOMElement, OrbitonSVGElement } from "../types/OrbitonTypes";
 import Component from "./createComponent";
 
 function renderElement(element: OrbitonElement, isComponentRoot = false, componentId = null, comp: Component| null = null) {
-  const node = document.createElement(element.tag) as OrbitonDOMElement
+  let node
+  if (element.tag === 'svg') {
+    node = document.createElementNS("http://www.w3.org/2000/svg", "svg")  as OrbitonSVGElement
+  } else {
+    node = document.createElement(element.tag) as OrbitonDOMElement
+  }
   node._orbiton$config = {}
   if (isComponentRoot) {
     node._orbiton$config.isComponentRoot = true
     node._orbiton$config.compomentRootId = componentId
     node._orbiton$config.componentHosted = [comp]
+  }
+  if (element.attachedComponent) {
+    node._orbiton$config.componentHosted = [element.attachedComponent]
   }
 
 

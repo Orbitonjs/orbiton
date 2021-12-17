@@ -17,6 +17,10 @@ node_modules/
 # jsx and js
 **/*.jsx
 **/*.js
+**/*.json
 
 *.md
 __tests__
+
+
+packages/babel-plugin-orbiton-jsx/**

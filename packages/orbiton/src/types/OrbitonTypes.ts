@@ -1,7 +1,9 @@
+
+import { LogicalComponent } from "../core/component"
 import Component from "../renderer/createComponent"
 
 export type OrbitonConfig =  {
-  extendEvents?: HTMLElementEventMap,
+  extendEvents?: Record<string, VoidFunction>,
   ref?: symbol,
   isComponentRoot?: boolean,
   componentHosted?: Array<Component>
@@ -14,7 +16,7 @@ export type Attributes = {
 
 export type Options = {
   attributes?: Record<string, string | Record<string, string | number>>,
-  events?: HTMLElementEventMap,
+  events?: Record<string, VoidFunction>,
   children?: []
 }
 
@@ -23,12 +25,14 @@ export interface OrbitCallBack extends CallableFunction {
 }
 
 export type OrbitonElement = {
-  tag: keyof HTMLElementTagNameMap,
+  tag: string,
   attributes: Record<string, string | Record<string, string | number>>,
-  events?: HTMLElementEventMap,
+  events?: Record<string, VoidFunction>,
   children?: Array<string|OrbitonElement|Component>,
   ref?: symbol,
-  type: 'element' | 'IS_X_COMPONENT' | 'Fragment'
+  type: 'element' | 'IS_X_COMPONENT' | 'Fragment',
+  attachedComponent?: LogicalComponent,
+  props?: Props
 }
 
 
@@ -36,10 +40,12 @@ export type OrbitonElement = {
 export interface OrbitonDOMElement extends HTMLElement {
   _orbiton$config: OrbitonConfig
 }
-
+export interface OrbitonSVGElement extends SVGSVGElement {
+  _orbiton$config: OrbitonConfig
+}
 export type Tree = OrbitonElement | Component
 
-export type Props<KeyType> = {
-  key?: KeyType,
+export type Props = {
+  key?: unknown,
   children?: Array<OrbitonElement>
 }

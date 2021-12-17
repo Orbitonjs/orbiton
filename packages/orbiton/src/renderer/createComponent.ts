@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable class-methods-use-this */
-import { Component as C } from "../core/component";
+import { BaseComponent } from "../core/component";
 import { compareTree } from "../core/UpdateTree";
 import { createId } from '../core/Selectors';
 import { OrbitonDOMElement, OrbitonElement, Props } from "../types/OrbitonTypes";
@@ -24,13 +24,13 @@ export function getComponentRoot(id: symbol): OrbitonDOMElement | null {
 
 
 
-class Component extends C {
+class Component extends BaseComponent {
   key: any;
   readonly type: 'IS_X_COMPONENT';
   pearlId: symbol;
   currentTree: any;
   static isClassComponent = true
-  constructor(props: Props<number> = {}, context = {}) {
+  constructor(props: Props = {}, context = {}) {
 
     super(props, context)
     if (props !== {}) {
@@ -62,7 +62,7 @@ class Component extends C {
   * @param {?Function} callback this callback function that is called after state updates
   *
   * */
-  updateState(newState: Record<string, unknown>, callback: CallableFunction | null = null): void {
+  updateState(newState: Record<string, unknown>, callback: VoidFunction | null = null): void {
 
     const currentTree = this.currentTree
 
@@ -93,3 +93,6 @@ class Component extends C {
 
 
 export default Component
+
+
+

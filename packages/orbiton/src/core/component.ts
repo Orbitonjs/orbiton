@@ -1,17 +1,19 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/ban-types */
 
 
+import { createId } from './Selectors';
 import { Props } from "../types/OrbitonTypes"
 
 /**
-* Base Pearl component
+* Base component
 */
-export class Component {
+export class BaseComponent {
   state: any
-  props: Props<number>
+  props: Props
   context: Record<string, unknown>
-  constructor(props: Props<number> = {}, context = {}) {
+  constructor(props: Props = {}, context: Record<string, unknown> = {}) {
     this.state = {}
     this.props = props
     this.context = context
@@ -23,7 +25,7 @@ export class Component {
  * @param {?Function} callBack this callback function that is called after state updates
  */
 
-  changeState(newState: Record<string, unknown>, callBack: Function | null = null): void {
+  changeState(newState: Record<string, unknown>, callBack: VoidFunction | null = null): void {
 
     if (newState.constructor.name !== 'Object') {
       throw Error('updateState(...) method takes in an object')
@@ -49,3 +51,44 @@ export class Component {
 
 
 
+export class LogicalComponent extends BaseComponent {
+  key: unknown;
+  readonly type: 'IS_X_COMPONENT';
+  pearlId: symbol;
+  static isClassComponent = true
+  constructor(props: Props = {}, context = {}) {
+
+    super(props, context)
+    if (props !== {}) {
+      this.key = props? props.key ? props.key : null : null
+    }
+    this.type = 'IS_X_COMPONENT'
+    this.pearlId = createId(this.constructor.name, this.key)
+    this.Mounted = this.Mounted.bind(this)
+    this.WillMount = this.WillMount.bind(this)
+    this.getPearlId = this.getPearlId.bind(this)
+    this.updateState = this.updateState.bind(this)
+    this.changeState = this.changeState.bind(this)
+  }
+
+  getPearlId(): symbol {
+    return this.pearlId
+  }
+
+  Mounted(): void {}
+
+  WillMount(): void { }
+
+
+
+  /**
+  * Updates a subset of the state in the class
+  * @param {any} newState this subset that you want to update
+  * @param {?Function} callback this callback function that is called after state updates
+  *
+  * */
+  updateState(newState: Record<string, unknown>, callback: VoidFunction | null = null): void {
+    this.changeState(newState, callback)
+  }
+
+}

@@ -7,12 +7,14 @@
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "eslint": "eslint --ext .js,.ts packages/pearl/**",
-    "watch": "rollup -w -c .config/rollup.config.js",
+    "eslint:init": "cd packages && eslint --init",
+    "eslint": "eslint --ext .js,.ts packages/orbiton/**",
+    "watch:plugin": "rollup -w -c .config/rollup.config.js",
     "jest:init": "jest --init",
     "dev": "node scripts/dev.js",
     "dev:watch": "node scripts/dev.js -w",
     "test:mdx": "mdx/example.js",
+    "tsc": "tsc",
     "test": "jest"
   },
   "author": "Beingana Jim Junior",
@@ -59,6 +61,7 @@
     "webpack-dev-server": "^4.6.0"
   },
   "dependencies": {
+    "@babel/register": "^7.16.0",
     "@babel/runtime": "^7.15.3",
     "@types/node": "^16.10.2",
     "babel-plugin-jsx-to-pearl": "^1.0.0"

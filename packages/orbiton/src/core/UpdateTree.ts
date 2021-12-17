@@ -2,35 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { OrbitonElement } from "../types/OrbitonTypes";
 
-/**
-* compares two xElements
-* @param  oldElement - The previous version of the Element
-* @param  newElement - The new version of the Element
-*/
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function compareElement(oldElement: OrbitonElement, newElement: OrbitonElement) {
-  if (typeof oldElement === 'string' ||
-    typeof newElement === 'string') {
-    if (oldElement !== newElement) {
-      return newElement
-    } else {
-      // this means that both trees are string
-      // and they have the same values
-      return newElement;
-    }
-  }
-
-  if (oldElement.tag !== newElement.tag) {
-    // we assume that they are totally different and
-    // will not attempt to find the differences.
-    return newElement;
-  }
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const compareAttrs = (oldAttrs: any, newAttrs: any) => {
-  return newAttrs;
-};
 
 
 export function compareState(oldComponent: { type?: string; state?: any }, newComponent: any) {

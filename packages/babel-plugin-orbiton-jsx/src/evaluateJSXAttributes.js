@@ -5,13 +5,18 @@ function evaluateNode(node) {
     type: ''
   }
   const isEventRegex = /^on/;
-
-  const isEvent = isEventRegex.test(node.name.name)
-  if (isEvent) {
-    attribute.type = 'Event'
-  } else {
+  if (node.type === 'JSXSpreadAttribute') {
     attribute.type = 'attribute'
+  } else {
+    const isEvent = isEventRegex.test(node.name.name)
+    if (isEvent) {
+      attribute.type = 'Event'
+    } else {
+      attribute.type = 'attribute'
+    }
   }
+
+
   attribute.attribute = node
   return attribute
 }

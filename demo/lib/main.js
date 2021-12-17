@@ -4,34 +4,14 @@
   (global = typeof globalThis !== 'undefined' ? globalThis : global || self, global.Orbiton = factory());
 }(this, (function () { 'use strict';
 
-  /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-
-  /* eslint-disable @typescript-eslint/no-explicit-any */
-
-  /**
-  * Creates a new Component
-  */
-  const createComponent = (Component, props = {}, context = {}) => {
-    if (typeof Component === "function") {
-      if (Component.isClassComponent) {
-        const c = new Component(props, context);
-        return c;
-      }
-
-      return Component(props);
-    }
-
-    return Component;
-  };
-
   /**
   * Creates a new Element
   */
   function createElement(tag, options) {
     const {
-      attributes,
-      events,
-      children
+      attributes = {},
+      events = {},
+      children = []
     } = options;
     return {
       tag,
@@ -42,11 +22,41 @@
     };
   }
 
+  /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
+  /**
+  * Creates a new Component
+  */
+
+  const createComponent = (Component, props = {}, context = {}) => {
+    if (typeof Component === "function") {
+      if (Component.isClassComponent) {
+        const c = new Component(props, context);
+        return c;
+      }
+
+      return Component(props);
+    }
+
+    if (typeof Component === 'string') {
+      return createElement(Component, props);
+    }
+
+    return Component;
+  };
+
+  /* eslint-disable @typescript-eslint/no-unused-vars */
+  function createJSXElement(tag, props, key = '', __source = '', __self = '') {
+    if (typeof tag === "string") {
+      return createElement(tag, props);
+    } else {
+      return createComponent(tag, props);
+    }
+  }
+
   /* eslint-disable @typescript-eslint/no-unused-vars */
 
   /**
    * Trigers the `Mounted` lifecycle method of any component within the node
-   * @param node
    */
   function trigerMountedLifeCycle(node) {
     if ("_orbiton$config" in node) {
@@ -176,6 +186,7 @@
   * @param {object} events - an object containing the key as the event and the value as the function
   */
   function appendEvents(node, events) {
+    console.log(events);
     node._orbiton$config.extendEvents = events;
 
     for (const [k, v] of Object.entries(events)) {
@@ -189,7 +200,14 @@
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
   function renderElement(element, isComponentRoot = false, componentId = null, comp = null) {
-    const node = document.createElement(element.tag);
+    let node;
+
+    if (element.tag === 'svg') {
+      node = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    } else {
+      node = document.createElement(element.tag);
+    }
+
     node._orbiton$config = {};
 
     if (isComponentRoot) {
@@ -330,6 +348,7 @@
 
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 
+  /* eslint-disable @typescript-eslint/no-explicit-any */
   function compareState(oldComponent, newComponent) {
     const finalComponent = newComponent;
     finalComponent.state = oldComponent.state;
@@ -577,10 +596,14 @@
   class Component extends Component$1 {
     static isClassComponent = true;
 
-    constructor(props, context = {}) {
+    constructor(props = {}, context = {}) {
       super(props, context);
+
+      if (props !== {}) {
+        this.key = props ? props.key ? props.key : null : null;
+      }
+
       this.type = 'IS_X_COMPONENT';
-      this.key = props.key || null;
       this.pearlId = createId(this.constructor.name, this.key);
       this.makeChild = this.makeChild.bind(this);
       this.Mounted = this.Mounted.bind(this);
@@ -636,13 +659,13 @@
 
   const version = '1.0.0';
   /**
-      * A Javascript library for building Browser User Interfaces
-      * @author Beigana Jim Junior <jimjunior854@outlook.com>
-      * @copyright Beigana Jim Junior © 2021
-      * @license MIT
-      *
-      * Learn more at the official Documentation: {@link https://orbiton.js.org}
-      */
+  * A Javascript library for building Browser User Interfaces
+  * @author Beigana Jim Junior <jimjunior854@outlook.com>
+  * @copyright Beigana Jim Junior © 2021
+  * @license MIT
+  *
+  * Learn more at the official Documentation: {@link https://orbiton.js.org}
+  */
 
   const Orbiton = {
     render,
@@ -650,6 +673,7 @@
     append,
     Component,
     createComponent,
+    createJSXElement,
     version
   };
 

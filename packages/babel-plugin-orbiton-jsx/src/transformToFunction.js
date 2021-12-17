@@ -5,12 +5,19 @@
 const t = require('@babel/types')
 
 
+
+
 function evaluateAttribute(attribute) {
-  if (attribute.value.type === 'StringLiteral') {
-    return t.toExpression(attribute.value)
-  }
-  if (attribute.value.type === 'JSXExpressionContainer') {
-    return t.toExpression(attribute.value.expression)
+  if (attribute.type === 'JSXSpreadAttribute') {
+    return t.spreadElement(attribute.argument)
+  } else {
+
+    if (attribute.value.type === 'StringLiteral') {
+      return t.toExpression(attribute.value)
+    }
+    if (attribute.value.type === 'JSXExpressionContainer') {
+      return t.toExpression(attribute.value.expression)
+    }
   }
 
 }
@@ -23,8 +30,7 @@ function getEventName(event) {
 }
 
 export function TransformToCreateComponent(tag, attributes, children) {
-  let props = []/*
-  console.log(children) */
+  let props = []
   for (let child of children) {
     if (child.type === 'JSXText') {
       let hasLettersRegex = /[a-z0-9]/ig;
@@ -40,18 +46,26 @@ export function TransformToCreateComponent(tag, attributes, children) {
       children[children.indexOf(child)] = Stringchild
     }
     if (child.type === 'JSXSpreadChild') {
-      console.log(child)
+      let spreadChild = t.spreadElement(child.expression)
+      children[children.indexOf(child)] = spreadChild
     }
   }
   for (let attribute of attributes) {
+    if (attribute.type === 'JSXSpreadAttribute') {
+      let attr = t.spreadElement(attribute.argument)
 
-    let attr = t.objectProperty(
-      t.identifier(attribute.name.name),
-      evaluateAttribute(attribute),
-      false,
-      false
-    )
-    props.push(attr)
+      props.push(attr)
+    } else {
+      let attr = t.objectProperty(
+        t.identifier(attribute.name.name),
+        evaluateAttribute(attribute),
+        false,
+        false
+      )
+      props.push(attr)
+    }
+
+
   }
 
   let childs = t.objectProperty(
@@ -75,21 +89,30 @@ export function TransformToCreateComponent(tag, attributes, children) {
 }
 
 
+/* function getJSXSpreadAttr(attr) {
 
+} */
 /**
 * @param {Array} children -
 */
 export function TransformToCreateElement(tag, attributes, events, children) {
   let attrs = []
   for (let attribute of attributes) {
+    if (attribute.type === 'JSXSpreadAttribute') {
+      let attr = t.spreadElement(attribute.argument)
 
-    let attr = t.objectProperty(
-      t.identifier(attribute.name.name),
-      evaluateAttribute(attribute),
-      false,
-      false
-    )
-    attrs.push(attr)
+      attrs.push(attr)
+    } else {
+      let attr = t.objectProperty(
+        t.identifier(attribute.name.name),
+        evaluateAttribute(attribute),
+        false,
+        false
+      )
+      attrs.push(attr)
+    }
+
+
   }
   for (let child of children) {
     if (child.type === 'JSXText') {
@@ -109,10 +132,17 @@ export function TransformToCreateElement(tag, attributes, events, children) {
       let type = child.expression.type
       if (type === 'JSXEmptyExpression') {
         children[children.indexOf(child)] = t.stringLiteral('')
+      } else if (child.type === 'JSXSpreadChild') {
+        let spreadChild = t.spreadElement(child.expression)
+        children[children.indexOf(child)] = spreadChild
       } else {
         let Expression = t.toExpression(child.expression)
         children[children.indexOf(child)] = Expression
       }
+    }
+    if (child.type === 'JSXSpreadChild') {
+      let spreadChild = t.spreadElement(child.expression)
+      children[children.indexOf(child)] = spreadChild
     }
   }
   let eves = []

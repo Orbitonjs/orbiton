@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import evaluateJSXAttributes from "./evaluateJSXAttributes"
 import { getElementType } from "./eveluateElementType"
 import { TransformToCreateComponent, TransformToCreateElement } from "./transformToFunction";
@@ -6,12 +7,19 @@ const t = require('@babel/types')
 export function TransformSyntax() {
   return {
     visitor: {
+      JSXText(path) {
+        let value = path.node.value
+        path.replaceWith(
+          t.stringLiteral(value)
+        )
+      },
 
       JSXElement(path) {
         const _JSXElement = path.node
         const openingElement = _JSXElement.openingElement
         const ElementName = openingElement.name.name
         const ElementType = getElementType(ElementName)
+        //console.log(path.node)
 
         if (ElementType === "Element") {
           const AttributesAndEvents = evaluateJSXAttributes(openingElement.attributes)
@@ -37,12 +45,6 @@ export function TransformSyntax() {
 
 
       },
-      JSXText(path) {
-        let value = path.node.value
-        path.replaceWith(
-          t.stringLiteral(value)
-        )
-      }
     }
   }
 }

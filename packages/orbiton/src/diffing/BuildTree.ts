@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { Component } from "../core/component";
+import { BaseComponent } from "../core/component";
 import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
 import { trigerMountedLifeCycle } from "../renderer/lifeCycles";
 import { render } from "../renderer/render";
@@ -126,7 +126,7 @@ export function DiffChildren(OldChildren: any[], NewChildren: { [x: string]: any
   })
 }
 
-function checkChildrenAndDiff(child: OrbitonElement | Component, newVChild: OrbitonElement | Component, nodeChild: OrbitonDOMElement) {
+function checkChildrenAndDiff(child: OrbitonElement | BaseComponent, newVChild: OrbitonElement | BaseComponent, nodeChild: OrbitonDOMElement) {
 
   if (newVChild !== undefined && child !== undefined) {
     const [oldChild, newChild] = CheckType(child, newVChild)

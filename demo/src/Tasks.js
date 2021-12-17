@@ -1,4 +1,5 @@
-import Orbiton from "@pearl-js/pearl"
+import Orbiton from "orbiton"
+import DB from '../static/db.json'
 
 class Tasks extends Orbiton.Component {
   constructor(props, context) {
@@ -9,7 +10,7 @@ class Tasks extends Orbiton.Component {
     //this.Fetch = this.Fetch.bind(this)
   }
   Mounted() {
-    fetch('/db.json').then(resp => resp.json())
+    fetch(DB).then(resp => resp.json())
       .then(data => {
         setTimeout(() => {
           this.updateState({

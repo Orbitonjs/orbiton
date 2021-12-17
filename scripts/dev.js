@@ -9,17 +9,15 @@ const terser = require('rollup-plugin-terser')
 let aqua = chalk.rgb(0, 255, 255)
 const log = console.log
 const http = require("http")
-const pkg = require('../package.json')
+const pkg = require('../packages/orbiton/package.json')
 const webpack = require("webpack")
 const babel = require('@rollup/plugin-babel')
 const path = require('path')
 const AddCustomExtension = require('./plugins/RollupAddExtesion');
 const { config } = require('../.config/webpack.config');
+const { open } = require('./utils/openURL')
 
-log(`
-    ${aqua(`Orbiton JS v${pkg.version}`)}
-    ${chalk.gray('run script')} ${chalk.underline.yellow('dev')}
-`)
+log(`${aqua(`Orbiton JS v${pkg.version}`)} \n${chalk.gray('run script')} ${chalk.underline.yellow('dev')}`)
 
 async function buildOrbitonBundle() {
   log(`Building ${chalk.blue("Orbiton Js")}.
@@ -38,40 +36,22 @@ ${chalk.magenta('Releasing outputs in:')} ${chalk.underline.green("demo/build/ma
   })
   await rollupBundle.write({
     format: "umd",
-    file: `demo/build/main.js`,
+    file: `demo/lib/main.js`,
     name: "Orbiton",
     exports: 'auto'
   })
 }
 
-async function buildRollupBundle() {
-  log(`Building ${chalk.blue("Bundle")}.
-${chalk.magenta('Releasing outputs in:')} ${chalk.underline.green("demo/build/app.bundle.js")}
-  `)
-  const rollupBundle = await rollup.rollup({
-    input: "./demo/src/index.js",
-    plugins: [
-      babel.babel({
-        plugins: ["@babel/plugin-syntax-jsx", "./packages/babel-plugin-orbiton-jsx/lib/index"],
-        babelHelpers: 'bundled',
-      })
-    ]
-  })
-  await rollupBundle.write({
-    format: "umd",
-    file: `demo/build/app.bundle.js`
-  })
-}
 
-
-function buildWebpack() {
+async function buildWebpack() {
+  log(`Building ${chalk.blue("Bundle")}.`)
   const compiler = webpack(config);
 
-  compiler.run((err, stats) => { // [Stats Object](#stats-object)
-    // ...
-    if (stats.compilation.errors || stats.compilation.errors !== []) {
+  compiler.run((err, stats) => {
+    if (stats.compilation.errors.length > 0) {
       log(chalk.red("An Error Encountered\n"))
       log(stats.compilation.errors)
+      log(err)
     }
 
 
@@ -79,7 +59,10 @@ function buildWebpack() {
       // ...
     });
   });
+  log(`${chalk.magenta('Releasing outputs in:')} ${chalk.underline.green("demo/build/app.bundle.js")}`)
 }
+
+
 const args = argv.slice(2)
 const getport = () => {
   let port = 7320
@@ -96,15 +79,16 @@ const app = express()
 
 const port = process.env.PORT || getport()
 
+const devURL = "http://localhost:" + port
 
-log(`Starting development server at ${chalk.blue.underline("http://localhost:" + port)}`)
+log(`Starting development server at ${chalk.blue.underline(devURL)}`)
 
 
 
-const dist = path.join(__dirname, "demo/build")
+const dist = path.join(__dirname, "demo/webpack")
 const index = path.join(dist, "index.html")
 app.use(express.json())
-app.use(express.static("demo/build"))
+app.use(express.static("demo/webpack"))
 app.get('/', (req, res) => {
   res.sendFile(index, (err) => {
     if (err) {
@@ -118,8 +102,8 @@ server.listen(port)
 
 async function Build() {
   await buildOrbitonBundle()
-  await buildRollupBundle()
-  console.clear()
+  await buildWebpack()
+  open(devURL)
   const rl = readline.createInterface({ input: process.stdin, output: process.stdout })
   rl.question(`Type ${chalk.black.bgWhite("`Ctrl + c`")} to stop process  or ${chalk.green("`rb`")} to rebuild or ${chalk.green("`clear()`")} to clear terminal: \n${chalk.gray(">>> ")} `, async (userinput) => {
     if (userinput === "clear()") {
@@ -130,18 +114,21 @@ async function Build() {
     } else {
       if (userinput === "rb") {
         await buildOrbitonBundle()
-        await buildRollupBundle()
+        await buildWebpack()
       }
       rl.setPrompt(chalk.gray(">>> "))
       rl.prompt()
       rl.on("line", async (useri) => {
         if (useri.trim() === "rb") {
           await buildOrbitonBundle()
-          await buildRollupBundle()
+          await buildWebpack()
           rl.setPrompt(chalk.gray(">>> "))
           rl.prompt()
-        } else if (useri.trim() === "exit()") {
-          rl.close()
+        } else if (useri.trim() === "clear()") {
+          console.clear()
+          log(`Type ${chalk.black.bgWhite("`Ctrl + c`")} to stop process  or ${chalk.green("`rb`")} to rebuild: \n `)
+          rl.setPrompt(chalk.gray(">>> "))
+          rl.prompt()
         } else {
           rl.setPrompt(chalk.gray(">>> "))
           rl.prompt()
@@ -158,7 +145,7 @@ async function Build() {
 
 if (args.includes("--watch") || args.includes("-w")) {
   fs.watch("demo/src", async (e, f) => {
-    await buildRollupBundle()
+    await buildWebpack()
   })
 } else {
   Build()

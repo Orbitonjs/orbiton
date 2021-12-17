@@ -6,6 +6,24 @@ const AddCustomExtension = require('./plugins/RollupAddExtesion')
 
 module.exports = [
   {
+    entry: 'packages/orbiton/src/jsx-runtime/index.js',
+    output: [
+      {
+        format: 'cjs',
+        file: 'packages/orbiton/jsx-runtime.js'
+      }
+    ],
+    rollupInputOptions: {
+      plugins: [
+        babel.babel({
+          configFile: path.resolve(__dirname, '../.config/.babelrc'),
+          babelHelpers: 'bundled'
+        })
+      ]
+    },
+    name: 'orbiton/jsx-runtime'
+  },
+  {
     entry: 'packages/babel-plugin-orbiton-jsx/src/index.js',
     output: [
       {

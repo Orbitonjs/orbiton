@@ -5,11 +5,11 @@ const INPUTS = require('./inputs');
 const terser = require('rollup-plugin-terser')
 let aqua = chalk.rgb(0, 255, 255)
 const log = console.log
-const pkg = require('../package.json')
+const pkg = require('../packages/orbiton/package.json')
 
 log(`
-      ${aqua(`Orbiton JS v${pkg.version}`)}
-    ${chalk.gray('run script')} ${chalk.underline.yellow('build')}
+${aqua(`Orbiton JS v${pkg.version}`)}
+${chalk.gray('script')} ${chalk.underline.yellow('build')}
 `)
 
 
@@ -69,3 +69,4 @@ async function buildAll() {
 
 buildAll()
 
+module.exports.build = buildAll

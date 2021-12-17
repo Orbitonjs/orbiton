@@ -7,13 +7,16 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="271.42526mm"
-   height="66.238541mm"
-   viewBox="0 0 271.42527 66.23854"
+   width="198.26324mm"
+   height="45.407078mm"
+   viewBox="0 0 198.26325 45.407077"
    version="1.1"
    id="svg8"
    sodipodi:docname="logo.svg"
-   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)">
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   inkscape:export-filename="E:\projects\npmpackages\vdom\branding\logo.png"
+   inkscape:export-xdpi="25.4"
+   inkscape:export-ydpi="25.4">
   <sodipodi:namedview
      pagecolor="#ffffff"
      bordercolor="#666666"
@@ -29,9 +32,10 @@
      showgrid="false"
      showguides="false"
      inkscape:zoom="0.71647255"
-     inkscape:cx="611.28175"
+     inkscape:cx="96.79245"
      inkscape:cy="125.17519"
-     inkscape:current-layer="layer1" />
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0" />
   <defs
      id="defs2" />
   <metadata
@@ -48,112 +52,7 @@
   </metadata>
   <g
      id="layer1"
-     transform="translate(-6,-59.76147)">
-    <circle
-       style="fill:#00002b;stroke-width:0.300012"
-       id="path111"
-       cx="39"
-       cy="-93.000008"
-       r="33"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#000055;stroke-width:0.272738"
-       id="circle113"
-       cx="42"
-       cy="-90.000008"
-       r="30"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#000080;stroke-width:0.245464"
-       id="circle115"
-       cx="45"
-       cy="-87.000008"
-       r="27"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#0000aa;stroke-width:0.218191"
-       id="circle117"
-       cx="48"
-       cy="-84.000008"
-       r="24"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#0000d4;stroke-width:0.190917"
-       id="circle119"
-       cx="51"
-       cy="-81.000008"
-       r="21"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#0000d4;stroke-width:0.190917"
-       id="circle121"
-       cx="51"
-       cy="-81.000008"
-       r="21"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#0000ff;stroke-width:0.163643"
-       id="circle123"
-       cx="54"
-       cy="-78.000008"
-       r="18"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#2a2aff;stroke-width:0.136369"
-       id="circle125"
-       cx="57"
-       cy="-75.000008"
-       r="15"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#5555ff;stroke-width:0.109095"
-       id="circle127"
-       cx="60"
-       cy="-72"
-       r="12"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#8080ff;stroke-width:0.0818212"
-       id="circle129"
-       cx="63.000004"
-       cy="-69"
-       r="9"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#aaaaff;stroke-width:0.0545474"
-       id="circle131"
-       cx="66"
-       cy="-66"
-       r="6"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#d5d5ff;stroke-width:0.0272737"
-       id="circle133"
-       cx="69"
-       cy="-63"
-       r="3"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#e6e6e6;stroke-width:0.0136368"
-       id="circle135"
-       cx="70.5"
-       cy="-61.5"
-       r="1.5"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#ececec;stroke-width:0.0090912"
-       id="circle137"
-       cx="71"
-       cy="-61"
-       r="1"
-       transform="scale(1,-1)" />
-    <circle
-       style="fill:#ffffff;stroke-width:0.0045456"
-       id="circle139"
-       cx="71.5"
-       cy="-60.5"
-       r="0.5"
-       transform="scale(1,-1)" />
+     transform="translate(-79.16202,-59.76147)">
     <path
        style="fill:#0000ff;stroke-width:0.167132"
        d="m 122.23337,60.32181 v 44.81324 h 8.85529 V 60.32181 Z"

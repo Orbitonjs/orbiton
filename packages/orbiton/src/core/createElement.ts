@@ -1,4 +1,6 @@
-import type { OrbitonElement, Options } from "../types/OrbitonTypes";
+import { LogicalComponent } from "./component";
+import type { OrbitonElement, Options, Props } from "../types/OrbitonTypes";
+import createComponent from "./createComponent";
 
 
 
@@ -6,8 +8,8 @@ import type { OrbitonElement, Options } from "../types/OrbitonTypes";
 /**
 * Creates a new Element
 */
-function createElement(tag: keyof HTMLElementTagNameMap, options?: Options) :OrbitonElement {
-  const { attributes, events, children } = options
+function createElement(tag: string, options?: Options) :OrbitonElement {
+  const { attributes ={}, events={}, children=[] } = options
   return {
     tag,
     attributes,
@@ -18,6 +20,18 @@ function createElement(tag: keyof HTMLElementTagNameMap, options?: Options) :Orb
 }
 
 
+export const withComponent = (tag: string, component: LogicalComponent, options?: Options, props: Props = {}): OrbitonElement => {
+  const { attributes ={}, events={}, children=[] } = options
+  return {
+    tag,
+    attributes,
+    events,
+    children,
+    type: 'element',
+    attachedComponent: createComponent(component, props),
+    props: props
+  }
+}
 
 
 export default createElement

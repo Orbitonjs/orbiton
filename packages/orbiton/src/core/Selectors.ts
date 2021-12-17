@@ -17,7 +17,7 @@ export function getRef(ref: Ref): OrbitonDOMElement | null {
 }
 
 
-export function createId(name: string, key: null | number = null): symbol {
+export function createId(name: string, key: null | unknown = null): symbol {
   if (key === null || key === undefined) {
     key = Math.floor(Math.random() * 100000)
   }
@@ -32,7 +32,7 @@ export function createId(name: string, key: null | number = null): symbol {
 * @returns {Ref}
 */
 export function createRef(ref: string | null = null): Ref {
-  const randomKey = Math.floor(Math.random() * 100000)
+  const randomKey = Math.floor(Math.random() * 10000000)
   if (ref === null) {
     return Symbol(`__null_ref__${randomKey}`)
   }
