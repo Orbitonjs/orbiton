@@ -19,7 +19,6 @@ export function TransformSyntax() {
         const openingElement = _JSXElement.openingElement
         const ElementName = openingElement.name.name
         const ElementType = getElementType(ElementName)
-        //console.log(path.node)
 
         if (ElementType === "Element") {
           const AttributesAndEvents = evaluateJSXAttributes(openingElement.attributes)
@@ -42,8 +41,6 @@ export function TransformSyntax() {
             )
           )
         }
-
-
       },
     }
   }
