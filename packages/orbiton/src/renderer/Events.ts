@@ -8,7 +8,7 @@ import { OrbitonDOMElement } from "../types/OrbitonTypes"
 * @param {object} events - an object containing the key as the event and the value as the function
 */
 export function appendEvents(node: OrbitonDOMElement, events: Record<string, VoidFunction> ): void {
-  console.log(events)
+  //console.log(events)
   node._orbiton$config.extendEvents = events
   for (const [k, v] of Object.entries(events)) {
     node.addEventListener(k, v)

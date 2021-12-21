@@ -7,9 +7,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="42.262421mm"
-   height="44.815506mm"
-   viewBox="0 0 42.262422 44.815506"
+   width="200mm"
+   height="200mm"
+   viewBox="0 0 200.00001 200"
    version="1.1"
    id="svg8"
    inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
@@ -21,10 +21,10 @@
      id="defs2">
     <inkscape:perspective
        sodipodi:type="inkscape:persp3d"
-       inkscape:vp_x="0 : -103.6845 : 1"
-       inkscape:vp_y="0 : 999.99998 : 0"
-       inkscape:vp_z="210.00002 : -103.6845 : 1"
-       inkscape:persp3d-origin="105 : -153.1845 : 1"
+       inkscape:vp_x="0 : 51.499994 : 1"
+       inkscape:vp_y="0 : 999.99997 : 0"
+       inkscape:vp_z="210.00002 : 51.499994 : 1"
+       inkscape:persp3d-origin="105 : 1.9999947 : 1"
        id="perspective73" />
   </defs>
   <sodipodi:namedview
@@ -35,8 +35,8 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="0.6779608"
-     inkscape:cx="-60.96897"
-     inkscape:cy="93.740514"
+     inkscape:cx="468.3629"
+     inkscape:cy="440.11102"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      inkscape:document-rotation="0"
@@ -60,11 +60,11 @@
      transform="translate(-73.458599,-71.696905)">
     <path
        id="path142"
-       style="fill:#000080;stroke-width:0.183152"
-       d="M 95.595978,71.697063 V 82.900611 A 10.062444,11.203847 0 0 1 105.6585,94.104544 10.062444,11.203847 0 0 1 95.595978,105.30847 v 11.20394 A 20.124886,22.407692 0 0 0 115.72102,94.104544 20.124886,22.407692 0 0 0 95.595978,71.697063 Z" />
+       style="fill:#000080;stroke-width:0.841687"
+       d="m 178.22013,71.69761 v 49.99854 a 47.618872,49.999869 0 0 1 47.61924,50.00025 47.618872,49.999869 0 0 1 -47.61924,50.00022 V 271.6969 A 95.237734,99.99973 0 0 0 273.4586,171.6964 95.237734,99.99973 0 0 0 178.22013,71.69761 Z" />
     <path
        id="path153"
-       style="fill:#0000ff;stroke-width:0.183152"
-       d="M 93.583298,71.696905 A 20.124886,22.407692 0 0 0 73.458599,94.104387 20.124886,22.407692 0 0 0 93.583298,116.51225 V 105.30832 A 10.062444,11.203847 0 0 1 83.521129,94.104387 10.062444,11.203847 0 0 1 93.583298,82.900453 Z" />
+       style="fill:#0000ff;stroke-width:0.841687"
+       d="M 168.69545,71.696905 A 95.237734,99.99973 0 0 0 73.458599,171.6957 95.237734,99.99973 0 0 0 168.69545,271.69619 v -50.00024 a 47.618872,49.999869 0 0 1 -47.61757,-50.00025 47.618872,49.999869 0 0 1 47.61757,-50.00026 z" />
   </g>
 </svg>

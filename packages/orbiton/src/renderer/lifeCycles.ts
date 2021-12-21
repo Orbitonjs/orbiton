@@ -8,7 +8,7 @@ import Component from './createComponent'
 export function trigerMountedLifeCycle(node: OrbitonDOMElement | HTMLElement | ChildNode):  void{
   if ("_orbiton$config" in node) {
 
-    if (node._orbiton$config.isComponentRoot || node._orbiton$config.componentHosted.length !== 0) {
+    if (node._orbiton$config.isComponentRoot) {
       node._orbiton$config.componentHosted.forEach((comp: Component, ind: number)=> {
         if (comp.type === "IS_X_COMPONENT") {
           comp.Mounted()

@@ -19,6 +19,7 @@ function renderElement(element: OrbitonElement, isComponentRoot = false, compone
     node._orbiton$config.componentHosted = [comp]
   }
   if (element.attachedComponent) {
+    node._orbiton$config.isComponentRoot = true
     node._orbiton$config.componentHosted = [element.attachedComponent]
   }
 
