@@ -6,20 +6,21 @@ import { OrbitonElement, OrbitonDOMElement, OrbitonSVGElement } from "../types/O
 import Component from "./createComponent";
 
 function renderElement(element: OrbitonElement, isComponentRoot = false, componentId = null, comp: Component| null = null) {
-  let node
+  let node : OrbitonDOMElement | OrbitonSVGElement
   if (element.tag === 'svg') {
     node = document.createElementNS("http://www.w3.org/2000/svg", "svg")  as OrbitonSVGElement
   } else {
     node = document.createElement(element.tag) as OrbitonDOMElement
   }
   node._orbiton$config = {}
+  node._orbiton$config.componentHosted = []
   if (isComponentRoot) {
     node._orbiton$config.isComponentRoot = true
     node._orbiton$config.compomentRootId = componentId
-    node._orbiton$config.componentHosted = [comp]
+    node._orbiton$config.componentHosted.push(comp)
   }
   if (element.attachedComponent) {
-    node._orbiton$config.componentHosted = [element.attachedComponent]
+    node._orbiton$config.componentHosted.push(element.attachedComponent)
   }
 
 

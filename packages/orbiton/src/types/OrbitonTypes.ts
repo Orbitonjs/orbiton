@@ -6,7 +6,7 @@ export type OrbitonConfig =  {
   extendEvents?: Record<string, VoidFunction>,
   ref?: symbol,
   isComponentRoot?: boolean,
-  componentHosted?: Array<Component>
+  componentHosted?: Array<Component | LogicalComponent>
   compomentRootId?: symbol | null | string | number
 }
 
@@ -18,6 +18,7 @@ export type Options = {
   attributes?: Record<string, string | Record<string, string | number>>,
   events?: Record<string, VoidFunction>,
   children?: []
+  props?: Props
 }
 
 export interface OrbitCallBack extends CallableFunction {

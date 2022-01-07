@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const t = require('@babel/types')
+import * as t from '@babel/types'
 
 
 
 
-function evaluateAttribute(attribute) {
+export function evaluateAttribute(attribute) {
   if (attribute.type === 'JSXSpreadAttribute') {
     return t.spreadElement(attribute.argument)
   } else {
@@ -24,7 +22,7 @@ function evaluateAttribute(attribute) {
 /**
 * @param {string} event -
 */
-function getEventName(event) {
+export function getEventName(event) {
   let eventName = event.slice(2)
   return eventName.toLowerCase()
 }

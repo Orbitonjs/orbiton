@@ -1,5 +1,5 @@
 import { LogicalComponent } from "./component";
-import type { OrbitonElement, Options, Props } from "../types/OrbitonTypes";
+import type { OrbitonElement, Options } from "../types/OrbitonTypes";
 import createComponent from "./createComponent";
 
 
@@ -20,8 +20,8 @@ function createElement(tag: string, options?: Options) :OrbitonElement {
 }
 
 
-export const withComponent = (tag: string, component: LogicalComponent, options?: Options, props: Props = {}): OrbitonElement => {
-  const { attributes ={}, events={}, children=[] } = options
+export const withComponent = (tag: string, component: LogicalComponent, options?: Options): OrbitonElement => {
+  const { attributes ={}, events={}, children=[], props={} } = options
   return {
     tag,
     attributes,

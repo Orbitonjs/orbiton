@@ -7,6 +7,7 @@
   /**
   * Creates a new Element
   */
+
   function createElement(tag, options) {
     const {
       attributes = {},
@@ -22,6 +23,24 @@
     };
   }
 
+  const withComponent = (tag, component, options) => {
+    const {
+      attributes = {},
+      events = {},
+      children = [],
+      props = {}
+    } = options;
+    return {
+      tag,
+      attributes,
+      events,
+      children,
+      type: 'element',
+      attachedComponent: createComponent(component, props),
+      props: props
+    };
+  };
+
   /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
   /**
   * Creates a new Component
@@ -32,14 +51,17 @@
       if (Component.isClassComponent) {
         const c = new Component(props, context);
         return c;
-      }
+      } // Returns if the component was a Fuctional Component
+
 
       return Component(props);
     }
 
     if (typeof Component === 'string') {
       return createElement(Component, props);
-    }
+    } // If the component was a Variable
+    // This stops the error encountered when initalising Mdx
+
 
     return Component;
   };
@@ -60,7 +82,7 @@
    */
   function trigerMountedLifeCycle(node) {
     if ("_orbiton$config" in node) {
-      if (node._orbiton$config.isComponentRoot) {
+      if (node._orbiton$config.isComponentRoot || node._orbiton$config.componentHosted.length !== 0) {
         node._orbiton$config.componentHosted.forEach((comp, ind) => {
           if (comp.type === "IS_X_COMPONENT") {
             comp.Mounted();
@@ -216,6 +238,10 @@
       node._orbiton$config.componentHosted = [comp];
     }
 
+    if (element.attachedComponent) {
+      node._orbiton$config.componentHosted = [element.attachedComponent];
+    }
+
     evaluateAttributes(node, element.attributes);
     appendEvents(node, element.events);
 
@@ -303,14 +329,23 @@
     }
   }
 
-  /* eslint-disable @typescript-eslint/no-explicit-any */
+  /**
+  * Returns an `HTMLElement` represented by a given `ref`
+  */
+  function createId(name, key = null) {
+    if (key === null || key === undefined) {
+      key = Math.floor(Math.random() * 100000);
+    }
 
-  /* eslint-disable @typescript-eslint/ban-types */
+    return Symbol(`${name}_${key}`);
+  }
+
+  /* eslint-disable @typescript-eslint/no-empty-function */
 
   /**
-  * Base Pearl component
+  * Base component
   */
-  class Component$1 {
+  class BaseComponent {
     constructor(props = {}, context = {}) {
       this.state = {};
       this.props = props;
@@ -403,17 +438,6 @@
     const newChildren = EvaluateChildren(oldDomTree.children, newDomTree.children);
     result.children = newChildren;
     return result;
-  }
-
-  /**
-  * Returns an `HTMLElement` represented by a given `ref`
-  */
-  function createId(name, key = null) {
-    if (key === null || key === undefined) {
-      key = Math.floor(Math.random() * 100000);
-    }
-
-    return Symbol(`${name}_${key}`);
   }
 
   /* eslint-disable @typescript-eslint/no-explicit-any */
@@ -593,7 +617,7 @@
     return nodes;
   }
 
-  class Component extends Component$1 {
+  class Component extends BaseComponent {
     static isClassComponent = true;
 
     constructor(props = {}, context = {}) {
@@ -668,6 +692,7 @@
   */
 
   const Orbiton = {
+    withComponent,
     render,
     createElement,
     append,

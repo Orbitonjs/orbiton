@@ -1,14 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { OrbitonDOMElement } from "../types/OrbitonTypes"
+import { OrbitonDOMElement, OrbitonSVGElement } from "../types/OrbitonTypes"
 
 /**
 * Appends events to a node that is passed in
 * @param {Node} node - The node to append the events
 * @param {object} events - an object containing the key as the event and the value as the function
 */
-export function appendEvents(node: OrbitonDOMElement, events: Record<string, VoidFunction> ): void {
-  console.log(events)
+export function appendEvents(node: OrbitonDOMElement | OrbitonSVGElement, events: Record<string, VoidFunction> ): void {
+  //console.log(events)
   node._orbiton$config.extendEvents = events
   for (const [k, v] of Object.entries(events)) {
     node.addEventListener(k, v)

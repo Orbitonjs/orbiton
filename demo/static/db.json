@@ -2,7 +2,7 @@
   {
     "id": 1,
     "title": "Add Global State Management",
-    "description": "The store, actions, and reducers,  and context for stable management of gobal application state",
+    "description": "The store, actions, and reducers,  and context for stable management of global application state",
     "status": "Unstarted",
     "time": "November 23 2021, 07:13"
   },

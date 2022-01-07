@@ -17,6 +17,7 @@ node_modules/
 # jsx and js
 **/*.jsx
 **/*.js
+**/*.d.ts
 **/*.json
 
 *.md

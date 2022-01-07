@@ -1,12 +1,14 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
+
+import { Options, Props, Tree } from "types/OrbitonTypes"
 import createElement from "./createElement"
 
 /**
 * Creates a new Component
 */
-const createComponent = (Component: any , props = {}, context = {}) => {
+const createComponent = (Component: any , props: Props = {}, context: Props = {}): Tree => {
 
   if (typeof Component === "function") {
     if (Component.isClassComponent) {
@@ -17,7 +19,8 @@ const createComponent = (Component: any , props = {}, context = {}) => {
     return Component(props)
   }
   if (typeof Component === 'string') {
-    return createElement(Component, props)
+    const opts = props as Options
+    return createElement(Component, opts)
   }
   // If the component was a Variable
   // This stops the error encountered when initalising Mdx

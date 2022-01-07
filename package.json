@@ -7,8 +7,7 @@
   ],
   "scripts": {
     "build": "node scripts/build.js",
-    "eslint:init": "cd packages && eslint --init",
-    "eslint": "eslint --ext .js,.ts packages/orbiton/**",
+    "lint": "eslint --ext .js,.ts packages/orbiton/**",
     "watch:plugin": "rollup -w -c .config/rollup.config.js",
     "jest:init": "jest --init",
     "dev": "node scripts/dev.js",
