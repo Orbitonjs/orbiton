@@ -2,7 +2,7 @@
 ##### <div align="center"> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Npm package total downloads](https://badgen.net/npm/dt/orbiton)](https://npmjs.com/package/orbiton) </div>
 A Javascript library for building Browser User Interfaces.
 Orbiton JS is a component based Javascript rendering Engine for creating User Interfaces in the browser. 
-Orbiton was originally developed by [Beingana Jim Junior](https://twitter.com/_jimjunior_) as a rendering engine for his small library for creating video elements. He later decided to separate it from the main package and in order to make it reusable in other projects. That is how it came about.
+Orbiton was originally developed by [Beingana Jim Junior](https://twitter.com/jimjuniorb) as a rendering engine for his small library for creating video components. He later decided to separate it from the main package and in order to make it reusable in other projects. That is how it came about.
 
 ## Why use Orbiton
 
@@ -38,7 +38,7 @@ npm install orbiton
 
 
 ## Usage
-Using Orbiton is easy. All you have to do is import Orbiton and use JSX to create your app. Visit the Orbiton JS [documentation here](https://orbitonjs.github.io) to Learn how to build Apps in Orbiton JS.
+Using Orbiton is easy. All you have to do is import Orbiton and use JSX to create your app. Visit the Orbiton JS [documentation here](https://orbiton.js.org) to Learn how to build Apps in Orbiton JS.
 
 ```jsx
 const Button = <button onClick={() => { alert('Clicked') } } >Click me</button>
@@ -47,10 +47,10 @@ Orbiton.append(Button, document.getElementById('root'))
 ```
 
 Here are some important links that you might find usefull if you are gettig started with Orbiton JS.
-- [Getting Started with Orbiton JS]()
-- [Installing Orbiton]()
-- [Writing you first Orbiton App]()
-- [JSX in Orbiton]()
+- [Getting Started with Orbiton JS](https://orbiton.js.org/docs/getting-started/quick-start)
+- [Installing Orbiton](https://orbiton.js.org/docs/getting-started/installation)
+- [Writing you first Orbiton App](https://orbiton.js.org)
+- [JSX in Orbiton](https://orbiton.js.org)
 
 
 ## Contributing

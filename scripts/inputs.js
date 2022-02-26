@@ -67,6 +67,15 @@ module.exports = [
         format: 'cjs',
         file: 'packages/orbiton/cjs/orbiton.production.js',
         compress: true
+      },
+      {
+        format: 'es',
+        file: 'packages/orbiton/esm/orbiton.development.js'
+      },
+      {
+        format: 'es',
+        file: 'packages/orbiton/esm/orbiton.production.js',
+        compress: true
       }
     ],
     rollupInputOptions: {

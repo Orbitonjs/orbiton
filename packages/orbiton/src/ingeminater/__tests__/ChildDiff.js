@@ -27,16 +27,16 @@ describe("Children Diffing", () => {
     }
   }
   beforeEach(() => {
-    document.body.appendChild(
-      document.createElement("div")
-        .setAttribute("id", "app-root")
-    )
+    const root = document.createElement("div");
+    root.setAttribute("id", "app-root");
+    document.body.appendChild(root)
 
   })
   afterEach(() => {
+    const root = document.getElementById("app-root");
     document.body
       .removeChild(
-        document.getElementById("app-root")
+        root
       )
   })
   it("Updates Multiple Fragment Children Correctly", () => {
@@ -62,7 +62,7 @@ describe("Children Diffing", () => {
         )
       }
     }
-    append(
+    const appendedRight = append(
       <div>
         <App>
           <Auth />
@@ -70,8 +70,13 @@ describe("Children Diffing", () => {
       </div>,
       document.getElementById("app-root")
     )
-    const btn = document.getElementById("btn")
-    btn.click()
-    expect(btn.textContent).toBe("Logout")
+    if (appendedRight === true) {
+      const btn = document.getElementById("btn")
+      expect(btn.textContent).toBe("Logout")
+    } else {
+      console.log(appendedRight.error)
+      expect(appendedRight.result).toBeFalsy()
+    }
+
   })
 })

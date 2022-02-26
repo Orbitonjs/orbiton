@@ -6,21 +6,32 @@
  *
  */
 
+import {
+  COMPONENT_TYPE,
+  ELEMENT_TYPE,
+  FRAGMENT_TYPE
+} from "../core/shared";
+import {
+  OrbitonDOMElement,
+  OrbitonElement,
+  Attr,
+  OrbitonChildren,
+  OrbitonSVGElement
+} from "../../types/index";
 import { Fragment } from "../core/Fragment";
-import { COMPONENT_TYPE, ELEMENT_TYPE, FRAGMENT_TYPE } from "../core/shared";
 import Component from "../renderer/createComponent";
-import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
-import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
 import { render } from "../renderer/render";
-import { OrbitonDOMElement, OrbitonElement, Attr, OrbitonChildren, OrbitonSVGElement } from "../../types/index";
 import { ingeninateChildren } from "./Children";
+import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
+import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
+
+
 
 export function diffAndPatch(
   oldTree: string | OrbitonElement | Component | Fragment,
   newTree: string | OrbitonElement | Component | Fragment,
   node: OrbitonDOMElement | Array<OrbitonDOMElement>
 ): OrbitonDOMElement | OrbitonSVGElement {
-  //console.log(oldTree, newTree)
   if (Array.isArray(node)) {
     //
   } else {
@@ -98,11 +109,6 @@ export function diffAndPatchElement(
   newTree: OrbitonElement ,
   node: OrbitonDOMElement
 ): OrbitonDOMElement | OrbitonSVGElement {
-  //console.log(oldTree)
-  //console.log(newTree)
-  //console.log(node)
-  //const node = oldTree.domRef
-
 
   // If the tags of the trees are different then the whole tree is replaced
   if (oldTree.tag !== newTree.tag) {
