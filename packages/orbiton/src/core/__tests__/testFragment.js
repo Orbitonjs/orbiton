@@ -46,7 +46,7 @@ append(<div><App /></div>, root)
 
 it('Initially renders fragment correctly', () => {
   const text = document.getElementById("txt")
-  expect(text.nodeValue).toEqual("initial state")
+  expect(text.textContent).toEqual("initial state")
 })
 
 it('Renders fragment correctly after update', () => {

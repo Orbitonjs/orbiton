@@ -12,7 +12,7 @@ import { Fragment } from "./core/Fragment";
 import append from "./renderer/append";
 import Component from "./renderer/createComponent";
 import { render } from "./renderer/render";
-const version = '1.0.0'
+const version = "__PACKAGE_VERSION__"
 /**
 * A Javascript library for building Browser User Interfaces
 * @author Beigana Jim Junior <jimjunior854@outlook.com>

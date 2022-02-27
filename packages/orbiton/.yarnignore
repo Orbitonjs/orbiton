@@ -3,6 +3,7 @@ src
 test
 
 # Eslint fies
+.eslintrc.js
 .eslintrc.json
 .eslintignore
 

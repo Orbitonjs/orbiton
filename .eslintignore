@@ -1,5 +1,4 @@
 demo/
-.config/
 tests/
 
 # build output
@@ -7,6 +6,8 @@ lib/
 dist/
 packages/orbiton/umd/
 packages/orbiton/cjs/
+packages/orbiton/jsx-runtime.js
+packages/orbiton/esm/
 packages/**/*.jsx
 
 scripts/

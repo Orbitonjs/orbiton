@@ -5,10 +5,11 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+const pkg = require('../packages/orbiton/package.json')
 const babel = require('@rollup/plugin-babel')
 const path = require('path')
-const AddCustomExtension = require('./plugins/RollupAddExtesion')
-
+const AddCustomExtension = require('./plugins/RollupAddExtesion');
+const replace = require('@rollup/plugin-replace');
 
 module.exports = [
   {
@@ -81,6 +82,9 @@ module.exports = [
     rollupInputOptions: {
       plugins: [
         AddCustomExtension.AddCustomExtension('.ts'),
+        replace({
+          '__PACKAGE_VERSION__': pkg.version,
+        }),
         babel.babel({
           configFile: path.resolve(__dirname, '../.config/.babelrc'),
           babelHelpers: 'bundled',
