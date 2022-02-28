@@ -16,6 +16,7 @@ comand.txt
 
 # builds
 
+packages/orbiton/esm/
 packages/orbiton/umd/
 packages/orbiton/cjs/
 packages/babel-plugin-orbiton-jsx/test.js

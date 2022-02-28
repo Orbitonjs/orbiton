@@ -7,11 +7,6 @@
  */
 
 import {
-  COMPONENT_TYPE,
-  ELEMENT_TYPE,
-  FRAGMENT_TYPE
-} from "../core/shared";
-import {
   OrbitonDOMElement,
   OrbitonElement,
   Attr,
@@ -39,12 +34,8 @@ export function diffAndPatch(
 
     // Diffing Instances
     // - Element and Element
-    // - Component and Element
     // - Component and Component
-    // - Fragment and Component
-    // - Fragment and Element
     // - Fragment and Fragment
-    // - attached Components
     if (newTree === undefined) {
       node.remove()
       return node
@@ -59,7 +50,11 @@ export function diffAndPatch(
 
 
         const newNode = render(newTree)
-        node.replaceWith(newNode)
+        if (Array.isArray(newNode)) {
+          node.replaceWith(...newNode)
+        } else {
+          node.replaceWith(newNode)
+        }
         triggerMountedLifeCycle(newNode)
         return newNode
       } else {
@@ -73,11 +68,11 @@ export function diffAndPatch(
       node.replaceWith(newNode)
       triggerMountedLifeCycle(newNode)
       return newNode
-    }else if (oldTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+    }else if (oldTree.type === "element" && newTree.type === "element") {
       return diffAndPatchElement(oldTree, newTree, node)
-    } else if (oldTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+    } else if (oldTree.type === "Component" && newTree.type === "Component") {
       return DiffAndPatchComponent(oldTree, newTree, node)
-    }else if (oldTree.type === FRAGMENT_TYPE && newTree.type === FRAGMENT_TYPE) {
+    }else if (oldTree.type === "Fragment" && newTree.type === "Fragment") {
       ingeninateChildren(oldTree.children, newTree.children, node)
       return node
     }

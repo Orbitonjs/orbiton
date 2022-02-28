@@ -71,11 +71,11 @@ module.exports = [
       },
       {
         format: 'es',
-        file: 'deno/esm/orbiton.development.js'
+        file: 'packages/orbiton/esm/orbiton.development.js'
       },
       {
         format: 'es',
-        file: 'deno/esm/orbiton.production.js',
+        file: 'packages/orbiton/esm/orbiton.production.js',
         compress: true
       }
     ],

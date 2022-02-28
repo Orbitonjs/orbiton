@@ -37,6 +37,16 @@ npm install orbiton
 ```
 If you want a quick start guide you can visit the official [Quick Start Guide](https://orbiton.js.org/docs/getting-started/quick-start).
 
+### In Deno
+Orbiton also supports development in [deno](https://deno.land).
+
+```js
+
+import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.development.js"
+import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.development.js"
+```
+
+
 ## Usage
 Using Orbiton is easy. All you have to do is import Orbiton and use JSX to create your app. Visit the Orbiton JS [documentation here](https://orbiton.js.org) to Learn how to build Apps in Orbiton JS.
 

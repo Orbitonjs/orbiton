@@ -104,10 +104,8 @@ app.get('/', (req, res) => {
     }
   })
 })
-const server = http.createServer(app)
-server.listen(port)
 
-
+app.listen(port)
 async function Build() {
   //await buildOrbitonBundle()
   await buildWebpack()

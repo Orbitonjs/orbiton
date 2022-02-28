@@ -11,6 +11,13 @@
     "jsx",
     "orbiton"
   ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbitonjs/orbiton.git"
+  },
+  "bugs": {
+    "url": "https://github.com/orbitonjs/orbiton/issues"
+  },
   "author": "Beingana Jim Junior",
   "license": "MIT"
 }

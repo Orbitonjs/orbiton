@@ -1,9 +1,9 @@
 {
   "name": "orbiton",
   "version": "1.2.4",
-  "description": "A Javascript library for building Browser User Interfaces.",
+  "description": "The Ultimate Javascript library for building Browser User Interfaces.",
   "main": "index.js",
-  "browser": "umd/orbitonjs.production.js",
+  "browser": "umd/orbiton.production.js",
   "typings": "types/index.d.ts",
   "repository": {
     "type": "git",

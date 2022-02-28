@@ -9,6 +9,7 @@
     "build": "node scripts/build.js",
     "lint:plugin": "eslint --ext .js,.ts packages/babel-plugin-orbiton-jsx/**",
     "lint": "eslint --ext .js,.ts packages/orbiton/",
+    "build:plugin": "rollup -c .config/rollup.config.js",
     "watch:plugin": "rollup -w -c .config/rollup.config.js",
     "dev": "node scripts/dev.js",
     "dev:watch": "node scripts/dev.js -w",

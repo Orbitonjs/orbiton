@@ -17,9 +17,10 @@ import { render } from "./render"
 /**
 * The first time an element is rendered
 */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 export function initialRender(root: HTMLElement, tree: OrbitonElement) {
   const replacedElement = render(tree)
+  Object.defineProperty(root, "__orbiton__hosted__tree", tree)
+  Object.defineProperty(root, "__orbiton$config__isOrbitonRoot", true)
   root.appendChild(replacedElement)
   triggerMountedLifeCycle(root)
 }

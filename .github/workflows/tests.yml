@@ -20,7 +20,7 @@ jobs:
           node-version: "16"
           cache: "yarn"
       - run: yarn
-      - run: yarn run build
+      - run: yarn run build:plugin
       - run: yarn test
   lint:
     runs-on: ubuntu-latest

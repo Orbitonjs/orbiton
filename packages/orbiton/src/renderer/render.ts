@@ -6,12 +6,14 @@
  *
  */
 
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import {
+  OrbitonElement,
+  Component,
+  OrbitonDOMElement,
+  OrbitonSVGElement
+} from "../../types/index";
 import { evaluateAttributes } from "./ElementAttributes";
 import { appendEvents } from "./Events";
-import { OrbitonElement, Component, OrbitonDOMElement, OrbitonSVGElement } from "../../types/index";
-//import Component from "./createComponent";
 import { Fragment } from "../core/Fragment";
 
 function renderElement(
@@ -123,7 +125,7 @@ export const render = (
 
 };
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+
 function returnsNothing(component: any) : boolean {
   if (component === null || component === undefined) {
     return true
@@ -140,10 +142,20 @@ function renderFragment(fragment: Fragment) : Array<OrbitonDOMElement> {
         throw new Error("A Fragment cannot be a direct child to another Fragment. Consider changing your source code.");
       }
     }
-    const DOMChild = render(child) as OrbitonDOMElement
-    DOMChild._orbiton$config.renderedByFrag = true
-    DOMChild._orbiton$config.HostFragID = fragment.FragmentID
-    childNodes.push(DOMChild)
+    if (Array.isArray(child)) {
+      for (const item of child) {
+        const DOMChild = render(item) as OrbitonDOMElement
+        DOMChild._orbiton$config.renderedByFrag = true
+        DOMChild._orbiton$config.HostFragID = fragment.FragmentID
+        childNodes.push(DOMChild)
+      }
+    } else {
+      const DOMChild = render(child) as OrbitonDOMElement
+      DOMChild._orbiton$config.renderedByFrag = true
+      DOMChild._orbiton$config.HostFragID = fragment.FragmentID
+      childNodes.push(DOMChild)
+    }
+
   }
   return childNodes
 }

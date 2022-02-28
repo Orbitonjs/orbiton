@@ -6,7 +6,6 @@
  *
  */
 
-/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-empty-function */
 /* eslint-disable class-methods-use-this */
 import { BaseComponent } from "../core/component";

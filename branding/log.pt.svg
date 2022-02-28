@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="400mm"
+   height="400mm"
+   viewBox="0 0 400 400"
+   version="1.1"
+   id="svg8"
+   inkscape:version="1.0.1 (3bc2e813f5, 2020-09-07)"
+   sodipodi:docname="log.pt.svg">
+  <defs
+     id="defs2" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.23728628"
+     inkscape:cx="400"
+     inkscape:cy="688.9309"
+     inkscape:document-units="mm"
+     inkscape:current-layer="layer1"
+     inkscape:document-rotation="0"
+     showgrid="false"
+     showguides="false" />
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#000080;stroke-width:0.427559"
+       id="rect10-0"
+       width="200"
+       height="400"
+       x="200"
+       y="0" />
+    <rect
+       style="fill:#0000ff;stroke-width:0.453496"
+       id="rect10"
+       width="225"
+       height="400"
+       x="0"
+       y="-7.1054274e-15" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:175.901px;line-height:1.25;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.763461"
+       x="103.75383"
+       y="241.56355"
+       id="text14"
+       transform="scale(0.88809623,1.1260041)"><tspan
+         sodipodi:role="line"
+         id="tspan12"
+         x="103.75383"
+         y="241.56355"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:sans-serif;-inkscape-font-specification:'sans-serif Bold';fill:#ffffff;stroke-width:0.763461">Or</tspan></text>
+    <text
+       xml:space="preserve"
+       style="font-size:22.2444px;line-height:1.25;font-family:sans-serif;fill:#ffffff;stroke-width:0.0965463"
+       x="278.63623"
+       y="38.522217"
+       id="text18"
+       transform="scale(1.1006344,0.90856689)"><tspan
+         sodipodi:role="line"
+         id="tspan16"
+         x="278.63623"
+         y="38.522217"
+         style="font-size:22.2444px;fill:#ffffff;stroke-width:0.0965463">1.2.4</tspan></text>
+  </g>
+</svg>

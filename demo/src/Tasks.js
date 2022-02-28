@@ -25,8 +25,11 @@ class Tasks extends Orbiton.Component {
       <div className="taskss">
         <Orbiton.Fragment>
           {
-            this.state.tasks.length === 0 ? <div className="fetchtasks">Loading...</div> : <div className="tasks"><Orbiton.Fragment>
-              {this.state.tasks.map((task) => <Task title={task.title} description={task.description} time={task.time} />)}</Orbiton.Fragment></div>}
+            this.state.tasks.length === 0 ? <div className="fetchtasks">Loading...</div> : <div className="tasks">
+              <Orbiton.Fragment>
+                {this.state.tasks.map((task) => <Task title={task.title} description={task.description} time={task.time} />)}
+              </Orbiton.Fragment>
+            </div>}
         </Orbiton.Fragment>
       </div>
     )
@@ -54,3 +57,8 @@ class Task extends Orbiton.Component {
 }
 
 export default Tasks
+
+/*
+{
+            this.state.tasks.length === 0 ? <div className="fetchtasks">Loading...</div> : <div className="tasks"><Orbiton.Fragment>
+              {this.state.tasks.map((task) => <Task title={task.title} description={task.description} time={task.time} />)}</Orbiton.Fragment></div>} */

@@ -6,10 +6,6 @@
  *
  */
 
-/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
-
 import { Options, Props, Tree } from "../../types/index"
 import createElement from "./createElement"
 

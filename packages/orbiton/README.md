@@ -36,6 +36,14 @@ yarn add orbiton
 npm install orbiton
 ```
 
+### In Deno
+Orbiton also supports development in [deno](https://deno.land).
+
+```js
+
+import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.development.js"
+import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.development.js"
+```
 
 ## Usage
 Using Orbiton is easy. All you have to do is import Orbiton and use JSX to create your app. Visit the Orbiton JS [documentation here](https://orbiton.js.org) to Learn how to build Apps in Orbiton JS.
@@ -58,9 +66,9 @@ Here are some important links that you might find usefull if you are gettig star
 Anybody willing to contribute to the development of this library can help by contibuting to the repository on [Github](https://github.com/orbitonjs/orbiton).
 
 Some Important links for Contributors.
-- [Code of Conduct]()
-- [License](https://github.com/orbitonjs/orbiton)
-- [Security]()
+- [Code of Conduct](https://github.com/orbitonjs/orbiton/blob/main/CODE_OF_CONDUCT.md)
+- [License](https://github.com/orbitonjs/orbiton/blob/main/LICENSE)
+- [Security](https://github.com/orbitonjs/orbiton/blob/main/SECURITY.md)
 
 ---
 

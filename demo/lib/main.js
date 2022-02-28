@@ -116,6 +116,11 @@
       this.FragmentID = createId(`Fragment_Type`, `by_fragment_${key}`);
       this.children = children;
       this.type = "Fragment";
+      this.getPearlId = this.getPearlId.bind(this);
+    }
+
+    getPearlId() {
+      return this.FragmentID;
     }
 
   }
@@ -135,7 +140,7 @@
    */
   function triggerMountedLifeCycle(node) {
     if ("_orbiton$config" in node) {
-      if (node._orbiton$config.isComponentRoot || node._orbiton$config.componentHosted.length !== 0) {
+      if (node._orbiton$config.isComponentRoot) {
         node._orbiton$config.componentHosted.forEach((comp, ind) => {
           if (comp.type === "Component") {
             comp.Mounted();
@@ -293,7 +298,9 @@
    *
    */
 
-  function renderElement(element, ns = "http://www.w3.org/1999/xhtml", isComponentRoot = false, componentId = null, comp = null) {
+  function renderElement(element, ns = "http://www.w3.org/1999/xhtml", hostComponent = []) {
+    const componentId = hostComponent.length > 0 ? hostComponent[hostComponent.length - 1].getPearlId() : null;
+    const comp = hostComponent[0];
     let node;
     let childns;
 
@@ -310,11 +317,10 @@
 
     node._orbiton$config = {};
     node._orbiton$config.componentHosted = [];
+    node._orbiton$config.isComponentRoot = hostComponent.length > 0 ? true : false;
+    node._orbiton$config.compomentRootId = componentId;
 
-    if (isComponentRoot) {
-      node._orbiton$config.isComponentRoot = true;
-      node._orbiton$config.compomentRootId = componentId;
-
+    if (comp) {
       node._orbiton$config.componentHosted.push(comp);
     }
 
@@ -354,17 +360,18 @@
       }
     }
 
+    element.domRef = node;
     return node;
   }
 
-  const render = (o_element, ns = "http://www.w3.org/1999/xhtml") => {
+  const render = (o_element, ns = "http://www.w3.org/1999/xhtml", hostComponent = []) => {
     //console.log(o_element)
     if (typeof o_element === 'string' || typeof o_element === "boolean" || typeof o_element === "number") {
       return document.createTextNode(`${o_element}`);
     }
 
     if (o_element.type === 'element') {
-      return renderElement(o_element, ns);
+      return renderElement(o_element, ns, hostComponent);
     }
 
     if (o_element.type === 'Component') {
@@ -382,7 +389,8 @@
 
 
       o_element.WillMount();
-      return renderElement(el, ns, true, o_element.getPearlId(), o_element);
+      hostComponent.push(o_element);
+      return render(el, ns, hostComponent);
     }
 
     if (o_element.type === "Fragment") {
@@ -537,7 +545,9 @@
     return finalComponent;
   }
   function PatchTrees(currentTree, newTree) {
-    // Diffing Instances
+    if (newTree === undefined) {
+      return newTree;
+    } // Diffing Instances
     // - Element and Element
     // - Component and Element
     // - Component and Component
@@ -545,20 +555,26 @@
     // - Fragment and Element
     // - Fragment and Fragment
     // - attached Components
-    if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+
+
+    if (currentTree.type !== newTree.type) {
+      return newTree;
+    } else if (currentTree.type === "element" && newTree.type === "element") {
       return CompareAndPatchElement(currentTree, newTree);
-    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === ELEMENT_TYPE) {
-      return newTree;
-    } else if (currentTree.type === ELEMENT_TYPE && newTree.type === COMPONENT_TYPE) {
-      return newTree;
-    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
-      return compareState(currentTree, newTree);
-    } else {
+    } else if (currentTree.type === "Component" && newTree.type === "Component") {
+      const newComp = compareState(currentTree, newTree);
+      newComp.currentTree = PatchTrees(currentTree.currentTree, newComp.render());
+      return newComp;
+    } else if (currentTree.type === "Fragment" && newTree.type === "Fragment") {
+      const children = CompareAndPatchChildren(currentTree.children, newTree.children);
+      newTree.children = children;
       return newTree;
     }
   }
   function PatchChildrenTrees(currentTree, newTree) {
-    // Diffing Instances
+    if (newTree === undefined || currentTree === undefined) {
+      return newTree;
+    } // Diffing Instances
     // - Element and Element
     // - Component and Element
     // - Component and Component
@@ -566,14 +582,14 @@
     // - Fragment and Element
     // - Fragment and Fragment
     // - attached Components
+
+
     if (typeof currentTree === "string" || typeof newTree === "string") {
+      return newTree;
+    } else if (currentTree.type !== newTree.type) {
       return newTree;
     } else if (currentTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
       return CompareAndPatchElement(currentTree, newTree);
-    } else if (currentTree.type === COMPONENT_TYPE && newTree.type === ELEMENT_TYPE) {
-      return newTree;
-    } else if (currentTree.type === ELEMENT_TYPE && newTree.type === COMPONENT_TYPE) {
-      return newTree;
     } else if (currentTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
       return compareState(currentTree, newTree);
     } else {
@@ -652,7 +668,7 @@
               for (const iterator of additionalChidren) {
                 parentNode.insertBefore(iterator, nextNode);
                 index++;
-                nextNode = childNodes[nextIndex];
+                nextNode = childNodes[index];
               }
 
               triggerMountedLifeCycle(parentNode);
@@ -675,10 +691,22 @@
           }
         }
       } else {
-        const nodechild = childNodes[index];
+        const nodechild = childNodes[index]; //console.log(childNodes)
+
         CheckChildrenAndDiff(oldChild, NewChild, parentNode, nodechild);
         index++;
       }
+    }
+
+    const exessChildren = [];
+
+    for (const childEl of NewChildren.slice(OldChildren.length)) {
+      const DomChild = render(childEl);
+      exessChildren.push(DomChild);
+    }
+
+    if (exessChildren.length > 0) {
+      parentNode.append(...exessChildren);
     }
   }
 
@@ -701,49 +729,48 @@
    * LICENSE file in the root directory of this source tree.
    *
    */
-  function diffAndPatch(oldTree, newTree, node$) {
-    const {
-      node
-    } = replacingNode(node$); // Diffing Instances
-    // - Element and Element
-    // - Component and Element
-    // - Component and Component
-    // - Fragment and Component
-    // - Fragment and Element
-    // - Fragment and Fragment
-    // - attached Components
-
-    if (newTree === undefined) {
-      node.remove();
-      return node;
-    }
-
-    if (typeof oldTree === "string" || typeof newTree === "string") {
-      // incase one of the trees is a string
-      // we check if the nodeValue od the DOM node is equal to the newTree
-      // if its not equal then we replace it with the new string
-      // If they are equal we just return the same node
-      if (node.nodeValue !== newTree) {
-        const newNode = render(newTree);
-        node.replaceWith(newNode); // triggerMountedLifeCycle(newNode)
-
-        return newNode;
-      } else {
+  function diffAndPatch(oldTree, newTree, node) {
+    if (Array.isArray(node)) ; else {
+      // Diffing Instances
+      // - Element and Element
+      // - Component and Element
+      // - Component and Component
+      // - Fragment and Component
+      // - Fragment and Element
+      // - Fragment and Fragment
+      // - attached Components
+      if (newTree === undefined) {
+        node.remove();
         return node;
       }
-    } else if (oldTree.type !== newTree.type) {
-      // If the types are not the same we should just render a new Dom Tree.
-      const newNode = render(newTree);
-      node.replaceWith(newNode);
-      triggerMountedLifeCycle(newNode);
-      return newNode;
-    } else if (oldTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
-      return diffAndPatchElement(oldTree, newTree, node);
-    } else if (oldTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
-      return DiffAndPatchComponent(oldTree, newTree, node);
-    } else if (oldTree.type === FRAGMENT_TYPE && newTree.type === FRAGMENT_TYPE) {
-      ingeninateChildren(oldTree.children, newTree.children, node);
-      return node;
+
+      if (typeof oldTree === "string" || typeof newTree === "string") {
+        // incase one of the trees is a string
+        // we check if the nodeValue od the DOM node is equal to the newTree
+        // if its not equal then we replace it with the new string
+        // If they are equal we just return the same node
+        if (node.nodeValue !== newTree) {
+          const newNode = render(newTree);
+          node.replaceWith(newNode);
+          triggerMountedLifeCycle(newNode);
+          return newNode;
+        } else {
+          return node;
+        }
+      } else if (oldTree.type !== newTree.type) {
+        // If the types are not the same we should just render a new Dom Tree.
+        const newNode = render(newTree);
+        node.replaceWith(newNode);
+        triggerMountedLifeCycle(newNode);
+        return newNode;
+      } else if (oldTree.type === ELEMENT_TYPE && newTree.type === ELEMENT_TYPE) {
+        return diffAndPatchElement(oldTree, newTree, node);
+      } else if (oldTree.type === COMPONENT_TYPE && newTree.type === COMPONENT_TYPE) {
+        return DiffAndPatchComponent(oldTree, newTree, node);
+      } else if (oldTree.type === FRAGMENT_TYPE && newTree.type === FRAGMENT_TYPE) {
+        ingeninateChildren(oldTree.children, newTree.children, node);
+        return node;
+      }
     }
   }
 
@@ -762,9 +789,6 @@
   }
 
   function diffAndPatchElement(oldTree, newTree, node) {
-    //console.log(oldTree)
-    //console.log(newTree)
-    //console.log(node)
     // If the tags of the trees are different then the whole tree is replaced
     if (oldTree.tag !== newTree.tag) {
       const newNode = render(newTree);
@@ -847,9 +871,33 @@
   }
   function updateUITree(currentTree, workingProgressTree, ComponentRoot) {
     const newTree = PatchTrees(currentTree, workingProgressTree);
-    const patch = diffAndPatch(currentTree, newTree, ComponentRoot);
-    ComponentRoot = patch;
+    diffAndPatch(currentTree, newTree, ComponentRoot);
     return newTree;
+  }
+  function getComponentRoots(id, childTree) {
+    if (childTree.type === "element") {
+      return ComponentRoot(id);
+    } else if (childTree.type === "Component") {
+      return getComponentRoots(childTree.pearlId, childTree.currentTree);
+    } else if (childTree.type === "Fragment") {
+      console.log(childTree.type);
+      return getFragmentRoots(childTree.FragmentID);
+    }
+  }
+  function getFragmentRoots(id) {
+    let FragmentParent;
+    const allNodes = document.querySelectorAll('*');
+
+    for (const node of allNodes) {
+      if (node._orbiton$config && node._orbiton$config.renderedByFrag) {
+        if (node._orbiton$config.HostFragID === id) {
+          FragmentParent = node.parentNode;
+          break;
+        }
+      }
+    }
+
+    return Array.from(FragmentParent.childNodes);
   }
 
   /**
@@ -896,9 +944,10 @@
 
 
     updateState(newState, callback = null) {
-      const root = ComponentRoot(this.getPearlId());
+      const root = getComponentRoots(this.getPearlId(), this.currentTree);
       this.changeState(newState, callback);
-      this.currentTree = updateUITree(this.currentTree, this.render(), root);
+      updateUITree(this.currentTree, this.render(), root);
+      this.currentTree = this.render();
     }
 
     makeChild() {
@@ -921,7 +970,7 @@
    * LICENSE file in the root directory of this source tree.
    *
    */
-  const version = '1.0.0';
+  const version = "__PACKAGE_VERSION__";
   /**
   * A Javascript library for building Browser User Interfaces
   * @author Beigana Jim Junior <jimjunior854@outlook.com>
