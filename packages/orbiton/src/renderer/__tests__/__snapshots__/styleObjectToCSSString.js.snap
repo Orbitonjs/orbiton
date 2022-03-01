@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Transform Javascript Object to CSS style attr string 1`] = `"background-attachment: fixed;font-family: Roboto;max-width: 100px;color: white;"`;

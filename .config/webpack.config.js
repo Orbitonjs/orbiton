@@ -7,7 +7,7 @@ import jsx from 'orbiton/jsx-runtime';
 `
 
 
-module.exports.config = {
+module.exports = {
   entry: "./demo/src/index.js",
   output: {
     filename: "app.bundle.js",

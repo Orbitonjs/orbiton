@@ -127,7 +127,7 @@ export type OrbitonElement = {
   events?: Record<string, VoidFunction>,
   children?: OrbitonChildren,
   ref?: symbol,
-  domRef: OrbitonDOMElement | OrbitonSVGElement
+  domRef?: OrbitonDOMElement | OrbitonSVGElement
   type: 'element',
   attachedComponent?: LogicalComponent,
   props?: Props

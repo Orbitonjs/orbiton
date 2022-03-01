@@ -11,8 +11,7 @@
     "lint": "eslint --ext .js,.ts packages/orbiton/",
     "build:plugin": "rollup -c .config/rollup.config.js",
     "watch:plugin": "rollup -w -c .config/rollup.config.js",
-    "dev": "node scripts/dev.js",
-    "dev:watch": "node scripts/dev.js -w",
+    "dev": "webpack serve --open --config ./.config/webpack.config.js",
     "tsc": "tsc",
     "test": "jest"
   },

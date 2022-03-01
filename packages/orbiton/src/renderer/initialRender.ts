@@ -17,10 +17,10 @@ import { render } from "./render"
 /**
 * The first time an element is rendered
 */
-export function initialRender(root: HTMLElement, tree: OrbitonElement) {
+export function initialRender(root: any, tree: any) {
   const replacedElement = render(tree)
-  Object.defineProperty(root, "__orbiton__hosted__tree", tree)
-  Object.defineProperty(root, "__orbiton$config__isOrbitonRoot", true)
+  root.__orbiton__hosted__tree = tree
+  root.__orbiton$config__isOrbitonRoot = true
   root.appendChild(replacedElement)
   triggerMountedLifeCycle(root)
 }

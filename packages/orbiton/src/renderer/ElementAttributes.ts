@@ -80,17 +80,22 @@ function getValidCSSFromObject(o: Record<string, unknown>) {
         const position = property.indexOf(beginningOfSecondWord)
         // split the word to add a dash `-` sign between them
         const CSSProperty = splitCSSProperty(property, position, '-')
-        style = `${style}${CSSProperty}: ${value};`
+        style = `${style}${CSSProperty}: ${getValue(value)};`
       }
     } else {
-      style = `${style}${property}: ${value};`
+      style = `${style}${property}: ${getValue(value)};`
     }
 
   }
   return style
 }
 
-
+function getValue(value: any): string {
+  if (typeof value === "number") {
+    return `${value}px`
+  }
+  return value
+}
 
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
