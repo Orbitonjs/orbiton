@@ -23,7 +23,7 @@
     "@babel/core": "^7.17.5",
     "@babel/plugin-syntax-jsx": "^7.16.7",
     "@babel/plugin-transform-runtime": "^7.13.10",
-    "@babel/preset-env": "^7.15.0",
+    "@babel/preset-env": "^7.16.11",
     "@babel/preset-typescript": "^7.13.0",
     "@mdx-js/esbuild": "^2.0.0-rc.1",
     "@mdx-js/loader": "^1.6.22",
