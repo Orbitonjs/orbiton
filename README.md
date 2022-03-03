@@ -60,7 +60,7 @@ Here are some important links that you might find usefull if you are gettig star
 - [Getting Started with Orbiton JS](https://orbiton.js.org/docs/getting-started/quick-start)
 - [Installing Orbiton](https://orbiton.js.org/docs/getting-started/installation)
 - [JSX in Orbiton](https://orbiton.js.org/docs/how-to-guides/jsx-in-orbiton)
-
+<a href="https://www.patreon.com/bePatron?u=63611941" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 
 ## Contributing
 
