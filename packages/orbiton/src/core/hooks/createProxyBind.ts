@@ -6,7 +6,7 @@
  *
  */
 
-import { diffAndPatch } from "../../ingeminater/reconciler";
+import { diffAndPatch } from "../../ingeminater/reconciler_new";
 
 
 export function createProxyBinder(target: any ): typeof Proxy {
@@ -21,7 +21,7 @@ export function setProxy(target: any, property: string | symbol, value: any): bo
   const allNodes = document.querySelectorAll('*') as NodeListOf<any>
   let rootNode;
   for (const element of allNodes) {
-    if (element.__orbiton$config__isOrbitonRoot) {
+    if (element.___ORBITON_CONFIG____isOrbitonRoot) {
       rootNode = element
       break
     }

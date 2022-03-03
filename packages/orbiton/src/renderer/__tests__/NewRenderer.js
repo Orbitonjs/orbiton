@@ -10,8 +10,8 @@
 /* eslint-disable no-undef */
 import Orbiton from '../../index'
 import Component from '../createComponent'
-import { appendChild } from '../render.new'
-import { render } from "../render.new"
+import { appendChild } from '../render_new'
+import { render } from "../render_new"
 
 describe("Test new Render Method", () => {
   beforeEach(() => {

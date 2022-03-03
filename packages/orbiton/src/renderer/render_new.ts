@@ -21,7 +21,7 @@ export function render(
     return children
   }
   if (typeof node === "string"|| typeof node === "boolean" || typeof node === "number") {
-    return document.createTextNode(`${node}`)
+    return renderText(`${node}`, options)
   }
   if (node.type === "element") {
     return renderElement(node, options)
@@ -77,11 +77,11 @@ function renderElement(
             console.warn(`Consider providing a ${"`key`"} for \`${item}\`. Rendering and array or maped array without providing a key for the elements might cause vulnerabilities. Visit https://orbiton.js.org/docs/learn/list-rendering for more information `)
           }
           const childNode = render(item, childOptions)
-          node.appendChild(childNode)
+          appendChild(node, childNode)
         }
       } else {
         const childNode = render(child, childOptions)
-        node.appendChild(childNode)
+        appendChild(node, childNode)
       }
     }
   }
@@ -90,7 +90,14 @@ function renderElement(
   return node
 }
 
-
+function renderText(string: any, options: any) {
+  const node = document.createTextNode(string) as any
+  node.__ORBITON_CONFIG__ = {}
+  if (options.parentNotElement) {
+    node.__ORBITON_CONFIG__.__nonElement_parents_hosted = options.parents
+  }
+  return node
+}
 
 function renderComponent(
   component: any,

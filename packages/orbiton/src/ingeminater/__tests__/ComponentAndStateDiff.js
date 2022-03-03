@@ -25,7 +25,6 @@ class App extends Component {
     this.updateState({
       changed: true
     })
-    console.log(this.props.children)
   }
   render() {
     return (

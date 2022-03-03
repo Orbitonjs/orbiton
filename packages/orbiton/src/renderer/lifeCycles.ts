@@ -14,10 +14,10 @@ import Component from './createComponent'
  * Trigers the `Mounted` lifecycle method of any component within the node
  */
 export function triggerMountedLifeCycle(node: OrbitonDOMElement | HTMLElement | ChildNode):  void{
-  if ("_orbiton$config" in node) {
+  if ("__ORBITON_CONFIG__" in node) {
 
-    if (node._orbiton$config.isComponentRoot) {
-      node._orbiton$config.componentHosted.forEach((comp: Component, ind: number)=> {
+    if (node.__ORBITON_CONFIG__.isComponentRoot) {
+      node.__ORBITON_CONFIG__.componentHosted.forEach((comp: Component, ind: number)=> {
         if (comp.type === "Component") {
           comp.Mounted()
         }

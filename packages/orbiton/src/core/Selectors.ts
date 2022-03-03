@@ -17,7 +17,7 @@ export function getRef(ref: Ref): OrbitonDOMElement | null {
   let node: OrbitonDOMElement | null = null
   const allNodes = document.querySelectorAll('*') as NodeListOf<OrbitonDOMElement>
   allNodes.forEach((e: OrbitonDOMElement) => {
-    if (e._orbiton$config.ref === ref) {
+    if (e.__ORBITON_CONFIG__.ref === ref) {
       node = e
     }
   })

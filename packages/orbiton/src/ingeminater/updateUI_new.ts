@@ -7,19 +7,15 @@
  */
 
 
+import { getFragHost } from "./children_new"
 import { PatchTrees } from "./compareOrbitonTree"
-import { OrbitonDOMElement, OrbitonElement } from "../../types/index"
-import { diffAndPatch } from "./reconciler"
-import Component from "../renderer/createComponent"
-import { Fragment } from "../core/Fragment"
-import { OrbitonTextNode } from "../../types/index"
+import { diffAndPatch } from "./reconciler_new"
 
 
 
-
-export function ComponentRoot(id: symbol): OrbitonDOMElement | null {
-  let nodes: OrbitonDOMElement | null = null
-  const allNodes = document.querySelectorAll('*') as NodeListOf<OrbitonDOMElement>
+export function ComponentRoot(id: symbol): any {
+  let nodes: any | null = null
+  const allNodes = document.querySelectorAll('*') as any
   allNodes.forEach((e) => {
     if (e.__ORBITON_CONFIG__) {
       if (e.__ORBITON_CONFIG__.compomentRootId === id) {
@@ -33,14 +29,20 @@ export function ComponentRoot(id: symbol): OrbitonDOMElement | null {
 }
 
 export function updateUITree(
-  currentTree: OrbitonElement | Component | Fragment,
-  workingProgressTree: OrbitonElement | Component | Fragment,
-  ComponentRoot: OrbitonDOMElement[],
-) : OrbitonElement | Component | Fragment {
+  currentTree: any,
+  workingProgressTree: any,
+  ComponentRoot: any,
+) : any {
   const newTree = PatchTrees(currentTree, workingProgressTree)
+  const rootArr  = getFragHost(ComponentRoot)
+  let root
+  if (rootArr.length === 1) {
+    root = rootArr[0]
+  } else {
+    root = rootArr
+  }
 
-
-  const patch = diffAndPatch(currentTree, newTree, ComponentRoot)
+  const patch = diffAndPatch(currentTree, newTree, root)
 
 
   return newTree;
@@ -49,8 +51,8 @@ export function updateUITree(
 
 export function getComponentRoots(
   id: symbol,
-  childTree: OrbitonElement | Component | Fragment
-): OrbitonDOMElement | OrbitonTextNode | Array<OrbitonDOMElement>
+  childTree: any
+): any
 {
   if (childTree.type === "element") {
     return ComponentRoot(id)
@@ -65,11 +67,11 @@ export function getComponentRoots(
 
 export function getFragmentRoots(
   id: symbol,
-): Array<OrbitonDOMElement>
+): any
 {
   let FragmentParent: ParentNode
 
-  const allNodes = document.querySelectorAll('*') as NodeListOf<OrbitonDOMElement>
+  const allNodes = document.querySelectorAll('*') as any
   for (const node of allNodes) {
     if (node.__ORBITON_CONFIG__ && node.__ORBITON_CONFIG__.renderedByFrag ) {
       if (node.__ORBITON_CONFIG__.HostFragID === id) {
@@ -79,5 +81,5 @@ export function getFragmentRoots(
     }
   }
 
-  return Array.from(FragmentParent.childNodes) as Array<OrbitonDOMElement>
+  return Array.from(FragmentParent.childNodes) as any
 }

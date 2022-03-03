@@ -17,20 +17,12 @@ type UnsuccesFullAppendError = {
 /**
 * appends a Tree to the DOM
 */
-function append(Tree: OrbitonElement, root: HTMLElement, callback?: CallableFunction): boolean | UnsuccesFullAppendError {
-  try {
-    initialRender(root, Tree)
-    if (callback) {
-      callback()
-    }
-    return true
-  } catch (error) {
-    return {
-      result: false,
-      error,
-    }
-  }
+function append(Tree: OrbitonElement, root: HTMLElement, callback?: CallableFunction): boolean | any {
 
+  initialRender(root, Tree)
+  if (callback) {
+    callback()
+  }
 }
 
 export default append

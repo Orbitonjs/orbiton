@@ -28,7 +28,7 @@ export function ingeninateChildren(
       if (Array.isArray(NewChild)) {
         if (Array.isArray(oldChild)) {
           // if both the new child and the old child are Arrays
-          // we loop through the old child and get the index of each element and its corresponding element if the neww child
+          // we loop through the old child and get the index of each element and its corresponding element if the new child
           // we also get the DOM child at that index then diff them
           oldChild.forEach((item, ind)=> {
             const nodechild = childNodes[index] as OrbitonDOMElement

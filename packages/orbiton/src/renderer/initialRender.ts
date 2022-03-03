@@ -9,8 +9,9 @@
 /* eslint-disable no-unused-vars */
 
 import { OrbitonElement } from "../../types/index"
+import { appendChild } from "./DomOperations"
 import { triggerMountedLifeCycle } from "./lifeCycles"
-import { render } from "./render"
+import { render } from "./render_new"
 
 
 
@@ -20,7 +21,7 @@ import { render } from "./render"
 export function initialRender(root: any, tree: any) {
   const replacedElement = render(tree)
   root.__orbiton__hosted__tree = tree
-  root.__orbiton$config__isOrbitonRoot = true
-  root.appendChild(replacedElement)
-  triggerMountedLifeCycle(root)
+  root.__ORBITON_CONFIG____isOrbitonRoot = true
+  //root.appendChild(replacedElement)
+  appendChild(root, replacedElement)
 }

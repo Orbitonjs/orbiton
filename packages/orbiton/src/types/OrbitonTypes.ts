@@ -49,10 +49,10 @@ export type OrbitonElement = {
 
 
 export interface OrbitonDOMElement extends HTMLElement {
-  _orbiton$config: OrbitonConfig
+  __ORBITON_CONFIG__: OrbitonConfig
 }
 export interface OrbitonSVGElement extends SVGSVGElement {
-  _orbiton$config: OrbitonConfig
+  __ORBITON_CONFIG__: OrbitonConfig
 }
 export type Tree = OrbitonElement|Component|Fragment
 

@@ -62,7 +62,7 @@ describe("Children Diffing", () => {
         )
       }
     }
-    const appendedRight = append(
+    append(
       <div>
         <App>
           <Auth />
@@ -70,13 +70,9 @@ describe("Children Diffing", () => {
       </div>,
       document.getElementById("app-root")
     )
-    if (appendedRight === true) {
-      const btn = document.getElementById("btn")
-      expect(btn.textContent).toBe("Logout")
-    } else {
-      console.log(appendedRight.error)
-      expect(appendedRight.result).toBeFalsy()
-    }
+    const btn = document.getElementById("btn")
+    expect(btn.textContent).toBe("Login")
+
 
   })
 })

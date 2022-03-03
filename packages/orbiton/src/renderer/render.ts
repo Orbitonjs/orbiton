@@ -35,16 +35,16 @@ function renderElement(
     node = document.createElementNS(ns,element.tag) as OrbitonDOMElement
     childns = "http://www.w3.org/1999/xhtml"
   }
-  node._orbiton$config = {}
-  node._orbiton$config.componentHosted = []
-  node._orbiton$config.isComponentRoot = hostComponent.length > 0 ? true : false
-  node._orbiton$config.compomentRootId = componentId
+  node.__ORBITON_CONFIG__ = {}
+  node.__ORBITON_CONFIG__.componentHosted = []
+  node.__ORBITON_CONFIG__.isComponentRoot = hostComponent.length > 0 ? true : false
+  node.__ORBITON_CONFIG__.compomentRootId = componentId
   if (comp) {
-    node._orbiton$config.componentHosted.push(comp)
+    node.__ORBITON_CONFIG__.componentHosted.push(comp)
   }
 
   if (element.attachedComponent) {
-    node._orbiton$config.componentHosted.push(element.attachedComponent)
+    node.__ORBITON_CONFIG__.componentHosted.push(element.attachedComponent)
   }
 
 
@@ -145,14 +145,14 @@ function renderFragment(fragment: Fragment) : Array<OrbitonDOMElement> {
     if (Array.isArray(child)) {
       for (const item of child) {
         const DOMChild = render(item) as OrbitonDOMElement
-        DOMChild._orbiton$config.renderedByFrag = true
-        DOMChild._orbiton$config.HostFragID = fragment.FragmentID
+        DOMChild.__ORBITON_CONFIG__.renderedByFrag = true
+        DOMChild.__ORBITON_CONFIG__.HostFragID = fragment.FragmentID
         childNodes.push(DOMChild)
       }
     } else {
       const DOMChild = render(child) as OrbitonDOMElement
-      DOMChild._orbiton$config.renderedByFrag = true
-      DOMChild._orbiton$config.HostFragID = fragment.FragmentID
+      DOMChild.__ORBITON_CONFIG__.renderedByFrag = true
+      DOMChild.__ORBITON_CONFIG__.HostFragID = fragment.FragmentID
       childNodes.push(DOMChild)
     }
 
