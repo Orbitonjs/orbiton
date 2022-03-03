@@ -1,4 +1,4 @@
-# <div align="center"> <img src="branding/logo.png" style="align-items:center;" ></div>
+# <div align="center"> <img src="branding/logo.pt.svg" style="align-items:center;" ></div>
 ##### <div align="center"> [![Npm package total downloads](https://flat.badgen.net/npm/license/orbiton)](https://npmjs.com/package/orbiton) [![Npm package total downloads](https://flat.badgen.net/npm/dt/orbiton)](https://npmjs.com/package/orbiton) </div>
 A Javascript library for building Browser User Interfaces.
 Orbiton JS is a component base javascript rendering library for creating User Interfaces in the browser. 
