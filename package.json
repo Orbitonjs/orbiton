@@ -62,7 +62,7 @@
   "dependencies": {
     "@babel/register": "^7.16.0",
     "@babel/runtime": "^7.15.3",
-    "@types/node": "^16.10.2"
+    "@types/node": "^17.0.21"
   },
   "keywords": []
 }
