@@ -42,7 +42,7 @@
     "chalk": "^4.1.0",
     "coffeescript": "^2.6.1",
     "css-loader": "^6.5.1",
-    "eslint": "^7.23.0",
+    "eslint": "^7.32.0",
     "eslint-config-prettier": "^8.2.0",
     "express": "^4.17.1",
     "html-loader": "^3.0.1",
