@@ -6,19 +6,16 @@
  *
  */
 
+import { config } from "./config"
 import { OrbitonElement } from "../../types/index"
+import Orbiton from "../index"
 import { initialRender } from "./initialRender"
 
-type UnsuccesFullAppendError = {
-  error: Error,
-  result: boolean
-}
 
 /**
 * appends a Tree to the DOM
 */
 function append(Tree: OrbitonElement, root: HTMLElement, callback?: CallableFunction): boolean | any {
-
   initialRender(root, Tree)
   if (callback) {
     callback()

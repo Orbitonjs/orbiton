@@ -10,13 +10,14 @@ import { evaluateAttributes } from "./ElementAttributes";
 
 export function render(
   node: any,
-  options: any = {ns: "http://www.w3.org/1999/xhtml"}
+  options: any = {ns: "http://www.w3.org/1999/xhtml"},
+  ns = "http://www.w3.org/1999/xhtml"
 ): any {
   if (Array.isArray(node)) {
     // This might happen when you call the render function on `props.children`
     const children = []
     for (const child of node) {
-      children.push(render(child, options))
+      children.push(render(child, options, ns))
     }
     return children
   }
@@ -24,7 +25,7 @@ export function render(
     return renderText(`${node}`, options)
   }
   if (node.type === "element") {
-    return renderElement(node, options)
+    return renderElement(node, options,ns)
   }
   if (node.type === "Component") {
     return renderComponent(node, options)
@@ -37,21 +38,28 @@ export function render(
 
 function renderElement(
   element: any,
-  options: any
+  options: any = {ns: "http://www.w3.org/1999/xhtml"},
+  ns = "http://www.w3.org/1999/xhtml"
 ) : any {
   let node;
-  if (options.ns !== "http://www.w3.org/1999/xhtml" || element.tag === "svg") {
-    if (element.tag === "svg") {
-      node = document.createElementNS("http://www.w3.org/2000/svg", element.tag)
-    } else {
-      node = document.createElementNS(options.ns, element.tag)
-    }
-  } else {
+
+  let childns
+  if (element.tag === "svg") {
+    node = document.createElementNS("http://www.w3.org/2000/svg", "svg")
+    childns = "http://www.w3.org/2000/svg"
+  } else if (ns !== "http://www.w3.org/1999/xhtml") {
+    node = document.createElementNS(ns, element.tag)
+    childns = ns
+  }else {
     node = document.createElement(element.tag)
+    childns= "http://www.w3.org/1999/xhtml"
   }
   node.__ORBITON_CONFIG__ = {}
   if (options.parentNotElement) {
     node.__ORBITON_CONFIG__.__nonElement_parents_hosted = options.parents
+  }
+  if (element.attachedComponent) {
+    node.__ORBITON_CONFIG__.attachedComponent= element.attachedComponent
   }
   evaluateAttributes(node, element.attributes)
   appendEvents(node, element.events)
@@ -76,11 +84,11 @@ function renderElement(
           if (!(item.key)) {
             console.warn(`Consider providing a ${"`key`"} for \`${item}\`. Rendering and array or maped array without providing a key for the elements might cause vulnerabilities. Visit https://orbiton.js.org/docs/learn/list-rendering for more information `)
           }
-          const childNode = render(item, childOptions)
+          const childNode = render(item, childOptions, childns)
           appendChild(node, childNode)
         }
       } else {
-        const childNode = render(child, childOptions)
+        const childNode = render(child, childOptions, childns)
         appendChild(node, childNode)
       }
     }

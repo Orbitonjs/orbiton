@@ -11,32 +11,31 @@ import { diffAndPatch } from "../../ingeminater/reconciler_new";
 
 export function createProxyBinder(target: any ): typeof Proxy {
   const proxyObj = new Proxy(target, {
-    set: setProxy
+    set: (target: any, property: string | symbol, value: any): boolean => {
+      const allNodes = document.querySelectorAll('*') as NodeListOf<any>
+      let rootNode;
+      for (const element of allNodes) {
+        if (element.___ORBITON_CONFIG____isOrbitonRoot) {
+          rootNode = element
+          break
+        }
+      }
+      if (rootNode) {
+        const oldTree = rootNode.__orbiton__hosted__tree
+        target[property] = value
+        const newTree = rootNode.__orbiton__hosted__tree
+        console.log(oldTree === newTree)
+        if (oldTree.type === "element") {
+          diffAndPatch(oldTree, newTree, rootNode.children[0])
+        } else {
+          diffAndPatch(oldTree, newTree, rootNode.children)
+        }
+      } else {
+        target[property] = value
+      }
+      return true
+    }
   });
   return proxyObj
 }
 
-export function setProxy(target: any, property: string | symbol, value: any): boolean {
-  target[property] = value
-  const allNodes = document.querySelectorAll('*') as NodeListOf<any>
-  let rootNode;
-  for (const element of allNodes) {
-    if (element.___ORBITON_CONFIG____isOrbitonRoot) {
-      rootNode = element
-      break
-    }
-  }
-  if (rootNode) {
-    const oldTree = rootNode.__orbiton__hosted__tree
-    target[property] = value
-    const newTree = rootNode.__orbiton__hosted__tree
-    if (oldTree.type === "element") {
-      diffAndPatch(oldTree, newTree, rootNode.children[0])
-    } else {
-      diffAndPatch(oldTree, newTree, rootNode.children)
-    }
-  } else {
-    target[property] = value
-  }
-  return true
-}

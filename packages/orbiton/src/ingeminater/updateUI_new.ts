@@ -42,10 +42,9 @@ export function updateUITree(
     root = rootArr
   }
 
-  const patch = diffAndPatch(currentTree, newTree, root)
+  diffAndPatch(currentTree, workingProgressTree, root)
 
-
-  return newTree;
+  return newTree
 }
 
 
@@ -59,7 +58,6 @@ export function getComponentRoots(
   } else if (childTree.type === "Component") {
     return getComponentRoots(childTree.pearlId, childTree.currentTree)
   } else if (childTree.type === "Fragment") {
-    console.log(childTree.type)
     return getFragmentRoots(childTree.FragmentID)
   }
 }

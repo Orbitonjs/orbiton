@@ -84,6 +84,12 @@ export function childNodes(node) {
   }
   return node.childNodes
 }
+export function parentNode(node) {
+  if (Array.isArray(node)) {
+    return node[0].parentNode
+  }
+  return node.parentNode
+}
 
 export function allDocumentNodes(): any[] {
   const allNodes = document.querySelectorAll('*')

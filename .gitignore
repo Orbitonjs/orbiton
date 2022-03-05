@@ -21,8 +21,11 @@ packages/orbiton/umd/
 packages/orbiton/cjs/
 packages/babel-plugin-orbiton-jsx/test.js
 packages/babel-plugin-orbiton-jsx/lib
+packages/server/lib
 demo/webpack
-
+**/esm/
+**/cjs/
+**/umd/
 # jest test coverage
 coverage
 

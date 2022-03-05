@@ -16,6 +16,7 @@ CVS
 .npmrc
 config.gypi
 .npmignore
+.yarnignore
 
 .vs
 .vscode
@@ -27,3 +28,5 @@ yarn-error.log*
 
 .config
 .editorconfig
+
+.npmignore

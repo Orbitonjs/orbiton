@@ -5,6 +5,7 @@
  * LICENSE file in the root directory of this source tree.
  *
  */
+const CorePkg = require('../packages/orbiton/src/core/npm/package.json')
 const pkg = require('../packages/orbiton/package.json')
 const babel = require('@rollup/plugin-babel')
 const path = require('path')
@@ -96,5 +97,69 @@ module.exports = [
       AddCustomExtension.AddCustomExtension('ts')
     ], */
     name: 'Orbiton'
-  }
+  },
+  {
+    entry: 'packages/server/src/index.js',
+    output: [
+      {
+        format: 'cjs',
+        file: 'packages/server/lib/index.js'
+      }
+    ],
+    rollupInputOptions: {
+      plugins: [
+        babel.babel({
+          configFile: path.resolve(__dirname, '../.config/.babelrc'),
+          babelHelpers: 'bundled'
+        })
+      ]
+    },
+    name: 'OrbitonServer'
+  },
+  {
+    entry: 'packages/orbiton/src/core/index.ts',
+    output: [
+      {
+        format: 'umd',
+        file: 'packages/orbiton/src/core/npm/umd/orbiton.development.js'
+      },
+      {
+        format: 'umd',
+        file: 'packages/orbiton/src/core/npm/umd/orbiton.production.js',
+        compress: true
+      },
+      {
+        format: 'cjs',
+        file: 'packages/orbiton/src/core/npm/cjs/orbiton.development.js'
+      },
+      {
+        format: 'cjs',
+        file: 'packages/orbiton/src/core/npm/cjs/orbiton.production.js',
+        compress: true
+      },
+      {
+        format: 'es',
+        file: 'packages/orbiton/src/core/npm/esm/orbiton.development.js'
+      },
+      {
+        format: 'es',
+        file: 'packages/orbiton/src/core/npm/esm/orbiton.production.js',
+        compress: true
+      }
+    ],
+    rollupInputOptions: {
+      plugins: [
+        AddCustomExtension.AddCustomExtension('.ts'),
+        replace({
+          '__PACKAGE_VERSION__': CorePkg.version,
+        }),
+        babel.babel({
+          configFile: path.resolve(__dirname, '../.config/.babelrc'),
+          babelHelpers: 'bundled',
+          extensions: ['.js', '.jsx', '.es6', '.es', '.mjs', '.ts']
+        })
+      ]
+    },
+    name: 'OrbitonCore'
+  },
 ]

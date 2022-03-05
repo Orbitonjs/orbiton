@@ -40,6 +40,10 @@ export function ingenimateChildren(
 {
   let index = 0
   const childNodes = dom.childNodes(node)
+  let parentNode
+  if (childNodes.length > 0) {
+    parentNode = childNodes[0].parentNode
+  }
   for (let i = 0; i < OldChildren.length; i++) {
     const oldChild = OldChildren[i];
     const newChild = NewChildren[i];
@@ -91,9 +95,19 @@ export function ingenimateChildren(
         }
       }
     } else {
-      const added = CheckChildrenAndDiff(oldChild, newChild, index, childNodes)
+      const added = CheckChildrenAndDiff(oldChild, newChild, index, childNodes, parentNode)
       index = index + added
     }
+  }
+
+
+  const ecessesChildren = []
+  for (const childEl of NewChildren.slice(OldChildren.length)) {
+    const DomChild = render(childEl)
+    ecessesChildren.push(DomChild)
+  }
+  if (ecessesChildren.length > 0) {
+    dom.appendChild(parentNode, ecessesChildren)
   }
 }
 
@@ -101,20 +115,26 @@ function CheckChildrenAndDiff(
   oldChild: any,
   newChild : any,
   index: any,
-  nodes:any
+  nodes:any,
+  parentNode = null
 ): number {
   let added = 0
-  if (oldChild.type === "Fragment") {
-    const hosts = getFragHost(oldChild)
-    added = added + hosts.length
-    diffAndPatch(oldChild, newChild, hosts)
-  } else if (oldChild.type === "Component") {
-    const hosts = getFragHost(oldChild)
-    added = added + hosts.length
-    diffAndPatch(oldChild, newChild, hosts)
-  }else {
-    diffAndPatch(oldChild, newChild, nodes[index])
-    added++
+  if (oldChild === undefined) {
+    diffAndPatch(oldChild, newChild, nodes, parentNode)
+  } else {
+    if (oldChild.type === "Fragment") {
+      const hosts = getFragHost(oldChild)
+      added = added + hosts.length
+      diffAndPatch(oldChild, newChild, hosts)
+    } else if (oldChild.type === "Component") {
+      const hosts = getFragHost(oldChild)
+      added = added + hosts.length
+      diffAndPatch(oldChild, newChild, hosts)
+    }else {
+      diffAndPatch(oldChild, newChild, nodes[index])
+      added++
+    }
   }
+
   return added
 }

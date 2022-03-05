@@ -8,6 +8,7 @@
 
 import * as dom from "../renderer/DomOperations"
 import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
+import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
 import { render } from "../renderer/render_new"
 import { ingenimateChildren } from "./children_new";
 
@@ -33,11 +34,20 @@ function getParentComponentsAndFrags(node, parent): any[] {
 export function diffAndPatch(
   oldTree: any,
   newTree: any,
-  node: any
+  node: any,
+  parentNode = null,
 ): any {
 
-  if (newTree === undefined) {
-    dom.remove(node)
+  if (newTree === undefined || oldTree === undefined) {
+    if (newTree === undefined) {
+      dom.remove(node)
+      return node
+    } else {
+      const newNode = render(newTree)
+      dom.appendChild(parentNode, newNode)
+      return newNode
+    }
+
   }
   if (typeof oldTree === "string" || typeof newTree === "string") {
     let nodeValue;
@@ -53,6 +63,7 @@ export function diffAndPatch(
     if (nodeValue !== newTree) {
       const newNode = render(newTree)
       dom.replaceWith(node, newNode)
+      triggerMountedLifeCycle(newNode)
       return newNode
     } else {
       return node
@@ -72,6 +83,7 @@ export function diffAndPatch(
       newNode = render(newTree)
     }
     dom.replaceWith(node, newNode)
+    triggerMountedLifeCycle(newNode)
     return newNode
   }
   if (oldTree.type === "element" && newTree.type === "element") {
@@ -99,6 +111,7 @@ export function DiffAndPatchComponent(
 
     const newNode = render(newComp, opts)
     dom.replaceWith(node, newNode)
+    triggerMountedLifeCycle(newNode, newComp)
     return newNode
   } else {
     diffAndPatch(oldComp.makeChild(), newComp.makeChild(), node)
@@ -129,6 +142,7 @@ export function diffAndPatchElement(
     }
     const newNode = render(newTree, opts)
     dom.replaceWith(node, newNode)
+    triggerMountedLifeCycle(newNode)
     return newNode;
   }
   PatchElementAttributes(oldTree.attributes, newTree.attributes, node)

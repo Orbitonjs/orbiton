@@ -12,6 +12,8 @@
 
 import { createId } from './Selectors';
 import { Props } from "../../types/index"
+import { Config } from './config';
+import { PatchTrees } from '../ingeminater/compareOrbitonTree';
 
 /**
 * Base component
@@ -20,7 +22,7 @@ export class BaseComponent {
   state: any
   props: Props
   context: Record<string, unknown>
-  constructor(props: Props = {}, context: Record<string, unknown> = {}) {
+  constructor(props: any = {}, context: Record<string, unknown> = {}) {
     this.state = {}
     this.props = props
     this.context = context
@@ -66,7 +68,7 @@ export class LogicalComponent extends BaseComponent {
   readonly type: 'Component';
   pearlId: symbol;
   static isClassComponent = true
-  constructor(props: Props = {}, context = {}) {
+  constructor(props: any = {}, context = {}) {
 
     super(props, context)
     if (props !== {}) {
@@ -105,3 +107,64 @@ export class LogicalComponent extends BaseComponent {
   }
 
 }
+
+
+
+export class Component extends BaseComponent {
+  key: any;
+  readonly type: 'Component';
+  pearlId: symbol;
+  currentTree: any;
+  static isClassComponent = true
+  constructor(props: any = {}, context = {}) {
+
+    super(props, context)
+    if (props !== {}) {
+      this.key = props? props.key ? props.key : null : null
+    }
+    this.type = 'Component'
+    this.pearlId = createId(this.constructor.name, this.key)
+    this.makeChild = this.makeChild.bind(this)
+    this.Mounted = this.Mounted.bind(this)
+    this.WillMount = this.WillMount.bind(this)
+    this.getPearlId = this.getPearlId.bind(this)
+    this.updateState = this.updateState.bind(this)
+    this.changeState = this.changeState.bind(this)
+  }
+
+  getPearlId(): symbol {
+    return this.pearlId
+  }
+
+  Mounted(): void {}
+
+  WillMount(): void { }
+
+
+
+  /**
+  * Updates a subset of the state in the class
+  * @param {any} newState this subset that you want to update
+  * @param {?Function} callback this callback function that is called after state updates
+  *
+  * */
+  updateState(
+    newState: Record<string, unknown>,
+    callback: VoidFunction | null = null
+  ): void {
+
+
+    this.changeState(newState, callback)
+
+    const newVTree = PatchTrees(this.currentTree, this.render())
+    Config.renderer.updateUI(this.currentTree, newVTree, this)
+    this.currentTree = newVTree
+  }
+  makeChild(): any {
+    this.currentTree = this.render()
+    return this.currentTree
+  }
+  render(): any {}
+
+}
+

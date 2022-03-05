@@ -7,12 +7,12 @@
  */
 
 import { BaseComponent, LogicalComponent } from "./core/component";
+import { Config } from "./core/config";
 import createComponent from "./core/createComponent";
 import createElement, {withComponent} from "./core/createElement";
 import { Fragment } from "./core/Fragment";
-import { createProxyBinder } from "./core/hooks/createProxyBind";
-import append from "./renderer/append";
 import Component from "./renderer/createComponent";
+import append from "./renderer/append";
 import { render } from "./renderer/render";
 const version = "__PACKAGE_VERSION__"
 /**
@@ -33,8 +33,8 @@ const Orbiton = {
   Fragment,
   BaseComponent,
   LogicalComponent,
-  createProxyBinder,
-  version
+  version,
+  Config
 }
 export default Orbiton
 

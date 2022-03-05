@@ -1,0 +1,22 @@
+{
+  "name": "@orbiton/server",
+  "version": "0.0.1",
+  "description": "ServerSide helper functions for Orbiton",
+  "main": "lib/index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Orbitonjs/orbiton.git"
+  },
+  "keywords": [
+    "orbiton",
+    "orbitonjs",
+    "server",
+    "server-sider-rendering"
+  ],
+  "author": "Beingana Jim Junior",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Orbitonjs/orbiton/issues"
+  },
+  "homepage": "https://github.com/Orbitonjs/orbiton#readme"
+}

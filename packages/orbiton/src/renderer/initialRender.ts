@@ -24,4 +24,5 @@ export function initialRender(root: any, tree: any) {
   root.__ORBITON_CONFIG____isOrbitonRoot = true
   //root.appendChild(replacedElement)
   appendChild(root, replacedElement)
+  triggerMountedLifeCycle(root)
 }

@@ -1,0 +1,22 @@
+{
+  "name": "@orbiton/core",
+  "version": "0.0.1",
+  "description": "The Ultimate Javascript library for building User Interfaces.",
+  "main": "index.js",
+  "browser": "umd/orbiton.production.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/orbitonjs/orbiton.git"
+  },
+  "keywords": [
+    "User-interface",
+    "UX",
+    "UI"
+  ],
+  "author": "Beingana Jim Junior",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/orbitonjs/orbiton/issues"
+  },
+  "homepage": "https://orbiton.js.org"
+}
