@@ -1,4 +1,4 @@
-# <div align="center"> <img src="branding/logo.png" style="align-items:center;" ></div>
+# <div align="center"> <img src="https://raw.githubusercontent.com/Orbitonjs/orbiton/main/branding/orx.svg" style="align-items:center;" ></div>
 ##### <div align="center"> [![Npm package total downloads](https://flat.badgen.net/npm/license/orbiton)](https://npmjs.com/package/orbiton) [![Npm package total downloads](https://flat.badgen.net/npm/dt/orbiton)](https://npmjs.com/package/orbiton) </div>
 A Javascript library for building Browser User Interfaces.
 Orbiton JS is a component base javascript rendering library for creating User Interfaces in the browser. 
@@ -61,6 +61,7 @@ Here are some important links that you might find usefull if you are gettig star
 - [Installing Orbiton](https://orbiton.js.org/docs/getting-started/installation)
 - [JSX in Orbiton](https://orbiton.js.org/docs/how-to-guides/jsx-in-orbiton)
 
+<a href="https://www.patreon.com/bePatron?u=63611941" data-patreon-widget-type="become-patron-button">Become a Patron!</a><script async src="https://c6.patreon.com/becomePatronButton.bundle.js"></script>
 
 ## Contributing
 
