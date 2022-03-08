@@ -12,6 +12,7 @@ const INPUTS = require('./inputs');
 const terser = require('rollup-plugin-terser')
 let aqua = chalk.rgb(0, 255, 255)
 const log = console.log
+const { argv } = require('process')
 const pkg = require('../packages/orbiton/package.json')
 
 log(`
@@ -72,8 +73,35 @@ async function buildAll() {
   `)
 }
 
+const args = argv.slice(2)
+const getPkg = () => {
+  let pkg = null
+  for (const arg of args) {
+    if (arg.startsWith("pkg=")) {
+      let strp = arg.substring(4)
+      pkg = strp
+    }
+  }
+  return pkg
+}
+const packageName = getPkg()
 
 
-buildAll()
+async function buildPackages(params) {
+  if (packageName === null) {
+    await buildAll()
+  } else {
+    for (const input of INPUTS) {
+      //console.log(input.name)
+      if (input.name === packageName) {
+        await build(input)
+        log(`
+✨ ${chalk.green('Success:')} ${chalk.gray(' Finished to bundle ' + packageName)}`
+        )
+      }
+    }
 
+  }
+}
+buildPackages()
 module.exports.build = buildAll

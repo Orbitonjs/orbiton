@@ -11,7 +11,8 @@
     "orbiton",
     "orbitonjs",
     "server",
-    "server-sider-rendering"
+    "server-sider-rendering",
+    "ssr"
   ],
   "author": "Beingana Jim Junior",
   "license": "MIT",
