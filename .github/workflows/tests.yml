@@ -21,7 +21,7 @@ jobs:
           node-version: "16"
           cache: "yarn"
       - run: yarn
-      - run: yarn run build:plugin
+      - run: yarn run build
       - run: cd packages/orbiton && yarn link
       - run: cd ../../ && yarn link orbiton
       - run: yarn test
