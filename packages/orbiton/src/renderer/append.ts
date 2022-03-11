@@ -6,9 +6,7 @@
  *
  */
 
-import { config } from "./config"
 import { OrbitonElement } from "../../types/index"
-import Orbiton from "../index"
 import { initialRender } from "./initialRender"
 
 

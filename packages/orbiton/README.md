@@ -1,16 +1,16 @@
-# <div align="center"> <img src="https://raw.githubusercontent.com/Orbitonjs/orbiton/main/branding/logo.png" style="align-items:center;" ></div>
-##### <div align="center"> [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![Npm package total downloads](https://badgen.net/npm/dt/orbiton)](https://npmjs.com/package/orbiton) </div>
+# <div align="center"> <img src="https://raw.githubusercontent.com/Orbitonjs/orbiton/main/branding/orx.svg" style="align-items:center;" ></div>
+##### <div align="center"> [![License: MIT](https://flat.badgen.net/npm/license/orbiton)](https://opensource.org/licenses/MIT) [![Npm package total downloads](https://flat.badgen.net/npm/dt/orbiton)](https://npmjs.com/package/orbiton) [![version](https://flat.badgen.net/npm/v/orbiton)](https://npmjs.com/package/orbiton) [![Sponsor On Patreon](https://flat.badgen.net/badge/icon/patreon?icon=patreon&label&color=orange)](https://www.patreon.com/jimjunior) [![](https://flat.badgen.net/badge/icon/github?icon=github&label&color=black)](https://github.com/Orbitonjs/orbiton) </div>
 A Javascript library for building Browser User Interfaces.
 Orbiton JS is a component based Javascript rendering Engine for creating User Interfaces in the browser. 
 Orbiton was originally developed by [Beingana Jim Junior](https://twitter.com/jimjuniorb) as a rendering engine for his small library for creating video components. He later decided to separate it from the main package and in order to make it reusable in other projects. That is how it came about.
 
 ## Why use Orbiton
 
-Most developers ask themselves why use a new young library like Orbiton.
-- __Light Weight__: One of the greatest advantage of Orbiton is that its lightweight compared to other libraries like React. Orbiton is just 6kb - 10kb compared to other libraries that are around 100kb+. This assures you that your app has fast page loads since most of the chunk is from just your own code.
-- __Close To Dom__: This is another advantage of Orbiton. Being close to the Dom means that the library will not have to carry out many functions in order to update the Dom making the app feel fast for the user.
+Make your choice to use Orbiton based off facts.
+- __Light Weight__: One of the greatest advantage of Orbiton is that its lightweight. Orbiton is just 3.5kb min+gzip, This assures you that your app has fast page loads since most of the chunk is from just your own code.
+- __Close To Dom__: This is another advantage of Orbiton. Being close to the DOM means that the library will not have to carry out many functions in order to update the Dom making the app feel fast for the user.
 - __Reactive__: The library is reactive making you create modern web apps that provide a native feel to the user. This makes it even better for creating Progressive web apps.
-- __Modern__: Orbiton JS is among the youngest libraries and so it utilizes modern JavaScript removing legacy code from your apps. Most modern browsers like chrome recommend this.
+- __Rust Renderer__: Orbiton JS has a new experimantal Rust Render that compiles to wasm. Rust is known for its perfomance hence makin Orbiton Applications run at maximun performance.
 
 
 ## Installation
@@ -36,12 +36,11 @@ yarn add orbiton
 npm install orbiton
 ```
 
-### In Deno
+### Deno
 Orbiton also supports development in [deno](https://deno.land).
 
 ```js
 
-import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.development.js"
 import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.development.js"
 ```
 
@@ -49,16 +48,20 @@ import Orbiton from "https://cdn.jsdeliver.net/npm/orbiton/esm/orbitonjs.develop
 Using Orbiton is easy. All you have to do is import Orbiton and use JSX to create your app. Visit the Orbiton JS [documentation here](https://orbiton.js.org) to Learn how to build Apps in Orbiton JS.
 
 ```jsx
-const Button = <button onClick={() => { alert('Clicked') } } >Click me</button>
+import Orbiton from 'orbiton'
+const App = (
+  <div>
+    <h1>Hello World</h1>
+  <div>
+)
 
-Orbiton.append(Button, document.getElementById('root'))
+Orbiton.append(App, document.getElementById('root'))
 ```
 
 Here are some important links that you might find usefull if you are gettig started with Orbiton JS.
-- [Getting Started with Orbiton JS](https://orbiton.js.org/docs/getting-started/quick-start)
+- [Quick Start guide](https://orbiton.js.org/docs/getting-started/quick-start)
 - [Installing Orbiton](https://orbiton.js.org/docs/getting-started/installation)
-- [Writing you first Orbiton App](https://orbiton.js.org)
-- [JSX in Orbiton](https://orbiton.js.org)
+- [JSX in Orbiton](https://orbiton.js.org/docs/how-to-guides/jsx-in-orbiton)
 
 
 ## Contributing

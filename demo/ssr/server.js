@@ -1,4 +1,5 @@
 
+require('ignore-styles')
 require("@babel/register")({
   plugins: ["@babel/plugin-syntax-jsx", "babel-plugin-orbiton-jsx"]
 })
