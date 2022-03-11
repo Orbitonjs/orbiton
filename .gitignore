@@ -34,3 +34,6 @@ coverage
 
 # ignoreFolder
 ignoreFolder
+
+# Rust Files
+target

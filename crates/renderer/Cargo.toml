@@ -1,5 +1,5 @@
 [package]
-name = "core"
+name = "renderer"
 version = "0.1.0"
 authors = ["Jim Junior <jimjunior854@gmail.com>"]
 edition = "2018"

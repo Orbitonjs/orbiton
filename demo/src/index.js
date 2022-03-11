@@ -1,8 +1,8 @@
 // Add variable components
 // Add functional Components
 import Orbiton, { Component } from "orbiton"
-import "../static/index.css"
-import Logo from '../static/logo.png'
+//import "../static/index.css"
+//import Logo from '../static/logo.png'
 import Tasks from './Tasks'
 
 
@@ -17,7 +17,7 @@ class Header extends Orbiton.Component {
   render() {
     return <nav>
       <div className="logo">
-        <img src={Logo} alt="logo" />
+        <img src='/' alt="logo" />
       </div>
       <div className="heading">Todo App</div>
       <div className="addtodo"><span className="add">+</span></div>
@@ -29,12 +29,12 @@ const Containor = <div className="containor">
   <Tasks />
 </div>
 
-const App = <div >
+export const App = <div >
   <Header />
   <Containor />
 </div>
 
-Orbiton.append(<div><App /></div>, document.getElementById('root'), () => console.log('App has mounted'))
+//Orbiton.append(<div><App /></div>, document.getElementById('root'), () => console.log('App has mounted'))
 
 export function Button(props) {
   return <button>HELLO</button>;
