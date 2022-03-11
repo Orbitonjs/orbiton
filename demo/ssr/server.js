@@ -7,7 +7,7 @@ require("@babel/plugin-syntax-jsx")
 require("babel-plugin-orbiton-jsx")
 
 const express = require('express');
-const App = require('../src/index')
+const App = require('../src/App')
 const app = express()
 const OrbitonServer = require('@orbiton/server')
 app.use(express.json())
