@@ -1,4 +1,8 @@
-# <div align="center"> <img src="https://raw.githubusercontent.com/Orbitonjs/orbiton/main/branding/orx.svg" style="align-items:center;" ></div>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Righteous&display=swap" rel="stylesheet">
+
+# <div align="center"> <img src="https://raw.githubusercontent.com/Orbitonjs/orbiton/main/branding/banner.svg" style="align-items:center;" ></div>
 ##### <div align="center"> [![License: MIT](https://flat.badgen.net/npm/license/orbiton)](https://opensource.org/licenses/MIT) [![Npm package total downloads](https://flat.badgen.net/npm/dt/orbiton)](https://npmjs.com/package/orbiton) [![version](https://flat.badgen.net/npm/v/orbiton)](https://npmjs.com/package/orbiton) [![Sponsor On Patreon](https://flat.badgen.net/badge/icon/patreon?icon=patreon&label&color=orange)](https://www.patreon.com/jimjunior) [![](https://flat.badgen.net/badge/icon/github?icon=github&label&color=black)](https://github.com/Orbitonjs/orbiton) </div>
 A Javascript library for building Browser User Interfaces.
 Orbiton JS is a component based Javascript rendering Engine for creating User Interfaces in the browser. 
