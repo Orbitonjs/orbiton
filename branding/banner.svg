@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="300mm"
+   height="80mm"
+   viewBox="0 0 300 80"
+   version="1.1"
+   id="svg5"
+   inkscape:version="1.1.2 (1:1.1+202202050942+0a00cf5339)"
+   sodipodi:docname="banner.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview7"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:document-units="mm"
+     showgrid="false"
+     inkscape:zoom="0.37415825"
+     inkscape:cx="221.83127"
+     inkscape:cy="513.15186"
+     inkscape:window-width="1366"
+     inkscape:window-height="714"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs2">
+    <linearGradient
+       inkscape:collect="always"
+       id="linearGradient22027">
+      <stop
+         style="stop-color:#00ffff;stop-opacity:1;"
+         offset="0"
+         id="stop22023" />
+      <stop
+         style="stop-color:#0000ff;stop-opacity:1"
+         offset="1"
+         id="stop22025" />
+    </linearGradient>
+    <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient22027"
+       id="linearGradient22029"
+       x1="89.901222"
+       y1="191.40776"
+       x2="221.33588"
+       y2="190.16211"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(24.557115,-151.55223)" />
+  </defs>
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <rect
+       style="fill:#001e3c;fill-opacity:1;stroke-width:0.247183"
+       id="rect20284"
+       width="300"
+       height="80"
+       x="0"
+       y="0"
+       ry="27.029421"
+       inkscape:export-filename="/media/junior/Junior/linux/orbiton/branding/banner.png"
+       inkscape:export-xdpi="25.4"
+       inkscape:export-ydpi="25.4" />
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:10.5833px;line-height:1.25;font-family:Righteous;-inkscape-font-specification:Righteous;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="50.958481"
+       y="130.8463"
+       id="text231"><tspan
+         sodipodi:role="line"
+         id="tspan229"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Righteous;-inkscape-font-specification:Righteous;stroke-width:0.264583"
+         x="50.958481"
+         y="130.8463" /></text>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:10.5833px;line-height:1.25;font-family:sans-serif;fill:#000000;fill-opacity:1;stroke:none;stroke-width:0.264583"
+       x="51.008202"
+       y="92.994804"
+       id="text5097"><tspan
+         sodipodi:role="line"
+         id="tspan5095"
+         style="stroke-width:0.264583"
+         x="51.008202"
+         y="92.994804" /></text>
+    <rect
+       style="fill:#0a1929;fill-opacity:1;stroke-width:0.174785"
+       id="rect20284-7"
+       width="300"
+       height="40"
+       x="1.4210855e-14"
+       y="0"
+       ry="0" />
+    <g
+       id="layer1-6"
+       transform="matrix(0.25,0,0,0.25000001,36.63535,-2.924227)">
+      <path
+         id="path142"
+         style="fill:#000080;stroke-width:0.841687"
+         d="m 178.22013,71.69761 v 49.99854 a 47.618872,49.999869 0 0 1 47.61924,50.00025 47.618872,49.999869 0 0 1 -47.61924,50.00022 V 271.6969 A 95.237734,99.99973 0 0 0 273.4586,171.6964 95.237734,99.99973 0 0 0 178.22013,71.69761 Z" />
+      <path
+         id="path153"
+         style="fill:#0000ff;stroke-width:0.841687"
+         d="M 168.69545,71.696905 A 95.237734,99.99973 0 0 0 73.458599,171.6957 95.237734,99.99973 0 0 0 168.69545,271.69619 v -50.00024 a 47.618872,49.999869 0 0 1 -47.61757,-50.00025 47.618872,49.999869 0 0 1 47.61757,-50.00026 z" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-style:normal;font-weight:normal;font-size:39.1064px;line-height:1.25;font-family:sans-serif;fill:url(#linearGradient22029);fill-opacity:1;stroke:none;stroke-width:0.271571"
+       x="114.66271"
+       y="54.369598"
+       id="text6091"
+       transform="scale(0.99548151,1.004539)"><tspan
+         sodipodi:role="line"
+         id="tspan6089"
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:39.1064px;font-family:Righteous;-inkscape-font-specification:Righteous;fill:url(#linearGradient22029);fill-opacity:1;stroke-width:0.271571"
+         x="114.66271"
+         y="54.369598">orbiton</tspan></text>
+  </g>
+</svg>
