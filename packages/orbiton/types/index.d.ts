@@ -106,6 +106,12 @@ export type OrbitonConfig =  {
   HostFragID?: symbol
 }
 
+export type RenderOptions = {
+  ns?: string,
+  parents?: any[],
+  parentNotElement?: boolean
+}
+
 export type Attributes = {
 
 }
@@ -129,7 +135,7 @@ export type OrbitonElement = {
   ref?: symbol,
   domRef?: OrbitonDOMElement | OrbitonSVGElement
   type: 'element',
-  attachedComponent?: LogicalComponent,
+  attachedComponent?: LogicalComponent | Component,
   props?: Props
 }
 export type Attr = {
@@ -140,14 +146,14 @@ export type OrbitonChildren = Array<string|OrbitonElement|Component|Fragment>
 
 
 export interface OrbitonDOMElement extends HTMLElement {
-  _orbiton$config: OrbitonConfig
+  __ORBITON_CONFIG__: OrbitonConfig
 }
 export interface OrbitonTextNode extends Text {
-  _orbiton$config: OrbitonConfig
+  __ORBITON_CONFIG__: OrbitonConfig
 }
 
 export interface OrbitonSVGElement extends SVGSVGElement {
-  _orbiton$config: OrbitonConfig
+  __ORBITON_CONFIG__: OrbitonConfig
 }
 export type Tree = OrbitonElement | Component
 
@@ -206,7 +212,7 @@ function append(
 */
 function createElement(tag: string, options?: Options) :OrbitonElement
 
-const version : '1.0.0'
+const version : string
 
 
 

@@ -6,14 +6,15 @@
  *
  */
 
-import { OrbitonElement } from "../../types/index"
+import { Component, OrbitonElement } from "../../types/index"
+import { Fragment } from "../core/Fragment"
 import { initialRender } from "./initialRender"
 
 
 /**
 * appends a Tree to the DOM
 */
-function append(Tree: OrbitonElement, root: HTMLElement, callback?: CallableFunction): boolean | any {
+function append(Tree: OrbitonElement| Fragment | Component, root: HTMLElement, callback?: CallableFunction): boolean | any {
   initialRender(root, Tree)
   if (callback) {
     callback()

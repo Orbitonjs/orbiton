@@ -71,6 +71,9 @@ export function TransformSyntax() {
           }
         }
       },
+      JSXFragment(path) {
+        console.log(path.node)
+      }
     }
   }
 }

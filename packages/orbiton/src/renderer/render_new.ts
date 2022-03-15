@@ -7,10 +7,13 @@
  */
 
 import { evaluateAttributes } from "./ElementAttributes";
+import {Component, RenderOptions, OrbitonElement} from '../../types/index'
+import { Fragment } from "../core/Fragment";
+
 
 export function render(
-  node: any,
-  options: any = {ns: "http://www.w3.org/1999/xhtml"},
+  node: string|Fragment|OrbitonElement|Component,
+  options: RenderOptions = {ns: "http://www.w3.org/1999/xhtml"},
   ns = "http://www.w3.org/1999/xhtml"
 ): any {
   if (Array.isArray(node)) {
@@ -38,7 +41,7 @@ export function render(
 
 function renderElement(
   element: any,
-  options: any = {ns: "http://www.w3.org/1999/xhtml"},
+  options: RenderOptions = {ns: "http://www.w3.org/1999/xhtml"},
   ns = "http://www.w3.org/1999/xhtml"
 ) : any {
   let node;
@@ -81,9 +84,6 @@ function renderElement(
         //   )
         // }
         for (const item of child) {
-          if (!(item.key)) {
-            console.warn(`Consider providing a ${"`key`"} for \`${item}\`. Rendering and array or maped array without providing a key for the elements might cause vulnerabilities. Visit https://orbiton.js.org/docs/learn/list-rendering for more information `)
-          }
           const childNode = render(item, childOptions, childns)
           appendChild(node, childNode)
         }
@@ -108,8 +108,8 @@ function renderText(string: any, options: any) {
 }
 
 function renderComponent(
-  component: any,
-  options: any
+  component: Component,
+  options: RenderOptions
 ): any {
   const element = component.makeChild()
   options.parentNotElement = true
@@ -135,12 +135,10 @@ function renderComponent(
 
 }
 
-function renderFragment(fragment: any, options: any) {
+function renderFragment(fragment: Fragment, options: RenderOptions) {
   const children = []
   options.parentNotElement = true
-  if (Array.isArray(options.parents)) {
-    ///
-  }else {
+  if (Array.isArray(options.parents) === false) {
     options.parents = []
   }
   if (fragment.children.length === 0) {

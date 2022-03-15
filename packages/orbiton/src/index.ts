@@ -13,7 +13,7 @@ import createElement, {withComponent} from "./core/createElement";
 import { Fragment } from "./core/Fragment";
 import Component from "./renderer/createComponent";
 import append from "./renderer/append";
-import { render } from "./renderer/render";
+import { render } from "./renderer/render_new";
 const version = "__PACKAGE_VERSION__"
 /**
 * A Javascript library for building Browser User Interfaces

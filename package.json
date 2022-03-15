@@ -1,5 +1,4 @@
 {
-  "version": "1.0.0",
   "description": "A Javascript library for building Browser User Interfaces. Pearl JS is a component base javascript rendering library for creating User Interfaces in the browser.\n",
   "private": true,
   "workspaces": [
@@ -11,6 +10,7 @@
     "lint": "eslint --ext .js,.ts packages/orbiton/",
     "build:plugin": "rollup -c .config/rollup.config.js",
     "watch:plugin": "rollup -w -c .config/rollup.config.js",
+    "dev:build": "webpack --config ./.config/webpack.config.js",
     "dev": "webpack serve --open --config ./.config/webpack.config.js",
     "tsc": "tsc",
     "test": "jest",

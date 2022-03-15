@@ -49,7 +49,7 @@ export const withComponent = (
     events,
     children,
     type: 'element',
-    attachedComponent: createComponent(component, props),
+    attachedComponent: createComponent<LogicalComponent>(component, props),
     props: props
   }
 }

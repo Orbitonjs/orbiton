@@ -6,6 +6,7 @@
  *
  */
 
+import { RenderOptions } from "../../types/index";
 import * as dom from "../renderer/DomOperations"
 import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
 import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
@@ -136,9 +137,9 @@ export function diffAndPatchElement(
         }
       }
     }
-    const opts = {
+    const opts : RenderOptions = {
       parentNotElement: parentIsComp,
-      parents: parentIsComp ? hosts : ""
+      parents: parentIsComp ? hosts : undefined
     }
     const newNode = render(newTree, opts)
     dom.replaceWith(node, newNode)
