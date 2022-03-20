@@ -13,29 +13,31 @@ const babel = require('@babel/core');
 const code = `
 function App(props) {
   return (
-    <div:Head className="orbiton-root" props={{
-      title: "Home"
-    }}>
-      <Route path="/button">
-        <button
-          onClick={(e) => {
-            console.log("Clicked")
-          }}
-          onKeyUpCapture={activatePlayer}
-        >
-          Click Me
-        </button>
-      </Route>
-      <Route>
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-        >
-          <path d="M0 0h24v24H0V0z" fill="none" />
-        </svg>
-        <Icons.MdSearch />
-      </Route>
-    </div:Head>
+    <>
+      <div:Head className="orbiton-root" props={{
+        title: "Home"
+      }}>
+        <Route path="/button">
+          <button
+            onClick={(e) => {
+              console.log("Clicked")
+            }}
+            onKeyUpCapture={activatePlayer}
+          >
+            Click Me
+          </button>
+        </Route>
+        <Route>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+          >
+            <path d="M0 0h24v24H0V0z" fill="none" />
+          </svg>
+          <Icons.MdSearch />
+        </Route>
+      </div:Head>
+    </>
   )
 }
 

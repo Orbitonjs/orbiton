@@ -123,3 +123,35 @@ export function TransformToCreateElement(tag, attributes, events, children) {
 }
 
 
+
+
+export function TransformToFragment(children) {
+  let ExpressionTag;
+  ExpressionTag = t.memberExpression(
+    t.identifier("Orbiton"),
+    t.identifier("Fragment"),
+    false
+  )
+  const RESULT_ATTRS = []
+  const { RESULT_CHILDREN } = getAttrChildrenAndProps([], children)
+
+  RESULT_ATTRS.push(
+    t.objectProperty(
+      t.identifier('children'),
+      t.arrayExpression(RESULT_CHILDREN)
+    )
+  )
+  return t.callExpression(
+    t.memberExpression(
+      t.identifier("Orbiton"),
+      t.identifier("createComponent"),
+      false
+    ),
+    [
+      ExpressionTag,
+      t.objectExpression(
+        [...RESULT_ATTRS]
+      ),
+    ]
+  )
+}

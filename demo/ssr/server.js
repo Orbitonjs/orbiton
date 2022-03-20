@@ -10,30 +10,26 @@ const express = require('express');
 const App = require('../src/App')
 const app = express()
 const OrbitonServer = require('@orbiton/server')
+const fs = require("fs")
+const path = require("path")
+
+app.get('/', (req, res) => {
+  const app = OrbitonServer.renderToString(App.App)
+  const indexfile = path.resolve("demo/webpack/index.html")
+
+  fs.readFile(indexfile, 'utf8', (err, data) => {
+    if (err) {
+      console.err('An error occured \n', err)
+      return res.status(500).send('Opps errr')
+    }
+    return res.send(
+      data.replace('<div id="root"></div>', `<div id="root">${app}</div>`)
+    )
+  })
+
+})
+const PORT = process.env.PORT || 3000
 app.use(express.json())
 app.use(express.static('demo/webpack'))
-app.get('/', (req, res) => {
-  res.send(`
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8" />
-  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <link rel="shortcut icon" href="/favicon.png" type="image/png" />
-</head>
-
-<body>
-  <div class="pearl">
-    <div id="root">${OrbitonServer.renderToString(App.App)}</div>
-  </div>
-</body>
-
-</html>
-
-  `)
-})
-
-app.listen(3000)
-console.log("App listening ")
+app.listen(PORT)
+console.log("App listening at http://localhost:" + PORT)

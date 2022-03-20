@@ -9,7 +9,7 @@
 /* eslint-disable no-undef */
 import evaluateJSXAttributes from "./evaluateJSXAttributes"
 import { getElementType } from "./eveluateElementType"
-import { TransformToCreateComponent, TransformToCreateElement } from "./transformToFunction";
+import { TransformToCreateComponent, TransformToFragment, TransformToCreateElement } from "./transformToFunction";
 import { transformNamespacedJSX } from "./withComponent";
 const t = require('@babel/types')
 /* eslint-disable no-unused-vars */
@@ -72,7 +72,7 @@ export function TransformSyntax() {
         }
       },
       JSXFragment(path) {
-        console.log(path.node)
+        path.replaceWith(TransformToFragment(path.node.children))
       }
     }
   }

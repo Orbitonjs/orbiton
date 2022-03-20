@@ -4,43 +4,45 @@ exports[`Compiles JSX right 1`] = `
 "\\"use strict\\";
 
 function App(props) {
-  return Orbiton.withComponent(\\"div\\", Head, {
-    attributes: {
-      className: \\"orbiton-root\\"
-    },
-    props: {
-      title: \\"Home\\"
-    },
-    events: {},
-    children: [Orbiton.createComponent(Route, {
-      path: \\"/button\\",
-      children: [Orbiton.createElement(\\"button\\", {
-        attributes: {},
-        events: {
-          click: e => {
-            console.log(\\"Clicked\\");
+  return Orbiton.createComponent(Orbiton.Fragment, {
+    children: [Orbiton.withComponent(\\"div\\", Head, {
+      attributes: {
+        className: \\"orbiton-root\\"
+      },
+      props: {
+        title: \\"Home\\"
+      },
+      events: {},
+      children: [Orbiton.createComponent(Route, {
+        path: \\"/button\\",
+        children: [Orbiton.createElement(\\"button\\", {
+          attributes: {},
+          events: {
+            click: e => {
+              console.log(\\"Clicked\\");
+            },
+            keyupcapture: activatePlayer
           },
-          keyupcapture: activatePlayer
-        },
-        children: [\\"\\\\n          Click Me\\\\n        \\"]
-      })]
-    }), Orbiton.createComponent(Route, {
-      children: [Orbiton.createElement(\\"svg\\", {
-        attributes: {
-          xmlns: \\"http://www.w3.org/2000/svg\\",
-          \\"xmlns:inkscape\\": \\"http://www.inkscape.org/namespaces/inkscape\\"
-        },
-        events: {},
-        children: [Orbiton.createElement(\\"path\\", {
+          children: [\\"\\\\n            Click Me\\\\n          \\"]
+        })]
+      }), Orbiton.createComponent(Route, {
+        children: [Orbiton.createElement(\\"svg\\", {
           attributes: {
-            d: \\"M0 0h24v24H0V0z\\",
-            fill: \\"none\\"
+            xmlns: \\"http://www.w3.org/2000/svg\\",
+            \\"xmlns:inkscape\\": \\"http://www.inkscape.org/namespaces/inkscape\\"
           },
           events: {},
+          children: [Orbiton.createElement(\\"path\\", {
+            attributes: {
+              d: \\"M0 0h24v24H0V0z\\",
+              fill: \\"none\\"
+            },
+            events: {},
+            children: []
+          })]
+        }), Orbiton.createComponent(Icons.MdSearch, {
           children: []
         })]
-      }), Orbiton.createComponent(Icons.MdSearch, {
-        children: []
       })]
     })]
   });

@@ -14,11 +14,12 @@ import { Fragment } from "./core/Fragment";
 import Component from "./renderer/createComponent";
 import append from "./renderer/append";
 import { render } from "./renderer/render_new";
+import { hydrate } from "./renderer/hydrate";
 const version = "__PACKAGE_VERSION__"
 /**
 * A Javascript library for building Browser User Interfaces
 * @author Beigana Jim Junior <jimjunior854@outlook.com>
-* @copyright Beigana Jim Junior © 2021 - present
+* @copyright Beigana Jim Junior and Contributors © 2021 - present
 * @license MIT
 *
 * Learn more at the official Documentation: {@link https://orbiton.js.org}
@@ -34,6 +35,7 @@ const Orbiton = {
   BaseComponent,
   LogicalComponent,
   version,
+  hydrate,
   Config
 }
 export default Orbiton

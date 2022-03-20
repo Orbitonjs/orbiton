@@ -43,6 +43,7 @@ export function triggerMountedLifeCycle(node: any , component: any = null):  voi
     })
   } else {
     node.childNodes.forEach((child: OrbitonDOMElement, i: number) => {
+
       triggerMountedLifeCycle(child)
     })
   }

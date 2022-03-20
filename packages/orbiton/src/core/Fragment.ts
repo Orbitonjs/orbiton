@@ -15,6 +15,8 @@ export class Fragment {
   FragmentID: symbol
   children: OrbitonChildren
   static isFragment = true
+
+
   constructor( children: OrbitonChildren ) {
     const key = Math.floor(Math.random() * 100000000)
     this.FragmentID = createId(`Fragment_Type`,`by_fragment_${key}`)
@@ -22,6 +24,8 @@ export class Fragment {
     this.type = "Fragment"
     this.getPearlId = this.getPearlId.bind(this)
   }
+
+
   getPearlId(): symbol {
     return this.FragmentID
   }

@@ -7,3 +7,12 @@ package.json
 packages/pearl/umd/
 packages/pearl/cjs/
 packages/babel-plugin-jsx-to-pearl/lib
+
+build
+coverage
+
+demo
+
+# Rust files
+target
+crates
