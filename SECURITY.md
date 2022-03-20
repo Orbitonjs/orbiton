@@ -13,6 +13,12 @@ The following are the version that are being suported with security updates.
 | 1.1.2   | :white_check_mark: |
 | 1.1.1 < | :x:                |
 
+### Orbiton Server
+
+| Version | Supported          |
+| ------- | ------------------ |
+| *       | :white_check_mark: |
+
 ### babel-plugin-orbiton-jsx
 
 | Version | Supported          |

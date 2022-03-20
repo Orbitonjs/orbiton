@@ -87,17 +87,14 @@ const getPkg = () => {
 const packageName = getPkg()
 
 
-async function buildPackages(params) {
+async function buildPackages() {
   if (packageName === null) {
     await buildAll()
   } else {
     for (const input of INPUTS) {
-      //console.log(input.name)
       if (input.name === packageName) {
         await build(input)
-        log(`
-✨ ${chalk.green('Success:')} ${chalk.gray(' Finished to bundle ' + packageName)}`
-        )
+        log(`\n✨ ${chalk.green('Success:')} ${chalk.gray(' Finished to bundle ' + packageName)}`)
       }
     }
 

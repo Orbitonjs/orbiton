@@ -14,7 +14,7 @@ import { initialRender } from "./initialRender"
 /**
 * appends a Tree to the DOM
 */
-function append(Tree: OrbitonElement| Fragment | Component, root: HTMLElement, callback?: CallableFunction): boolean | any {
+function append(Tree: OrbitonElement| Fragment | Component, root: HTMLElement, callback?: CallableFunction): void {
   initialRender(root, Tree)
   if (callback) {
     callback()

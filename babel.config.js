@@ -12,5 +12,8 @@ module.exports = {
     ],
     "@babel/preset-typescript"
   ],
-  plugins: ["@babel/plugin-syntax-jsx", "./packages/babel-plugin-orbiton-jsx/lib/index"],
+  plugins: [
+    "@babel/plugin-syntax-jsx",
+    "./packages/babel-plugin-orbiton-jsx/lib/index"
+  ],
 }

@@ -15,7 +15,7 @@ export function render(
   node: string|Fragment|OrbitonElement|Component,
   options: RenderOptions = {ns: "http://www.w3.org/1999/xhtml"},
   ns = "http://www.w3.org/1999/xhtml"
-): any {
+): any| any[] {
   if (Array.isArray(node)) {
     // This might happen when you call the render function on `props.children`
     const children = []

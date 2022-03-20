@@ -24,6 +24,7 @@ export type Attributes = {
 
 }
 
+
 export type Options = {
   attributes?: Record<string, string | Record<string, string | number>>,
   events?: Record<string, VoidFunction>,
