@@ -22,6 +22,7 @@ packages/orbiton/cjs/
 packages/babel-plugin-orbiton-jsx/test.js
 packages/babel-plugin-orbiton-jsx/lib
 packages/server/lib
+packages/server/deno
 demo/webpack
 **/esm/
 **/cjs/

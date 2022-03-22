@@ -104,6 +104,10 @@ module.exports = [
       {
         format: 'cjs',
         file: 'packages/server/lib/index.js'
+      },
+      {
+        format: 'es',
+        file: 'packages/server/deno/index.js'
       }
     ],
     rollupInputOptions: {
