@@ -11,12 +11,11 @@ const pluginConfig = {
   output: {
     format: 'cjs',
     exports: "default",
-    file: 'packages/babel-plugin-orbiton-jsx/lib/index.js'
+    file: 'packages/babel-plugin-orbiton-jsx/lib/index.esm.js'
   },
   plugins: [
     babel({
       configFile: path.resolve(__dirname, '.babelrc'),
-      babelHelpers: 'bundled'
     }),
   ]
 }

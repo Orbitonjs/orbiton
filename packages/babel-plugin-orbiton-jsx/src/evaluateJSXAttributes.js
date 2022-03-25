@@ -6,7 +6,8 @@
  *
  */
 
-import * as t from '@babel/types'
+import * as babel from "@babel/core"
+const t = babel.types
 
 
 function evaluateNode(node) {

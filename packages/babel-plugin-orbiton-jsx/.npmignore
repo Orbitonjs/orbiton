@@ -30,3 +30,5 @@ yarn-error.log*
 .editorconfig
 
 .npmignore
+
+.babelrc

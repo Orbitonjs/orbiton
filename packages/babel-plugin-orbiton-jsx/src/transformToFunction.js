@@ -8,7 +8,8 @@
 
 /* eslint-disable no-undef */
 /* eslint-disable no-unused-vars */
-import * as t from '@babel/types'
+import * as babel from "@babel/core"
+const t = babel.types
 import { getAttrChildrenAndProps } from './utils/get-attrs-props-children'
 
 
