@@ -42,14 +42,18 @@ export function nodeValue(node: any): any {
 
 export function replaceWith(node: any, replacingNode: any) {
   if (Array.isArray(node)) {
-    const parentNode = node[0].parentNode as ParentNode
-    for (const child of parentNode.childNodes) {
-      child.remove()
+    let index = node.length
+    while (index > 1) {
+      const poped = node.pop()
+      poped.remove()
+      index--
     }
+    /** @type HTMLELement */
+    const poped: HTMLElement = node.pop()
     if (Array.isArray(replacingNode)) {
-      parentNode.append(...destructureArrays(replacingNode))
+      poped.replaceWith(...destructureArrays(replacingNode))
     } else {
-      parentNode.append(replacingNode)
+      poped.replaceWith(replacingNode)
     }
   } else {
     if (Array.isArray(replacingNode)) {

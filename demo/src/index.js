@@ -3,6 +3,7 @@
 import Orbiton from 'orbiton'
 import { App } from './App'
 
-Orbiton.hydrate(<App />, document.getElementById('root'), () => console.log('App has mounted'))
+Orbiton.append(App, document.getElementById('root'), () => console.log('App has mounted'))
 
 
+console.log(Orbiton)

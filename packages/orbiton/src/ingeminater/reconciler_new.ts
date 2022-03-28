@@ -9,6 +9,7 @@
 import { RenderOptions } from "../../types/index";
 import * as dom from "../renderer/DomOperations"
 import { evaluateStyleTag, getPropety } from "../renderer/ElementAttributes";
+import { patchNewEventListners } from "../renderer/Events";
 import { triggerMountedLifeCycle } from "../renderer/lifeCycles";
 import { render } from "../renderer/render_new"
 import { ingenimateChildren } from "./children_new";
@@ -32,6 +33,17 @@ function getParentComponentsAndFrags(node, parent): any[] {
 }
 
 
+
+
+function isStringInstance(value) {
+  if (typeof value === 'string' || value instanceof String|| typeof value === 'number' || value instanceof Number || typeof value === 'boolean' || value instanceof Boolean) {
+    return true
+  } else {
+    return false
+  }
+}
+
+
 export function diffAndPatch(
   oldTree: any,
   newTree: any,
@@ -40,17 +52,22 @@ export function diffAndPatch(
 ): any {
 
   if (newTree === undefined || oldTree === undefined) {
-    if (newTree === undefined) {
-      dom.remove(node)
-      return node
+    if (newTree === undefined && oldTree === undefined) {
+      return;
     } else {
-      const newNode = render(newTree)
-      dom.appendChild(parentNode, newNode)
-      return newNode
+      if (newTree === undefined) {
+        dom.remove(node)
+        return node
+      } else {
+        const newNode = render(newTree)
+        dom.appendChild(parentNode, newNode)
+        return newNode
+      }
     }
 
+
   }
-  if (typeof oldTree === "string" || typeof newTree === "string") {
+  if (isStringInstance(oldTree)  ||  isStringInstance(newTree)) {
     let nodeValue;
     try {
       nodeValue = dom.nodeValue(node)
@@ -61,7 +78,7 @@ export function diffAndPatch(
     // we check if the nodeValue od the DOM node is equal to the newTree
     // if its not equal then we replace it with the new string
     // If they are equal we just return the same node
-    if (nodeValue !== newTree) {
+    if (nodeValue !== `${newTree}`) {
       const newNode = render(newTree)
       dom.replaceWith(node, newNode)
       triggerMountedLifeCycle(newNode)
@@ -88,7 +105,7 @@ export function diffAndPatch(
     return newNode
   }
   if (oldTree.type === "element" && newTree.type === "element") {
-    return diffAndPatchElement(oldTree, newTree, node)
+    return diffAndPatchElement(oldTree, newTree)
   }
   if (oldTree.type === "Fragment" && newTree.type === "Fragment") {
     ingenimateChildren(oldTree.children, newTree.children, node)
@@ -122,8 +139,8 @@ export function DiffAndPatchComponent(
 export function diffAndPatchElement(
   oldTree: any ,
   newTree: any ,
-  node: any
 ): any {
+  const node = oldTree.domRef
   if (oldTree.tag !== newTree.tag) {
     const hosts = []
     let parentIsComp = false
@@ -146,9 +163,13 @@ export function diffAndPatchElement(
     triggerMountedLifeCycle(newNode)
     return newNode;
   }
+  newTree.domRef = oldTree.domRef
+  patchNewEventListners(oldTree.events, newTree.events, node)
   PatchElementAttributes(oldTree.attributes, newTree.attributes, node)
   ingenimateChildren(oldTree.children, newTree.children, node)
 }
+
+
 
 export function PatchElementAttributes(
   OldAttr: any,

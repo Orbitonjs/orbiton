@@ -26,14 +26,13 @@ export function appendEvents(
 
 
 
-export function compareEventListeners(oldEvents: any, newEvents: Record<string, VoidFunction>) {
+export function patchNewEventListners(oldEvents: any, newEvents: Record<string, VoidFunction>, node: any): void {
 
-  return (node: OrbitonDOMElement) => {
-    // eslint-disable-next-line no-use-before-define
-    removeFromeNode(node)
-    appendEvents(node, newEvents)
-    return node
-  }
+  // eslint-disable-next-line no-use-before-define
+  removeFromeNode(node)
+  appendEvents(node, newEvents)
+  return node
+
 }
 
 
