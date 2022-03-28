@@ -8,7 +8,6 @@
 
 /* eslint-disable no-unused-vars */
 
-import { OrbitonElement } from "../../types/index"
 import { appendChild } from "./DomOperations"
 import { triggerMountedLifeCycle } from "./lifeCycles"
 import { render } from "./render_new"

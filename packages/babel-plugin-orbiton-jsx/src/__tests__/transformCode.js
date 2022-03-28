@@ -7,7 +7,7 @@
  */
 
 /* eslint-disable no-undef */
-import { TransformSyntax } from "../createPlugin";
+import TransformSyntax from "../index";
 
 const babel = require('@babel/core');
 const code = `
